@@ -1,5 +1,9 @@
-coolkidsrule.out: game.o game.h
-	g++ -o coolkidsrule.out game.o
+lib = -lSDL2
+
+coolkidsrule.out: main.o main.h
+	g++ -o coolkidsrule.out $< $(lib)
 %.o: %.c %.h
 	g++  $<
 
+clean:
+	rm *.o *.out
