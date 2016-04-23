@@ -1,7 +1,8 @@
 lib = -lSDL2
+objs = main.o game.o
 
-coolkidsrule.out: main.o main.h
-	g++ -o coolkidsrule.out $< $(lib)
+coolkidsrule.out: $(objs)
+	g++ -o coolkidsrule.out $(objs) $(lib)
 %.o: %.c %.h
 	g++  $<
 
