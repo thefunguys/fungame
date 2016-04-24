@@ -38,3 +38,22 @@ Game::~Game() {
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
+
+void Game::loop() {
+    bool running = true;
+    SDL_Event e;
+    // in this loop we handle input, process events, draw all things, update 
+    // the window, and wait until the next frame
+    while (running) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT) {
+                running = false;
+                cout << "Received exit signal" << endl;
+            }
+        }
+        SDL_FillRect(getSurface(), NULL, SDL_MapRGB(getSurface()->format, 0xff, 0xff, 0xff));
+
+        SDL_UpdateWindowSurface(getWindow());
+        SDL_Delay(1000/FPS);
+    }
+}
