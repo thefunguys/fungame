@@ -10,8 +10,8 @@ Game::Game(int w, int h) {
         return;
     }
 
-    window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
-            w, h, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED, 
+            SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
     if (!window) {
         cout << "Failed to create window: " << SDL_GetError() << endl;
         return;
@@ -50,7 +50,14 @@ void Game::loop() {
                 running = false;
                 cout << "Received exit signal" << endl;
             }
+            else if (e.type == SDL_KEYDOWN) {
+                keymap[e.key.keysym.sym] = 1;
+            }
+            else if (e.type == SDL_KEYUP) {
+                keymap[e.key.keysym.sym] = 0;
+            }
         }
+
         SDL_FillRect(getSurface(), NULL, SDL_MapRGB(getSurface()->format, 0xff, 0xff, 0xff));
 
         SDL_UpdateWindowSurface(getWindow());
