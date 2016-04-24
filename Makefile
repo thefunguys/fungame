@@ -3,10 +3,10 @@ LD = -lSDL2
 OBJS = main.o game.o
 
 coolkidsrule.out: $(OBJS)
-	g++ -o coolkidsrule.out $(OBJS) $(LD)
+	$(CC) -o coolkidsrule.out $(OBJS) $(LD)
 
 %.o: %.c %.h
-	g++ $<
+	$(CC) $<
 
 clean:
 	rm *.o *.out
