@@ -21,10 +21,16 @@ Game::Game(int w, int h) {
 }
 
 SDL_Window* Game::getWindow() {
+    if (!window) {
+        cerr << "getWindow() called on null window" << endl;
+    }
     return window;
 }
 
 SDL_Surface* Game::getSurface() {
+    if (!surface) {
+        cerr << "getSurface() called on null surface" << endl;
+    }
     return surface;
 }
 

@@ -31,7 +31,6 @@ int main(int argc, char ** argv) {
         SDL_Delay(1000/FPS);
     }
 
-    SDL_Quit();
     return exit_code;
 }
 

@@ -1,10 +1,12 @@
-lib = -lSDL2
-objs = main.o game.o
+CC = g++
+LD = -lSDL2
+OBJS = main.o game.o
 
-coolkidsrule.out: $(objs)
-	g++ -o coolkidsrule.out $(objs) $(lib)
+coolkidsrule.out: $(OBJS)
+	g++ -o coolkidsrule.out $(OBJS) $(LD)
+
 %.o: %.c %.h
-	g++  $<
+	g++ $<
 
 clean:
 	rm *.o *.out
