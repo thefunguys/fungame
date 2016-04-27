@@ -1,5 +1,5 @@
 CC = g++
-LDFLAGS = -lSDL2
+LDFLAGS = -lSDL2 -lGL
 CFLAGS = -std=c++11 -Wall
 SOURCES = main.cc game.cc world.cc
 OBJECTS = $(SOURCES:.cc=.o)
