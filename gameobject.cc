@@ -5,6 +5,11 @@
 #include "game.h"
 #include "gameobject.h"
 
+#define EPS 0.005
+
+inline bool close_to_zero(double n) {
+    return n <= EPS && n >= -EPS;
+}
 GameObject::GameObject(std::string fname, SDL_Renderer* renderer, 
         int nx, int ny, int nw, int nh) {
     SDL_Surface* surface = IMG_Load(fname.c_str());
@@ -16,12 +21,15 @@ GameObject::GameObject(std::string fname, SDL_Renderer* renderer,
     dy = 0.0;
     w = nw;
     h = nh;
+    pw = w;
+    ph = 0.3 * h;
     base_x_offset = 0.0;
-    base_y_offset = h * 0.5;
+    direction = 2;
+    base_y_offset = h * 0.7;
     mass = 1.0;
 }
 
-void GameObject::render(SDL_Renderer* renderer) {
+void GameObject::render(SDL_Renderer* renderer, int vx, int vy) {
     SDL_Rect src_r;
     SDL_Rect dst_r;
 
@@ -30,12 +38,12 @@ void GameObject::render(SDL_Renderer* renderer) {
     src_r.w = w;
     src_r.h = h;
 
-    dst_r.x = (int) x;
-    dst_r.y = (int) y;
+    dst_r.x = vx + (int) x;
+    dst_r.y = vy + (int) y;
     dst_r.w = w;
     dst_r.h = h;
 
-    SDL_RenderCopy(renderer, texture, &src_r, &dst_r);
+    SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL, dx < -0.005 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 double GameObject::cx() {
@@ -47,8 +55,8 @@ double GameObject::cy() {
 }
 
 bool GameObject::collide(double mx, double my, GameObject* other) {
-    return ((cx() + mx < other->x + other->w) && (x + mx + w > other->cx())) 
-        && ((cy() + my < other->y + other->h) && (y + my + h > other->cy()));
+    return ((cx() + mx < other->cx() + other->pw) && (cx() + mx + pw > other->cx())) 
+        && ((cy() + my < other->cy() + other->ph) && (cy() + my + ph > other->cy()));
 }
 
 void GameObject::update(double dt) {
@@ -67,4 +75,28 @@ void GameObject::update(double dt) {
     }
     x += mx;
     y += my;
+
+    if (close_to_zero(dx)) {
+        if (dy < -EPS)
+            direction = 0;
+        else if (dy > EPS)
+            direction = 4;
+    }
+    else if (dx > EPS) {
+        if (dy < -EPS)
+            direction = 1;
+        else if (close_to_zero(dy))
+            direction = 2;
+        else if (dy > EPS)
+            direction = 3;
+    }
+    else if (dx < -EPS) {
+        if (dy < -EPS)
+            direction = 7;
+        else if (close_to_zero(dy))
+            direction = 6;
+        else if (dy > EPS)
+            direction = 5;
+    }
+
 }

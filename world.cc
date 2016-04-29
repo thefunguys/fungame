@@ -9,12 +9,12 @@ bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->y < go2->y;
 }
 
-void World::render(SDL_Renderer* renderer) {
+void World::render(SDL_Renderer* renderer, int vx, int vy) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     for (GameObject* gobj : gobjs) {
-        gobj->render(renderer);
+        gobj->render(renderer, vx, vy);
     }
 }
 

@@ -8,7 +8,7 @@
 class World {
     public:
     std::vector<GameObject*> gobjs;
-    void render(SDL_Renderer*);
+    void render(SDL_Renderer*, int, int);
     void update(double dt);
     void add_gameobject(GameObject*);
 };

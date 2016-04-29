@@ -8,6 +8,8 @@ public:
     Sprite(std::string, SDL_Renderer*, int, int, int, int);
     int hp;
     int stats;
+
+    double speed;
     std::string name;
     virtual void update(double);
 };

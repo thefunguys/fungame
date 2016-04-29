@@ -19,7 +19,7 @@ Game::Game(int w, int h) {
     }
 
     window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED, 
-            SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+            SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
     if (!window) {
         cout << "Failed to create window: " << SDL_GetError() << endl;
         return;
@@ -74,7 +74,6 @@ void Game::loop() {
         world.add_gameobject(new GameObject("assets/box.png", renderer, rand() % 640, rand() % 480, 32, 32));
     }
     Player* blackguy = new Player("assets/blackman.png", renderer, 100, 400, 32, 32);
-    blackguy->base_y_offset = 0.8 * blackguy->h;
     SDL_Rect vp;
     world.add_gameobject(blackguy);
     int lastupdate = SDL_GetTicks();
@@ -95,12 +94,12 @@ void Game::loop() {
         SDL_SetRenderDrawColor(renderer, 43, 26, 13, 255);
         SDL_RenderClear(renderer);
         world.update((SDL_GetTicks() - lastupdate) * 0.001);
-        world.render(renderer);
         vp.x = 320 - blackguy->x;
         vp.y = 240 - blackguy->y;
         vp.w = 640;
         vp.h = 480;
-        SDL_RenderSetViewport(renderer, &vp);
+        world.render(renderer, vp.x, vp.y);
+        //SDL_RenderSetViewport(renderer, &vp);
         SDL_RenderPresent(renderer);
         lastupdate = SDL_GetTicks();
         SDL_Delay(1000/FPS);
