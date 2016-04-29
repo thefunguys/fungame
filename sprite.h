@@ -3,7 +3,7 @@
 
 #include "gameobject.h"
 
-class Sprite : GameObject {
+class Sprite : public GameObject {
     int hp;
     int stats;
     std::string name;

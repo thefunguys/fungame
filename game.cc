@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "game.h"
+#include "keymap.h"
+#include "player.h"
 
 using namespace std;
 
@@ -58,8 +60,9 @@ void Game::loop() {
     SDL_Event e;
     // in this loop we handle input, process events, draw all things, update 
     // the window, and wait until the next frame
-    GameObject* blackguy = new GameObject("blackguy.bmp", renderer, 50, 50, 32, 32);
+    Player* blackguy = new Player("blackman.bmp", renderer, 100, 400, 32, 32);
     world.add_gameobject(blackguy);
+    int lastupdate = SDL_GetTicks();
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) {
@@ -75,10 +78,10 @@ void Game::loop() {
         }
 
         SDL_RenderClear(renderer);
-        world.update(0.01);
+        world.update((SDL_GetTicks() - lastupdate) * 0.001);
         world.render(renderer);
         SDL_RenderPresent(renderer);
-        //SDL_UpdateWindowSurface(getWindow());
-        SDL_Delay(10);
+        lastupdate = SDL_GetTicks();
+        SDL_Delay(1000/FPS);
     }
 }

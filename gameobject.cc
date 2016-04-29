@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <cmath>
 #include "gameobject.h"
 
 GameObject::GameObject(std::string fname, SDL_Renderer* renderer, 
@@ -7,8 +8,8 @@ GameObject::GameObject(std::string fname, SDL_Renderer* renderer,
     SDL_Surface* surface = SDL_LoadBMP(fname.c_str());
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
-    x = nx;
-    y = ny; 
+    x = (double) nx;
+    y = (double) ny; 
     dx = 0.0;
     dy = 0.0;
     w = nw;
@@ -25,14 +26,15 @@ void GameObject::render(SDL_Renderer* renderer) {
     src_r.w = w;
     src_r.h = h;
 
-    dst_r.x = x;
-    dst_r.y = y;
-    dst_r.w = w;
-    dst_r.h = h;
+    dst_r.x = (int) x;
+    dst_r.y = (int) y;
+    dst_r.w = w * 2;
+    dst_r.h = h * 2;
 
     SDL_RenderCopy(renderer, texture, &src_r, &dst_r);
 }
 
 void GameObject::update(double dt) {
-
+    x += dx * dt;
+    y += dy * dt;
 }

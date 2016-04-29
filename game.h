@@ -11,7 +11,6 @@ class Game {
     SDL_Renderer* renderer;
     SDL_GLContext glContext;
     World world;
-    std::map<SDL_Keycode, int> keymap;
 
 public:
     Game(int, int);

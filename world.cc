@@ -12,5 +12,7 @@ void World::add_gameobject(GameObject* gameobject) {
 }
 
 void World::update(double dt) {
-
+    for (GameObject* g : gobjs) {
+        g->update(dt);
+    }
 }
