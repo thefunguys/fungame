@@ -1,12 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "gameobject.h"
+#include "sprite.h"
 
-class Player : public GameObject {
+class Player : public Sprite {
 public:
     Player(std::string, SDL_Renderer*, int, int, int , int);
-    void update(double);
+    virtual void update(double);
 };
 
 #endif
