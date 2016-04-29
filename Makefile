@@ -1,6 +1,6 @@
 CC = g++
 LDFLAGS = -lSDL2 -lGL
-CFLAGS = -std=c++11 -Wall
+CFLAGS = -std=gnu++11
 SOURCES = main.cc game.cc world.cc
 OBJECTS = $(SOURCES:.cc=.o)
 EXE = coolkidsrule.out
@@ -8,8 +8,8 @@ EXE = coolkidsrule.out
 $(EXE): $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 
-%.o: 
-	$(CC) -c $(CFLAGS) $(@:.o=.cc) -o $@ 
+%.o: %.c %.h
+	$(CC) -c $(CFLAGS) $> -o $@ 
 
 clean:
 	rm *.o *.out
