@@ -58,7 +58,7 @@ void Game::loop() {
     SDL_Event e;
     // in this loop we handle input, process events, draw all things, update 
     // the window, and wait until the next frame
-    GameObject blackguy("blackguy.bmp", renderer, 50, 50, 32, 32);
+    GameObject* blackguy = new GameObject("blackguy.bmp", renderer, 50, 50, 32, 32);
     world.add_gameobject(blackguy);
     while (running) {
         while (SDL_PollEvent(&e)) {
@@ -79,6 +79,6 @@ void Game::loop() {
         world.render(renderer);
         SDL_RenderPresent(renderer);
         //SDL_UpdateWindowSurface(getWindow());
-        SDL_Delay(1000/FPS);
+        SDL_Delay(10);
     }
 }

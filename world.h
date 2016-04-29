@@ -7,10 +7,10 @@
 
 class World {
     public:
-    std::vector<GameObject> gobjs;
+    std::vector<GameObject*> gobjs;
     void render(SDL_Renderer*);
     void update(double dt);
-    void add_gameobject(GameObject);
+    void add_gameobject(GameObject*);
 };
 
 #endif
