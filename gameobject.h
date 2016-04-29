@@ -16,6 +16,8 @@ class GameObject {
     int h;
     double mass;
     void render(SDL_Renderer* renderer);
+    void update(double dt);
+    GameObject(std::string, SDL_Renderer*, int, int, int, int);
 };
 
 #endif

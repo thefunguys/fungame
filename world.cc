@@ -7,6 +7,10 @@ void World::render(SDL_Renderer* renderer) {
     }
 }
 
+void World::add_gameobject(GameObject gameobject) {
+    gobjs.push_back(gameobject);
+}
+
 void World::update(double dt) {
 
 }

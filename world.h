@@ -10,6 +10,7 @@ class World {
     std::vector<GameObject> gobjs;
     void render(SDL_Renderer*);
     void update(double dt);
+    void add_gameobject(GameObject);
 };
 
 #endif

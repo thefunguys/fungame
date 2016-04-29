@@ -9,8 +9,8 @@ EXE = coolkidsrule.out
 $(EXE): $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 
-%.o: %.c %.h
-	$(CC) -c $(CFLAGS) $> -o $@ 
+%.o: %.cc
+	$(CC) -c $(CFLAGS) $(@:.o=.cc) -o $@ 
 
 clean:
 	rm *.o *.out
