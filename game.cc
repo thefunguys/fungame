@@ -70,10 +70,10 @@ void Game::loop() {
                 cout << "Received exit signal" << endl;
             }
             else if (e.type == SDL_KEYDOWN) {
-                keymap[e.key.keysym.sym] = 1;
+                Keymap::keymap[e.key.keysym.sym] = 1;
             }
             else if (e.type == SDL_KEYUP) {
-                keymap[e.key.keysym.sym] = 0;
+                Keymap::keymap[e.key.keysym.sym] = 0;
             }
         }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "keymap.h"
 #include "sprite.h"
@@ -7,12 +8,18 @@ Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, i
 }
 
 void Player::update(double dt) {
-    if (keymap[SDLK_w]) {
-        dx = 20;
+    dx = dy = 0;
+    if (Keymap::keymap[SDLK_d]) {
+        dx = 50;
     }
-    if (keymap[SDLK_a]) {
-        dx = -20;
+    if (Keymap::keymap[SDLK_a]) {
+        dx = -50;
     }
-    //Sprite::update(dt);
-    x += dx * dt;
+    if (Keymap::keymap[SDLK_w]) {
+        dy = -50;
+    }
+    if (Keymap::keymap[SDLK_s]) {
+        dy = 50;
+    }
+    Sprite::update(dt);
 }

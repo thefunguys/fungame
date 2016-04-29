@@ -9,6 +9,7 @@ public:
     int hp;
     int stats;
     std::string name;
+    virtual void update(double);
 };
 
 #endif

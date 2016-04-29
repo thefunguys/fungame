@@ -1,7 +1,10 @@
 #ifndef KEYMAP_H
 #define KEYMAP_H
-#include <map>
+#include <vector>
 #include <SDL2/SDL.h>
 
-static std::map<SDL_Keycode, int> keymap;
+class Keymap {
+public:
+    static std::vector<int> keymap;
+};
 #endif
