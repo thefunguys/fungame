@@ -1,11 +1,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <cmath>
 #include "gameobject.h"
 
 GameObject::GameObject(std::string fname, SDL_Renderer* renderer, 
         int nx, int ny, int nw, int nh) {
-    SDL_Surface* surface = SDL_LoadBMP(fname.c_str());
+    SDL_Surface* surface = IMG_Load(fname.c_str());
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     x = (double) nx;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "game.h"
 #include "keymap.h"
 #include "player.h"
@@ -25,6 +26,8 @@ Game::Game(int w, int h) {
         cerr << "Failed to create renderer: " << SDL_GetError() << endl;
         return;
     }
+
+    IMG_Init(IMG_INIT_PNG);
 
     surface = SDL_GetWindowSurface(window);
 }
@@ -60,7 +63,7 @@ void Game::loop() {
     SDL_Event e;
     // in this loop we handle input, process events, draw all things, update 
     // the window, and wait until the next frame
-    Player* blackguy = new Player("blackman.bmp", renderer, 100, 400, 32, 32);
+    Player* blackguy = new Player("assets/blackman.png", renderer, 100, 400, 32, 32);
     world.add_gameobject(blackguy);
     int lastupdate = SDL_GetTicks();
     while (running) {
@@ -77,6 +80,7 @@ void Game::loop() {
             }
         }
 
+        SDL_SetRenderDrawColor(renderer, 13, 46, 218, 255);
         SDL_RenderClear(renderer);
         world.update((SDL_GetTicks() - lastupdate) * 0.001);
         world.render(renderer);

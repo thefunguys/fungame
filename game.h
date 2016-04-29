@@ -9,7 +9,6 @@ class Game {
     SDL_Window* window;
     SDL_Surface* surface;
     SDL_Renderer* renderer;
-    SDL_GLContext glContext;
     World world;
 
 public:
