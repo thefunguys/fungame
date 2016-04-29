@@ -73,6 +73,8 @@ void Game::loop() {
         }
 
         SDL_RenderClear(renderer);
+        world.update(0.01);
+        world.render(renderer);
         SDL_RenderPresent(renderer);
         //SDL_UpdateWindowSurface(getWindow());
         SDL_Delay(1000/FPS);
