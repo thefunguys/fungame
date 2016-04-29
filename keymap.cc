@@ -1,4 +1,4 @@
 #include <vector>
 #include "keymap.h"
 
-std::vector<SDL_Keycode> Keymap::keymap(128, 0);
+std::vector<SDL_Keycode> Keymap::keymap(500, 0);
