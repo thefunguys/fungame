@@ -1,4 +1,8 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include <map>
+#include "world.h"
 
 class Game {
     const int FPS = 60;
@@ -6,6 +10,7 @@ class Game {
     SDL_Surface* surface;
     SDL_Renderer* renderer;
     SDL_GLContext glContext;
+    World world;
     std::map<SDL_Keycode, int> keymap;
 
 public:
@@ -16,3 +21,5 @@ public:
     SDL_Renderer* getRenderer();
     void loop();
 };
+
+#endif

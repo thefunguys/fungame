@@ -1,11 +1,15 @@
+#ifndef WORLD_H
+#define WORLD_H
+
 #include <vector>
 #include <SDL2/SDL.h>
-#include "game.h"
 #include "gameobject.h"
 
 class World {
-    Game* game;
     public:
     std::vector<GameObject> gobjs;
-    void render();
+    void render(SDL_Renderer*);
+    void update(double dt);
 };
+
+#endif
