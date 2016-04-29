@@ -9,6 +9,8 @@
 
 using namespace std;
 
+World* Game::current_world;
+
 Game::Game(int w, int h) {
     srand(time(NULL));
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -33,6 +35,7 @@ Game::Game(int w, int h) {
     IMG_Init(IMG_INIT_PNG);
 
     surface = SDL_GetWindowSurface(window);
+    current_world = &world;
 }
 
 SDL_Window* Game::getWindow() {
@@ -71,6 +74,7 @@ void Game::loop() {
         world.add_gameobject(new GameObject("assets/box.png", renderer, rand() % 640, rand() % 480, 32, 32));
     }
     Player* blackguy = new Player("assets/blackman.png", renderer, 100, 400, 32, 32);
+    blackguy->base_y_offset = 0.8 * blackguy->h;
     SDL_Rect vp;
     world.add_gameobject(blackguy);
     int lastupdate = SDL_GetTicks();

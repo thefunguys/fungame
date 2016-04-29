@@ -12,6 +12,7 @@ class Game {
     World world;
 
 public:
+    static World* current_world;
     Game(int, int);
     ~Game();
     SDL_Window* getWindow();
