@@ -4,12 +4,8 @@
 #include <cmath>
 #include "game.h"
 #include "gameobject.h"
+#include "fns.h"
 
-#define EPS 0.005
-
-inline bool close_to_zero(double n) {
-    return n <= EPS && n >= -EPS;
-}
 GameObject::GameObject(std::string fname, SDL_Renderer* renderer, 
         int nx, int ny, int nw, int nh) {
     SDL_Surface* surface = IMG_Load(fname.c_str());

@@ -13,6 +13,7 @@ Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, i
     base_y_offset = 0.9 * h;
     ph = 0.1 * h;
     ss_w = 2;
+    ss_h = 2;
 }
 
 void Player::update(double dt) {
@@ -35,4 +36,8 @@ void Player::update(double dt) {
     }
 
     Sprite::update(dt);
+}
+
+void Player::render(SDL_Renderer* renderer, int vx, int vy) {
+    Sprite::render(renderer, vx, vy);
 }

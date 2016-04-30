@@ -25,7 +25,7 @@ class GameObject {
     double mass;
     double cx(void);
     double cy(void);
-    void render(SDL_Renderer* renderer, int, int);
+    virtual void render(SDL_Renderer* renderer, int, int);
     virtual void update(double dt);
     bool collide(double, double, GameObject*);
     GameObject(std::string, SDL_Renderer*, int, int, int, int);
