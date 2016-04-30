@@ -22,7 +22,7 @@ void Sprite::update(double dt) {
             curframe_x = 0;
         frame_t = 0;
     }
-    else if (close_to_zero(dx) && close_to_zero(dy)) {
+    if (close_to_zero(dx) && close_to_zero(dy)) {
         curframe_x = 0;
     }
     GameObject::update(dt);

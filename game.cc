@@ -95,7 +95,7 @@ void Game::loop() {
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 43, 26, 13, 255);
+        SDL_SetRenderDrawColor(renderer, 13, 126, 63, 255);
         SDL_RenderClear(renderer);
         world->update((SDL_GetTicks() - lastupdate) * 0.001);
         lastupdate = SDL_GetTicks();
