@@ -1,0 +1,3 @@
+player blackman.png 32 32 2 2 100 400
+sprite box.png 32 32 1 1 300 400
+end

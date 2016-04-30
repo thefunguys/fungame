@@ -1,10 +1,19 @@
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include "world.h"
 #include "gameobject.h"
+#include "player.h"
+#include "sprite.h"
+#include "split.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->y < go2->y;
 }
+
+Player* World::cur_player = nullptr;
 
 void World::render(SDL_Renderer* renderer, int vx, int vy) {
     //objects look like they are in front of others
@@ -22,5 +31,48 @@ void World::add_gameobject(GameObject* gameobject) {
 void World::update(double dt) {
     for (GameObject* g : gobjs) {
         g->update(dt);
+    }
+}
+
+World::World(std::string lvlname, SDL_Renderer* r) {
+    /* lvls are denoted by files
+     * the first line is the level name
+     * the second line represents the starting player position
+     * each additional line represents a GameObject
+     * class specifier, texture name, w, h, ss_w, ss_h, x, y 
+     * */
+    std::ifstream lvl(lvlname);
+    std::string cur_line = "";
+    
+    std::getline(lvl, cur_line);
+    while (cur_line != "end") {
+        std::vector<std::string> toks = split(cur_line, ' ');
+        std::string asset = "assets/" + toks[1];
+        int w;
+        int h;
+        int ss_h;
+        int ss_w;
+        int x;
+        int y;
+        std::stringstream(toks[2]) >> w;
+        std::stringstream(toks[3]) >> h;
+        std::stringstream(toks[4]) >> ss_w;
+        std::stringstream(toks[5]) >> ss_h;
+        std::stringstream(toks[6]) >> x;
+        std::stringstream(toks[7]) >> y;
+        if (toks[0] == "player") {
+            std::cout << "adding player" << std::endl;
+            Player* p = new Player(asset, r, x, y, w, h);
+            p->ss_w = ss_w;
+            p->ss_h = ss_h;
+            add_gameobject(p);
+        }
+        else if (toks[0] == "sprite") {
+            Sprite* s = new Sprite(asset, r, x, y, w, h);
+            s->ss_w = ss_w;
+            s->ss_h = ss_h;
+            add_gameobject(s);
+        }
+        std::getline(lvl, cur_line);
     }
 }
