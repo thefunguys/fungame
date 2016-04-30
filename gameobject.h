@@ -14,17 +14,25 @@ class GameObject {
     int direction;
     double x;
     double y;
+    // where we start to count for collisions
     double base_x_offset;
     double base_y_offset;
+    
     double dx;
     double dy;
     int w;
+
+    // pw and ph represent the width and height of objects in the collision system
     int pw;
     int h;
     int ph;
+
     double mass;
+
+    // cx and cy calculate n + base_n_offset
     double cx(void);
     double cy(void);
+
     virtual void render(SDL_Renderer* renderer, int, int);
     virtual void update(double dt);
     bool collide(double, double, GameObject*);

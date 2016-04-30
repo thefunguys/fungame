@@ -58,6 +58,7 @@ bool GameObject::collide(double mx, double my, GameObject* other) {
 void GameObject::update(double dt) {
     double mx = dx * dt;
     double my = dy * dt;
+    // obly check collisions for moviing objects
     if (fabs(mx) > 0.005 || fabs(my) > 0.005) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
@@ -72,6 +73,7 @@ void GameObject::update(double dt) {
     x += mx;
     y += my;
 
+    // set the direction of the player - 0 through 8 otc
     if (close_to_zero(dx)) {
         if (dy < -EPS)
             direction = 0;

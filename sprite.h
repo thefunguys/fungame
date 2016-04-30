@@ -6,16 +6,24 @@
 class Sprite : public GameObject {
 public:
     Sprite(std::string, SDL_Renderer*, int, int, int, int);
+
+    // spritesheet width and height
     int ss_w;
     int ss_h;
+
+    // current frame in the spritesheet
     int curframe_x;
     int curframe_y;
+
+    // character specific parameters
     int hp;
     int stats;
-
-    double frame_t;
     double speed;
     std::string name;
+
+    // change current sheet every frame_t seconds
+    double frame_t;
+
     virtual void update(double);
     virtual void render(SDL_Renderer*, int, int);
 };

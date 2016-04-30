@@ -95,6 +95,7 @@ void Game::loop() {
         SDL_SetRenderDrawColor(renderer, 43, 26, 13, 255);
         SDL_RenderClear(renderer);
         world.update((SDL_GetTicks() - lastupdate) * 0.001);
+        lastupdate = SDL_GetTicks();
         vp.x = 320 - blackguy->x;
         vp.y = 240 - blackguy->y;
         vp.w = 640;
@@ -102,7 +103,6 @@ void Game::loop() {
         world.render(renderer, vp.x, vp.y);
         //SDL_RenderSetViewport(renderer, &vp);
         SDL_RenderPresent(renderer);
-        lastupdate = SDL_GetTicks();
         SDL_Delay(1000/FPS);
     }
 }
