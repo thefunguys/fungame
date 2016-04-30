@@ -3,9 +3,6 @@
 #include "gameobject.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
-    if (go1->y < go2->y && go1->y > go2->y - 8) {
-        return go1->x > go2->x;
-    }
     return go1->y < go2->y;
 }
 

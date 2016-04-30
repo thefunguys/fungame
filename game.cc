@@ -6,6 +6,7 @@
 #include "game.h"
 #include "keymap.h"
 #include "player.h"
+#include "sprite.h"
 
 using namespace std;
 
@@ -71,7 +72,7 @@ void Game::loop() {
     // the window, and wait until the next frame
 
     for (int i = 0; i < 10; ++i) {
-        world.add_gameobject(new GameObject("assets/box.png", renderer, rand() % 640, rand() % 480, 32, 32));
+        world.add_gameobject(new Sprite("assets/box.png", renderer, rand() % 640, rand() % 480, 32, 32));
     }
     Player* blackguy = new Player("assets/blackman.png", renderer, 100, 400, 32, 32);
     SDL_Rect vp;
