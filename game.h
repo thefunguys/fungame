@@ -6,6 +6,7 @@
 
 class Game {
     const int FPS = 60;
+    void init_gl();
     SDL_Window* window;
     SDL_Surface* surface;
     SDL_Renderer* renderer;
