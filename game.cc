@@ -21,7 +21,7 @@ Game::Game(int w, int h) {
     }
 
     window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+                              SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if (!window) {
         cout << "Failed to create window: " << SDL_GetError() << endl;
         return;
