@@ -6,7 +6,7 @@
 
 const double FRAME_SWITCH = 0.3;
 
-Sprite::Sprite(std::string fname, SDL_Renderer* r, int x, int y, int w, int h) : GameObject::GameObject(fname, r, x, y, w, h) {
+Sprite::Sprite(std::string fname, SDL_Renderer* r, int x, int y, int w, int h, int l) : GameObject::GameObject(fname, r, x, y, w, h,l) {
     ss_w = 1;
     ss_h = 1;
     frame_t = 0.0;
@@ -22,7 +22,7 @@ void Sprite::update(double dt) {
             curframe_x = 0;
         frame_t = 0;
     }
-    if (close_to_zero(dx) && close_to_zero(dy)) {
+    if (close_to_zero(vel.x) && close_to_zero(vel.y)) {
         curframe_x = 0;
     }
     GameObject::update(dt);
@@ -46,8 +46,8 @@ void Sprite::render(SDL_Renderer* renderer, int vx, int vy) {
     src_r.w = w;
     src_r.h = h;
 
-    dst_r.x  = vx + (int) x;
-    dst_r.y = vy + (int) y;
+    dst_r.x  = vx + (int) pos.x;
+    dst_r.y = vy + (int) pos.y;
     dst_r.w = w;
     dst_r.h = h;
 

@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <map>
+#include "bountry.h"
 
 class GameObject {
     public:
@@ -12,31 +13,25 @@ class GameObject {
  *  6     2
  *   5 4 3 */
     int direction;
-    double x;
-    double y;
+    pVector pos;
     // where we start to count for collisions
-    double base_x_offset;
-    double base_y_offset;
-    
-    double dx;
-    double dy;
-    int w;
+    Bountry bountry;
+
+    pVector vel;
+    int w, h, l;
 
     // pw and ph represent the width and height of objects in the collision system
-    int pw;
-    int h;
-    int ph;
 
     double mass;
 
     // cx and cy calculate n + base_n_offset
-    double cx(void);
-    double cy(void);
+
 
     virtual void render(SDL_Renderer* renderer, int, int);
     virtual void update(double dt);
-    bool collide(double, double, GameObject*);
-    GameObject(std::string, SDL_Renderer*, int, int, int, int);
+    //bool collide(double, double, GameObject*);
+    
+    GameObject(std::string, SDL_Renderer*, int, int, int, int, int);
 };
 
 #endif

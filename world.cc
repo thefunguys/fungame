@@ -10,7 +10,7 @@
 #include "split.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
-    return go1->y < go2->y;
+    return go1->pos.y < go2->pos.y;
 }
 
 Player* World::cur_player = nullptr;
@@ -62,13 +62,13 @@ World::World(std::string lvlname, SDL_Renderer* r) {
         std::stringstream(toks[7]) >> y;
         if (toks[0] == "player") {
             std::cout << "adding player" << std::endl;
-            Player* p = new Player(asset, r, x, y, w, h);
+            Player* p = new Player(asset, r, x, y, w, h, 1);
             p->ss_w = ss_w;
             p->ss_h = ss_h;
             add_gameobject(p);
         }
         else if (toks[0] == "sprite") {
-            Sprite* s = new Sprite(asset, r, x, y, w, h);
+	  Sprite* s = new Sprite(asset, r, x, y, w, h, 1);
             s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);

@@ -80,7 +80,7 @@ void Game::loop() {
     //world.add_gameobject(blackguy);
     int lastupdate = SDL_GetTicks();
     Player* blackguy = World::cur_player;
-    cout << blackguy->x << endl;
+    cout << blackguy->pos.x << endl;
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) {
@@ -99,8 +99,8 @@ void Game::loop() {
         SDL_RenderClear(renderer);
         world->update((SDL_GetTicks() - lastupdate) * 0.001);
         lastupdate = SDL_GetTicks();
-        vp.x = 320 - blackguy->x;
-        vp.y = 240 - blackguy->y;
+        vp.x = 320 - blackguy->pos.x;
+        vp.y = 240 - blackguy->pos.y;
         vp.w = 640;
         vp.h = 480;
         world->render(renderer, vp.x, vp.y);
