@@ -69,7 +69,6 @@ World::World(std::string lvlname, SDL_Renderer* r) {
             s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);
-        }
         std::getline(lvl, cur_line);
     }
 }

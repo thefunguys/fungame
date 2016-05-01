@@ -14,6 +14,8 @@ class World {
     void add_gameobject(GameObject*);
     Player* cur_player;
     World(std::string, SDL_Renderer*);
+
+    std::vector<GameObject*> walls;
 };
 
 #endif

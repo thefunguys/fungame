@@ -80,6 +80,7 @@ class Bountry {
     double diameter;
     shape bountry;
 
+    Bountry();
     Bountry(double, double);
     Bountry(double, double, int);
     bool collision(Bountry, pVector, pVector);
