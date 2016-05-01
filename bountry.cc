@@ -1,9 +1,6 @@
 #include "bountry.h"
 
-pVector support1(shape, pVector);
-pVector support(shape, shape, pVector);
-bool contain_origin(Simplex&, pVector&);
-bool collision(shape, shape, pVector);
+Bountry::Bountry() : base(0), length(0) {}
 
 Bountry::Bountry(double b, double l) : base(b), length(l) {
     double h = sqrt(l / (1 + tan_0 * tan_0));
@@ -36,7 +33,7 @@ Bountry::Bountry(double a, double b, int num) : base(a), length(b), diameter(b) 
 }
 
 bool Bountry::collision(Bountry B, pVector diff, pVector search) {
-    if(diff.length2 > this->diameter + B.diameter) {
+    if(diff.length2 > this->diameter*this->diameter + B.diameter*B.diameter) {
         return false;
     }
     shape Bshape;

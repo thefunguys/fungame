@@ -55,7 +55,16 @@ void GameObject::update(double dt) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
                 pVector diff = ogo->pos - this->pos - mpos;
-                if (this->bountry.collision(ogo->bountry, diff, vel)) {
+		Bountry moving;
+		moving.diameter = this->bountry.diameter;
+		for (pVector &p : this->bountry.bountry ) {
+		  if(p.dot(mpos) > 0 ) {
+		    moving.bountry.push_back(p + mpos);
+		  } else {
+		    moving.bountry.push_back(p);
+		  }
+		}
+                if (moving.collision(ogo->bountry, diff, vel)) {
                     mpos = {0, 0};
                 }
             }
