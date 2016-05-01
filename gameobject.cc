@@ -48,22 +48,20 @@ void GameObject::render(SDL_Renderer* renderer, int vx, int vy) {
 
 
 void GameObject::update(double dt) {
-  pVector mpos(vel.x*dt, vel.y*dt);
+    pVector mpos(vel.x*dt, vel.y*dt);
 
     // obly check collisions for moviing objects
     if (fabs(mpos.x) > 0.005 || fabs(mpos.y) > 0.005) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
-	      pVector diff = ogo->pos - this->pos - mpos;
-	      if (this->bountry.collision(ogo->bountry, diff, vel)) {
-		mpos = {0,0};
-
-	      }
-
+              pVector diff = ogo->pos - this->pos - mpos;
+              if (this->bountry.collision(ogo->bountry, diff, vel)) {
+                  mpos = {0,0};
+	            }
             }
         }
     }
-  pos = pos + mpos;
+    pos = pos + mpos;
 
     // set the direction of the player - 0 through 8 otc
     if (close_to_zero(vel.x)) {
