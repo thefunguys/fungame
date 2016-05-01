@@ -2,6 +2,7 @@
 #include <iostream>
 #include "gameobject.h"
 #include "sprite.h"
+#include "fns.h"
 
 const double FRAME_SWITCH = 0.3;
 
@@ -18,11 +19,22 @@ void Sprite::update(double dt) {
     frame_t += dt;
     if (frame_t > FRAME_SWITCH) {
         if (++curframe_x >= ss_w)
-            curframe_x = ss_w;
+            curframe_x = 0;
         frame_t = 0;
-        std::cout << "frame_t trigger" << std::endl;
+    }
+    if (close_to_zero(dx) && close_to_zero(dy)) {
+        curframe_x = 0;
     }
     GameObject::update(dt);
+    if (direction == 0) {
+        curframe_y = 1;
+    }
+    else if (direction == 4) {
+        curframe_y = 2;
+    }
+    else {
+        curframe_y = 0;
+    }
 }
 
 void Sprite::render(SDL_Renderer* renderer, int vx, int vy) {

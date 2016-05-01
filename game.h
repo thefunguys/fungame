@@ -9,7 +9,7 @@ class Game {
     SDL_Window* window;
     SDL_Surface* surface;
     SDL_Renderer* renderer;
-    World world;
+    World* world;
 
 public:
     static World* current_world;

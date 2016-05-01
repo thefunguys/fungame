@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <cmath>
+#include "world.h"
 #include "keymap.h"
 #include "sprite.h"
 #include "player.h"
@@ -12,7 +13,7 @@ Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, i
     pw = 0.2 * w;
     base_y_offset = 0.9 * h;
     ph = 0.1 * h;
-    ss_w = 2;
+    World::cur_player = this;
 }
 
 void Player::update(double dt) {
@@ -35,4 +36,8 @@ void Player::update(double dt) {
     }
 
     Sprite::update(dt);
+}
+
+void Player::render(SDL_Renderer* renderer, int vx, int vy) {
+    Sprite::render(renderer, vx, vy);
 }

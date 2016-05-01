@@ -35,8 +35,9 @@ Game::Game(int w, int h) {
 
     IMG_Init(IMG_INIT_PNG);
 
+    world = new World("levels/test.lvl", renderer);
     surface = SDL_GetWindowSurface(window);
-    current_world = &world;
+    current_world = world;
 }
 
 SDL_Window* Game::getWindow() {
@@ -71,13 +72,15 @@ void Game::loop() {
     // in this loop we handle input, process events, draw all things, update 
     // the window, and wait until the next frame
 
-    for (int i = 0; i < 10; ++i) {
-        world.add_gameobject(new Sprite("assets/box.png", renderer, rand() % 640, rand() % 480, 32, 32));
-    }
-    Player* blackguy = new Player("assets/blackman.png", renderer, 100, 400, 32, 32);
+    //for (int i = 0; i < 10; ++i) {
+    //    world.add_gameobject(new Sprite("assets/box.png", renderer, rand() % 640, rand() % 480, 32, 32));
+    //}
+    //Player* blackguy = new Player("assets/blackman.png", renderer, 100, 400, 32, 32);
     SDL_Rect vp;
-    world.add_gameobject(blackguy);
+    //world.add_gameobject(blackguy);
     int lastupdate = SDL_GetTicks();
+    Player* blackguy = World::cur_player;
+    cout << blackguy->x << endl;
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) {
@@ -92,17 +95,17 @@ void Game::loop() {
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 43, 26, 13, 255);
+        SDL_SetRenderDrawColor(renderer, 13, 126, 63, 255);
         SDL_RenderClear(renderer);
-        world.update((SDL_GetTicks() - lastupdate) * 0.001);
+        world->update((SDL_GetTicks() - lastupdate) * 0.001);
+        lastupdate = SDL_GetTicks();
         vp.x = 320 - blackguy->x;
         vp.y = 240 - blackguy->y;
         vp.w = 640;
         vp.h = 480;
-        world.render(renderer, vp.x, vp.y);
+        world->render(renderer, vp.x, vp.y);
         //SDL_RenderSetViewport(renderer, &vp);
         SDL_RenderPresent(renderer);
-        lastupdate = SDL_GetTicks();
         SDL_Delay(1000/FPS);
     }
 }

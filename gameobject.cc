@@ -4,12 +4,8 @@
 #include <cmath>
 #include "game.h"
 #include "gameobject.h"
+#include "fns.h"
 
-#define EPS 0.005
-
-inline bool close_to_zero(double n) {
-    return n <= EPS && n >= -EPS;
-}
 GameObject::GameObject(std::string fname, SDL_Renderer* renderer, 
         int nx, int ny, int nw, int nh) {
     SDL_Surface* surface = IMG_Load(fname.c_str());
@@ -62,6 +58,7 @@ bool GameObject::collide(double mx, double my, GameObject* other) {
 void GameObject::update(double dt) {
     double mx = dx * dt;
     double my = dy * dt;
+    // obly check collisions for moviing objects
     if (fabs(mx) > 0.005 || fabs(my) > 0.005) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
@@ -76,6 +73,7 @@ void GameObject::update(double dt) {
     x += mx;
     y += my;
 
+    // set the direction of the player - 0 through 8 otc
     if (close_to_zero(dx)) {
         if (dy < -EPS)
             direction = 0;

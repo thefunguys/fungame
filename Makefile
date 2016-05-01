@@ -1,7 +1,8 @@
 CC = g++
 LDFLAGS = -lSDL2 -lSDL2_image
 CFLAGS = -std=c++11 -Wall
-SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc
+SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc split.cc
+
 
 OBJECTS = $(SOURCES:.cc=.o)
 EXE = coolkidsrule.out
