@@ -93,8 +93,8 @@ void Game::loop() {
         SDL_RenderClear(renderer);
         world->update((SDL_GetTicks() - lastupdate) * 0.001);
         lastupdate = SDL_GetTicks();
-        vx = 320 - blackguy->x;
-        vy = 240 - blackguy->y;
+        vx = 320 - blackguy->pos.x;
+        vy = 240 - blackguy->pos.y;
         world->render(renderer, vx, vy);
         SDL_RenderPresent(renderer);
         SDL_Delay(1000/FPS);

@@ -8,30 +8,28 @@
 
 #define SQRT2 1.412
 
-Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, int h) : Sprite::Sprite(fname, renderer, x, y, w, h) {
-    base_x_offset = 0.4 * w;
-    pw = 0.2 * w;
-    base_y_offset = 0.9 * h;
-    ph = 0.1 * h;
+Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, renderer, x, y, w, h,l) {
+    Bountry tmp(w,l,5);
+    bountry = tmp;
 }
 
 void Player::update(double dt) {
-    dx = dy = 0;
+  vel = {0,0};
     if (Keymap::keymap[SDLK_d]) {
-        dx = speed;
+        vel.x = speed;
     }
     if (Keymap::keymap[SDLK_a]) {
-        dx = -speed;
+        vel.x = -speed;
     }
     if (Keymap::keymap[SDLK_w]) {
-        dy = -speed;
+        vel.y = -speed;
     }
     if (Keymap::keymap[SDLK_s]) {
-        dy = speed;
+        vel.y = speed;
     }
-    if (dx && dy) {
-        dx = dx / SQRT2;
-        dy = dy / SQRT2;
+    if (vel.x && vel.y) {
+        vel.x = vel.x / SQRT2;
+        vel.y = vel.y / SQRT2;
     }
 
     Sprite::update(dt);
