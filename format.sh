@@ -1,1 +1,1 @@
-astyle -n *.cc *.h
+astyle -npjc -A14 *.cc *.h

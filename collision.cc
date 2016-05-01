@@ -9,10 +9,10 @@ struct pVector {
     pVector() : x(0), y(0), length2(0) {}
 
     pVector(int a, int b) : x(a), y(b) {
-        length2 = a*a + b*b;
+        length2 = a * a + b * b;
     }
     double dot(pVector other) {
-        return this->x*other.x + this->y*other.y;
+        return this->x * other.x + this->y * other.y;
     }
     pVector neg() {
         pVector tmp(-this->x, -this->y);
@@ -30,8 +30,8 @@ struct pVector {
     }
 
     pVector perp_using(pVector used) {
-        pVector final(-this->y,this->x);
-        bool neg_orient = (used.x*this->y - used.y*this->x) < 0;
+        pVector final(-this->y, this->x);
+        bool neg_orient = (used.x * this->y - used.y * this->x) < 0;
         if(neg_orient) {
             final = final.neg();
         }
@@ -100,7 +100,7 @@ bool collision(shape A, shape B, pVector search) {
     search = search.neg();
 
     while(true) {
-        simp.add(support(A,B,search));
+        simp.add(support(A, B, search));
         if(simp.new_vec.dot(search) <= 0) {
             return false;
         } else {

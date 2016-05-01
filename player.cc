@@ -8,13 +8,13 @@
 
 #define SQRT2 1.412
 
-Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, renderer, x, y, w, h,l) {
-    Bountry tmp(w,l,5);
+Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, renderer, x, y, w, h, l) {
+    Bountry tmp(w, l, 5);
     bountry = tmp;
 }
 
 void Player::update(double dt) {
-    vel = {0,0};
+    vel = {0, 0};
     if (Keymap::keymap[SDLK_d]) {
         vel.x = speed;
     }

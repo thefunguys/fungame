@@ -64,8 +64,7 @@ World::World(std::string lvlname, SDL_Renderer* r) {
             p->ss_h = ss_h;
             add_gameobject(p);
             cur_player = p;
-        }
-        else if (toks[0] == "sprite") {
+        } else if (toks[0] == "sprite") {
             Sprite* s = new Sprite(asset, r, x, y, w, h, 1);
             s->ss_w = ss_w;
             s->ss_h = ss_h;

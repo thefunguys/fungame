@@ -6,27 +6,27 @@ bool contain_origin(Simplex&, pVector&);
 bool collision(shape, shape, pVector);
 
 Bountry::Bountry(double b, double l) : base(b), length(l) {
-    double h = sqrt(l/(1+tan_0*tan_0));
+    double h = sqrt(l / (1 + tan_0 * tan_0));
     double x = h * tan_0;
 
-    diameter = sqrt((b-x)*(b-x) + h*h);
-    pVector a0(0,0), b0(-x,h), c0(h, b-x), d0(b,0);
+    diameter = sqrt((b - x) * (b - x) + h * h);
+    pVector a0(0, 0), b0(-x, h), c0(h, b - x), d0(b, 0);
 
-    bountry = {a0,b0,c0,d0};
+    bountry = {a0, b0, c0, d0};
 }
 
-Bountry::Bountry(double a, double b, int num) : base(a), length(b),diameter(b) {
-    double ratio = a/b;
+Bountry::Bountry(double a, double b, int num) : base(a), length(b), diameter(b) {
+    double ratio = a / b;
     double cn_1 = pow(ratio, num) - 1;
     double cn_1sq = cn_1 * cn_1;
-    pVector right(a,0), up(0,b);
+    pVector right(a, 0), up(0, b);
     bountry = {right, up, right.neg(), up.neg()};
     double cj = 1.0;
-    for(int i=1; i<num; i++) {
-        cj = cj*ratio;
-        double cj_1 = cj-1;
-        double cj_1sq = cj_1*cj_1;
-        pVector tmp(a*(cn_1sq -cj_1sq)/(cn_1sq + cj_1sq), 2*b*(cn_1*cj_1)/(cn_1sq + cj_1sq));
+    for(int i = 1; i < num; i++) {
+        cj = cj * ratio;
+        double cj_1 = cj - 1;
+        double cj_1sq = cj_1 * cj_1;
+        pVector tmp(a * (cn_1sq - cj_1sq) / (cn_1sq + cj_1sq), 2 * b * (cn_1 * cj_1) / (cn_1sq + cj_1sq));
         pVector tmpflip = tmp.flipy();
         bountry.push_back(tmp);
         bountry.push_back(tmp.neg());
@@ -48,7 +48,7 @@ bool Bountry::collision(Bountry B, pVector diff, pVector search) {
     search = search.neg();
 
     while(true) {
-        simp.add(support(this->bountry,Bshape,search));
+        simp.add(support(this->bountry, Bshape, search));
         if(simp.new_vec.dot(search) <= 0) {
             return false;
         } else {

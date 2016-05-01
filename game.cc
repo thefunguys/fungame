@@ -80,11 +80,9 @@ void Game::loop() {
             if (e.type == SDL_QUIT) {
                 running = false;
                 cout << "Received exit signal" << endl;
-            }
-            else if (e.type == SDL_KEYDOWN) {
+            } else if (e.type == SDL_KEYDOWN) {
                 Keymap::keymap[e.key.keysym.sym] = 1;
-            }
-            else if (e.type == SDL_KEYUP) {
+            } else if (e.type == SDL_KEYUP) {
                 Keymap::keymap[e.key.keysym.sym] = 0;
             }
         }
@@ -97,6 +95,6 @@ void Game::loop() {
         vy = 240 - blackguy->pos.y;
         world->render(renderer, vx, vy);
         SDL_RenderPresent(renderer);
-        SDL_Delay(1000/FPS);
+        SDL_Delay(1000 / FPS);
     }
 }

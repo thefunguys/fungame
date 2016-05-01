@@ -6,7 +6,7 @@
 #include "bountry.h"
 
 class GameObject {
-public:
+  public:
     SDL_Texture* texture;
     std::map<std::string, SDL_Rect> surface_map;
     /*   7 0 1

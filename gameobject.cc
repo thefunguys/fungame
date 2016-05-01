@@ -48,7 +48,7 @@ void GameObject::render(SDL_Renderer* renderer, int vx, int vy) {
 
 
 void GameObject::update(double dt) {
-    pVector mpos(vel.x*dt, vel.y*dt);
+    pVector mpos(vel.x * dt, vel.y * dt);
 
     // obly check collisions for moviing objects
     if (fabs(mpos.x) > 0.005 || fabs(mpos.y) > 0.005) {
@@ -56,7 +56,7 @@ void GameObject::update(double dt) {
             if (ogo != this) {
                 pVector diff = ogo->pos - this->pos - mpos;
                 if (this->bountry.collision(ogo->bountry, diff, vel)) {
-                    mpos = {0,0};
+                    mpos = {0, 0};
                 }
             }
         }
@@ -65,26 +65,27 @@ void GameObject::update(double dt) {
 
     // set the direction of the player - 0 through 8 otc
     if (close_to_zero(vel.x)) {
-        if (vel.y < -EPS)
+        if (vel.y < -EPS) {
             direction = 0;
-        else if (vel.y > EPS)
+        } else if (vel.y > EPS) {
             direction = 4;
-    }
-    else if (vel.x > EPS) {
-        if (vel.y < -EPS)
+        }
+    } else if (vel.x > EPS) {
+        if (vel.y < -EPS) {
             direction = 1;
-        else if (close_to_zero(vel.y))
+        } else if (close_to_zero(vel.y)) {
             direction = 2;
-        else if (vel.y > EPS)
+        } else if (vel.y > EPS) {
             direction = 3;
-    }
-    else if (vel.x < -EPS) {
-        if (vel.y < -EPS)
+        }
+    } else if (vel.x < -EPS) {
+        if (vel.y < -EPS) {
             direction = 7;
-        else if (close_to_zero(vel.y))
+        } else if (close_to_zero(vel.y)) {
             direction = 6;
-        else if (vel.y > EPS)
+        } else if (vel.y > EPS) {
             direction = 5;
+        }
     }
 
 }

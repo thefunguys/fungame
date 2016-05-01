@@ -4,7 +4,7 @@
 #include "gameobject.h"
 
 class Sprite : public GameObject {
-public:
+  public:
     Sprite(std::string, SDL_Renderer*, int, int, int, int, int);
 
     // spritesheet width and height

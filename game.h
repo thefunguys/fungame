@@ -11,7 +11,7 @@ class Game {
     SDL_Renderer* renderer;
     World* world;
 
-public:
+  public:
     static World* current_world;
     Game(int, int);
     ~Game();
