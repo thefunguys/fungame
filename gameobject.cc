@@ -34,11 +34,13 @@ void GameObject::render(SDL_Renderer* renderer, int vx, int vy) {
     src_r.w = w;
     src_r.h = h;
 
+    // render at an offset based on the camera
     dst_r.x = vx + (int) x;
     dst_r.y = vy + (int) y;
     dst_r.w = w;
     dst_r.h = h;
 
+    //TODO: only render things that will be on screen
     SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL, direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
@@ -58,7 +60,7 @@ bool GameObject::collide(double mx, double my, GameObject* other) {
 void GameObject::update(double dt) {
     double mx = dx * dt;
     double my = dy * dt;
-    // obly check collisions for moviing objects
+    // only check collisions for moviing objects
     if (fabs(mx) > 0.005 || fabs(my) > 0.005) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {

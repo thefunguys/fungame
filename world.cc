@@ -13,8 +13,6 @@ bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->y < go2->y;
 }
 
-Player* World::cur_player = nullptr;
-
 void World::render(SDL_Renderer* renderer, int vx, int vy) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
@@ -36,10 +34,9 @@ void World::update(double dt) {
 
 World::World(std::string lvlname, SDL_Renderer* r) {
     /* lvls are denoted by files
-     * the first line is the level name
-     * the second line represents the starting player position
-     * each additional line represents a GameObject
+     * each line represents a GameObject
      * class specifier, texture name, w, h, ss_w, ss_h, x, y 
+     * until the last line, which is "end"
      * */
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
@@ -66,6 +63,7 @@ World::World(std::string lvlname, SDL_Renderer* r) {
             p->ss_w = ss_w;
             p->ss_h = ss_h;
             add_gameobject(p);
+            cur_player = p;
         }
         else if (toks[0] == "sprite") {
             Sprite* s = new Sprite(asset, r, x, y, w, h);

@@ -12,7 +12,7 @@ class World {
     void render(SDL_Renderer*, int, int);
     void update(double dt);
     void add_gameobject(GameObject*);
-    static Player* cur_player;
+    Player* cur_player;
     World(std::string, SDL_Renderer*);
 };
 
