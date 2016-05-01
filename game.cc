@@ -19,15 +19,15 @@ Game::Game(int w, int h) {
         return;
     }
 
-    window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED, 
-            SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+    window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
     if (!window) {
         cout << "Failed to create window: " << SDL_GetError() << endl;
         return;
     }
-    
+
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    
+
     if (!renderer) {
         cerr << "Failed to create renderer: " << SDL_GetError() << endl;
         return;
@@ -69,7 +69,7 @@ Game::~Game() {
 void Game::loop() {
     bool running = true;
     SDL_Event e;
-    // in this loop we handle input, process events, draw all things, update 
+    // in this loop we handle input, process events, draw all things, update
     // the window, and wait until the next frame
 
     int vx, vy;

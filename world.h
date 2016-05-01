@@ -7,7 +7,7 @@
 #include "player.h"
 
 class World {
-    public:
+public:
     std::vector<GameObject*> gobjs;
     void render(SDL_Renderer*, int, int);
     void update(double dt);

@@ -1,0 +1,1 @@
+astyle -n *.cc *.h

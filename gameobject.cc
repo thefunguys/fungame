@@ -6,20 +6,20 @@
 #include "gameobject.h"
 #include "fns.h"
 
-GameObject::GameObject(std::string fname, SDL_Renderer* renderer, 
-		       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl) {
+GameObject::GameObject(std::string fname, SDL_Renderer* renderer,
+                       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl) {
     SDL_Surface* surface = IMG_Load(fname.c_str());
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
-    
+
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
-    
+
     w = nw;
     h = nh;
     l = nl;
 
-    
+
     direction = 2;
 
     mass = 1.0;
@@ -54,10 +54,10 @@ void GameObject::update(double dt) {
     if (fabs(mpos.x) > 0.005 || fabs(mpos.y) > 0.005) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
-              pVector diff = ogo->pos - this->pos - mpos;
-              if (this->bountry.collision(ogo->bountry, diff, vel)) {
-                  mpos = {0,0};
-	            }
+                pVector diff = ogo->pos - this->pos - mpos;
+                if (this->bountry.collision(ogo->bountry, diff, vel)) {
+                    mpos = {0,0};
+                }
             }
         }
     }

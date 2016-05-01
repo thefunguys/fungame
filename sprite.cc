@@ -51,6 +51,6 @@ void Sprite::render(SDL_Renderer* renderer, int vx, int vy) {
     dst_r.w = w;
     dst_r.h = h;
 
-    SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL, 
-            direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL,
+                     direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }

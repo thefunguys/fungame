@@ -35,12 +35,12 @@ void World::update(double dt) {
 World::World(std::string lvlname, SDL_Renderer* r) {
     /* lvls are denoted by files
      * each line represents a GameObject
-     * class specifier, texture name, w, h, ss_w, ss_h, x, y 
+     * class specifier, texture name, w, h, ss_w, ss_h, x, y
      * until the last line, which is "end"
      * */
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
-    
+
     std::getline(lvl, cur_line);
     while (cur_line != "end") {
         std::vector<std::string> toks = split(cur_line, ' ');

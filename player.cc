@@ -14,7 +14,7 @@ Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, i
 }
 
 void Player::update(double dt) {
-  vel = {0,0};
+    vel = {0,0};
     if (Keymap::keymap[SDLK_d]) {
         vel.x = speed;
     }
