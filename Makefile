@@ -1,7 +1,7 @@
 CC = g++
-LDFLAGS = -lSDL2 -lSDL2_image -lGL
+LDFLAGS = -lSDL2 -lSDL2_image -lGL -lSDL2_gfx
 CFLAGS = -std=c++11 -Wall
-SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc split.cc bountry.cc
+SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc split.cc bountry.cc draw.cc
 
 
 OBJECTS = $(SOURCES:.cc=.o)

@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_opengl.h>
 #include "game.h"
+#include "draw.h"
 #include "keymap.h"
 #include "player.h"
 #include "sprite.h"
@@ -36,20 +37,11 @@ Game::Game(int w, int h) {
 
     IMG_Init(IMG_INIT_PNG);
 
-    init_gl();
     world = new World("levels/test.lvl", renderer);
     surface = SDL_GetWindowSurface(window);
     current_world = world;
 }
 
-void Game::init_gl() {
-    glShadeModel(GL_SMOOTH);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClearDepth(1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-}
 
 SDL_Window* Game::getWindow() {
     if (!window) {
@@ -105,6 +97,7 @@ void Game::loop() {
         vx = 320 - blackguy->pos.x;
         vy = 240 - blackguy->pos.y;
         world->render(renderer, vx, vy);
+        Draw::triangle(renderer);
         SDL_RenderPresent(renderer);
         SDL_Delay(1000 / FPS);
     }

@@ -5,6 +5,7 @@
 #include "keymap.h"
 #include "sprite.h"
 #include "player.h"
+#include "draw.h"
 
 #define SQRT2 1.412
 
