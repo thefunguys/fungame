@@ -36,15 +36,16 @@ void Sprite::update(double dt) {
     }
 }
 
-void Sprite::render(SDL_Renderer* renderer, int vx, int vy) {
-    SDL_Rect src_r;
-    SDL_Rect dst_r;
+void Sprite::render(int vx, int vy) {
+    /*SDL_Rect src_r;
+    SDL_Rect dst_r;*/
+    LFRect src_r;
 
-    src_r.x = curframe_x * w;
-    src_r.y = curframe_y * h;
-    src_r.w = w;
-    src_r.h = h;
-
+    src_r.x = (GLfloat) curframe_x * w;
+    src_r.y = (GLfloat) curframe_y * h;
+    src_r.w = (GLfloat) w;
+    src_r.h = (GLfloat) h;
+/*
     dst_r.x  = vx + (int) pos.x;
     dst_r.y = vy + (int) pos.y;
     dst_r.w = w;
@@ -52,4 +53,6 @@ void Sprite::render(SDL_Renderer* renderer, int vx, int vy) {
 
     SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL,
                      direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+                     */
+    texture.render((float) pos.x + (float) vx, (float) pos.y + (float) vy, &src_r);
 }

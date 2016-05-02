@@ -4,3 +4,10 @@ planned features:
  - a game engine, more or less
  - multiple levels (possibly procedural)
  - art
+
+dependencies:
+    SDL2
+    OpenGL
+    GLU
+    DevIL
+    ILU

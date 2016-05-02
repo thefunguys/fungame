@@ -5,7 +5,6 @@
 #include "keymap.h"
 #include "sprite.h"
 #include "player.h"
-#include "draw.h"
 
 #define SQRT2 1.412
 
@@ -36,6 +35,6 @@ void Player::update(double dt) {
     Sprite::update(dt);
 }
 
-void Player::render(SDL_Renderer* renderer, int vx, int vy) {
-    Sprite::render(renderer, vx, vy);
+void Player::render(int vx, int vy) {
+    Sprite::render(vx, vy);
 }

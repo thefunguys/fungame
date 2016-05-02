@@ -25,7 +25,7 @@ class Sprite : public GameObject {
     double frame_t;
 
     virtual void update(double);
-    virtual void render(SDL_Renderer*, int, int);
+    virtual void render(int, int);
 };
 
 #endif

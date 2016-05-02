@@ -4,10 +4,11 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include "bountry.h"
+#include "LTexture.h"
 
 class GameObject {
   public:
-    SDL_Texture* texture;
+    LTexture texture;
     std::map<std::string, SDL_Rect> surface_map;
     /*   7 0 1
      *  6     2
@@ -27,7 +28,7 @@ class GameObject {
     // cx and cy calculate n + base_n_offset
 
 
-    virtual void render(SDL_Renderer* renderer, int, int);
+    virtual void render(int, int);
     virtual void update(double dt);
     //bool collide(double, double, GameObject*);
 

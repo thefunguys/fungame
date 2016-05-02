@@ -1,14 +1,15 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <IL/il.h>
+#include <IL/ilu.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_opengl.h>
 #include "game.h"
-#include "draw.h"
 #include "keymap.h"
 #include "player.h"
 #include "sprite.h"
+#include "LUtil.h"
 
 using namespace std;
 
@@ -21,6 +22,9 @@ Game::Game(int w, int h) {
         return;
     }
 
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+
     window = SDL_CreateWindow("super cool game", SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if (!window) {
@@ -28,18 +32,25 @@ Game::Game(int w, int h) {
         return;
     }
 
+    glContext = SDL_GL_CreateContext(window);
+
+    if (!initGL()) {
+        cerr << "Failed to init gl" << endl;
+        return;
+    }
+/*
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     if (!renderer) {
         cerr << "Failed to create renderer: " << SDL_GetError() << endl;
         return;
     }
-
-    IMG_Init(IMG_INIT_PNG);
+*/
 
     world = new World("levels/test.lvl", renderer);
     surface = SDL_GetWindowSurface(window);
     current_world = world;
+    cout << "game init finished" << endl;
 }
 
 
@@ -66,6 +77,7 @@ SDL_Renderer* Game::getRenderer() {
 
 Game::~Game() {
     SDL_DestroyWindow(window);
+    SDL_GL_DeleteContext(glContext);
     SDL_Quit();
 }
 
@@ -90,15 +102,13 @@ void Game::loop() {
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 13, 66, 33, 255);
-        SDL_RenderClear(renderer);
+        glClear(GL_COLOR_BUFFER_BIT);
         world->update((SDL_GetTicks() - lastupdate) * 0.001);
         lastupdate = SDL_GetTicks();
         vx = 320 - blackguy->pos.x;
         vy = 240 - blackguy->pos.y;
-        world->render(renderer, vx, vy);
-        Draw::triangle(renderer);
-        SDL_RenderPresent(renderer);
+        world->render(vx, vy);
+        SDL_GL_SwapWindow(window);
         SDL_Delay(1000 / FPS);
     }
 }

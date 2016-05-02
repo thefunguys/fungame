@@ -33,7 +33,7 @@ Bountry::Bountry(double a, double b, int num) : base(a), length(b), diameter(b) 
 }
 
 bool Bountry::collision(Bountry B, pVector diff, pVector search) {
-    if(diff.length2 > this->diameter*this->diameter + B.diameter*B.diameter) {
+    if(diff.length2 > this->diameter * this->diameter + B.diameter * B.diameter) {
         return false;
     }
     shape Bshape;

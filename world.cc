@@ -13,12 +13,12 @@ bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->pos.y < go2->pos.y;
 }
 
-void World::render(SDL_Renderer* renderer, int vx, int vy) {
+void World::render(int vx, int vy) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     for (GameObject* gobj : gobjs) {
-        gobj->render(renderer, vx, vy);
+        gobj->render(vx, vy);
     }
 }
 
@@ -65,7 +65,7 @@ World::World(std::string lvlname, SDL_Renderer* r) {
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
-            Sprite* s = new Sprite(asset, r, x, y, w, h, 1);
+            Sprite* s = new Sprite(asset, r, x, y, w, h, 10);
             s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);
