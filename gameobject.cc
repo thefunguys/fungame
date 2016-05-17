@@ -1,44 +1,49 @@
 #include <iostream>
-#include <SDL2/SDL.h>
 #include <cmath>
 #include "game.h"
-#include "LTexture.h"
 #include "gameobject.h"
 #include "fns.h"
 
-GameObject::GameObject(std::string fname, SDL_Renderer* renderer,
+const GLchar *vertex_shader[] = {
+    "void main(void) {\n",
+    "    gl_Position = ftransform();\n",
+    "    gl_FrontColor = gl_Color;\n",
+    "}"
+};
+
+const GLchar *color_shader[] = {
+    "void main() {\n",
+    "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n",
+    "}"
+};
+
+
+GameObject::GameObject(std::string fname,
                        int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl) {
-    if (!texture.loadTextureFromFile(fname)) {
-        std::cerr << "failed to load texture " << fname << std::endl;
-    }
+    texture.loadFromFile(fname);
+    sprite.setTexture(texture);
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
+    sprite.setPosition(pos.x, pos.y);
 
     w = nw;
     h = nh;
     l = nl;
 
+    const GLfloat vbd[] = {
+        -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f
+    };
 
     direction = 2;
 
     mass = 1.0;
 }
 
-void GameObject::render(int vx, int vy) {
-    /*SDL_Rect src_r;
-    SDL_Rect dst_r;
-
-    src_r.x = 0;
-    src_r.y = 0;
-    src_r.w = w;
-    src_r.h = h;*/
-
-
-    //TODO: only render things that will be on screen
-    //SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL, direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-
-    texture.render((float) pos.x + (float) vx, (float) pos.y + (float) vy);
+void GameObject::render(sf::RenderWindow& window, int vx, int vy) {
+    window.draw(sprite);
 }
 
 
@@ -68,6 +73,7 @@ void GameObject::update(double dt) {
         }
     }
     pos = pos + mpos;
+    sprite.move(mpos.x, mpos.y);
 
     // set the direction of the player - 0 through 8 otc
     if (close_to_zero(vel.x)) {

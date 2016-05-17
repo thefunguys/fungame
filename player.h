@@ -5,9 +5,9 @@
 
 class Player : public Sprite {
   public:
-    Player(std::string, SDL_Renderer*, int, int, int , int, int);
+    Player(std::string, int, int, int , int, int);
     virtual void update(double);
-    virtual void render(int, int);
+    virtual void render(sf::RenderWindow&, int, int);
 };
 
 #endif

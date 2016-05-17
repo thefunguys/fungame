@@ -5,7 +5,7 @@
 
 class Sprite : public GameObject {
   public:
-    Sprite(std::string, SDL_Renderer*, int, int, int, int, int);
+    Sprite(std::string, int, int, int, int, int);
 
     // spritesheet width and height
     int ss_w;
@@ -21,11 +21,12 @@ class Sprite : public GameObject {
     double speed;
     std::string name;
 
+
     // change current sheet every frame_t seconds
     double frame_t;
 
     virtual void update(double);
-    virtual void render(int, int);
+    virtual void render(sf::RenderWindow&, int, int);
 };
 
 #endif
