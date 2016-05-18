@@ -10,6 +10,8 @@ GameObject::GameObject(std::string fname,
     sprite.setTexture(texture);
     shader.loadFromFile("shader.frag", sf::Shader::Fragment);
     shader.setParameter("texture", sf::Shader::CurrentTexture);
+    sf::Vector2f wh((float) nw, (float) nh);
+    shader.setParameter("wh", wh);
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
@@ -19,21 +21,19 @@ GameObject::GameObject(std::string fname,
     h = nh;
     l = nl;
 
-    const GLfloat vbd[] = {
-        -1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f
-    };
-
     direction = 2;
 
     mass = 1.0;
 }
 
-void GameObject::render(sf::RenderWindow& window, int vx, int vy) {
-    float flicker = random() % 100 * 0.01 / 5 + 0.8;
+void GameObject::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
+    if (!shadered) {
+        window.draw(sprite);
+        return;
+    }
+    float flicker = random() % 100 * 0.01 / 10 + 0.9;
     shader.setParameter("flicker", flicker);
-    shader.setParameter("dxy", sf::Vector2f(Game::p->pos.x - pos.x, Game::p->pos.y - pos.y));
+    shader.setParameter("dxy", sf::Vector2f(Game::p->pos.x + 16 - pos.x, Game::p->pos.y + 16 - pos.y));
     window.draw(sprite, &shader);
 }
 

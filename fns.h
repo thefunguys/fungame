@@ -1,8 +1,6 @@
 #ifndef FNS_H
 #define FNS_H
 
-#include <SDL2/SDL_opengl.h>
-
 #define EPS 0.005
 
 // grumble grumble floating point approxamation

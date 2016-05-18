@@ -12,7 +12,8 @@ using namespace std;
 World* Game::current_world;
 Player* Game::p;
 
-Game::Game(int w, int h): window(sf::VideoMode(640, 480), "game", sf::Style::Fullscreen & 0) {
+Game::Game(int w, int h): 
+    window(sf::VideoMode(640, 480), "game", sf::Style::Fullscreen & 0) {
     srand(time(NULL));
     world = new World("levels/test.lvl");
     current_world = world;
@@ -29,6 +30,8 @@ Game::~Game() {
 void Game::loop() {
     // in this loop we handle input, process events, draw all things, update
     // the window, and wait until the next frame
+    sf::Font font;
+    font.loadFromFile("fonts/DejaVuSansMono.ttf");
     int dts = 0;
     double dttot = 0.0;
 
@@ -39,6 +42,7 @@ void Game::loop() {
     p = blackguy;
     sf::View view(sf::FloatRect(0.0f, 0.0f, 320.0f, 240.f));
     window.setView(view);
+    Sprite bg("assets/background.png", 0, 0, 1000, 1000, 0);
     while (window.isOpen()) {
         sf::Event e;
         while (window.pollEvent(e)) {
@@ -50,9 +54,10 @@ void Game::loop() {
 
         double dt = clock.getElapsedTime().asSeconds();
         world->update(dt);
-        view.setCenter(blackguy->pos.x, blackguy->pos.y);
+        view.setCenter(blackguy->pos.x + 16, blackguy->pos.y + 16);
         window.setView(view);
-        window.clear(sf::Color(0x11, 0x11, 0x11));
+        window.clear();
+        bg.render(window, vx, vy);
         world->render(window, vx, vy);
         window.display();
         dts++;

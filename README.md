@@ -6,8 +6,4 @@ planned features:
  - art
 
 dependencies:
-    SDL2
-    OpenGL
-    GLU
-    DevIL
-    ILU
+    SFML

@@ -45,27 +45,7 @@ void Sprite::update(double dt) {
     }
 }
 
-void Sprite::render(sf::RenderWindow& window, int vx, int vy) {
-    /*SDL_Rect src_r;
-    SDL_Rect dst_r;*/
-//    LFRect src_r = {0.0, 0.0, (GLfloat) w, (GLfloat) h};
-
-    //src_r.x = (GLfloat) (curframe_x * w);
-    //src_r.y = (GLfloat) (curframe_y * h) + 1.0;
-    //src_r.w = (GLfloat) w;
-    //src_r.h = (GLfloat) h - 1.0;
-/*
-    dst_r.x  = vx + (int) pos.x;
-    dst_r.y = vy + (int) pos.y;
-    dst_r.w = w;
-    dst_r.h = h;
-
-    SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL,
-                     direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-                     */
-  //  texture.render((GLfloat) (pos.x + vx), (GLfloat) (pos.y + vy), &src_r);
-  //  GameObject::render(window, vx, vy);
-
+void Sprite::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
     sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
-    GameObject::render(window, vx, vy);
+    GameObject::render(window, vx, vy, shadered);
 }

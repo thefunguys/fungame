@@ -25,7 +25,7 @@ class GameObject {
     double mass;
     sf::Shader shader;
 
-    virtual void render(sf::RenderWindow&, int, int);
+    virtual void render(sf::RenderWindow&, int, int, bool shadered=true);
     virtual void update(double dt);
     //bool collide(double, double, GameObject*);
 

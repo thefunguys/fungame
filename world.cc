@@ -20,6 +20,29 @@ void World::render(sf::RenderWindow& window, int vx, int vy) {
     for (GameObject* gobj : gobjs) {
         gobj->render(window, vx, vy);
     }
+    sf::Texture* smap = shadowmap(cur_player->pos.x + 16, cur_player->pos.y + 16);
+    sf::Sprite sp_smap(*smap);
+    delete smap;
+}
+
+sf::Texture* World::shadowmap(float lsx, float lsy) {
+    sf::Texture* map = new sf::Texture;
+    map->create(640, 480);
+    sf::Uint8* pxs = new sf::Uint8[640 * 480 * 4];
+    for (int i = 0; i < 640; i++) {
+        for (int j = 0; j < 480; j++) {
+            float dist2 = (lsx - i) * (lsx - i) + (lsy - j) * (lsy - j);
+            pxs[i] = 0xff / ((sf::Uint8) dist2 + 1);
+            pxs[i + 1] = 0xff / ((sf::Uint8) dist2 + 1);
+            pxs[i + 2] = 0xff / ((sf::Uint8) dist2 + 1);
+            pxs[i + 3] = 0xff;
+        }
+    }
+
+    map->update(pxs);
+    delete pxs;
+
+    return map;
 }
 
 void World::add_gameobject(GameObject* gameobject) {
