@@ -8,8 +8,6 @@
 #define SQRT2 1.412
 
 Player::Player(std::string fname, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, x, y, w, h, l) {
-    Bountry tmp(w, l, 5);
-    bountry = tmp;
 }
 
 void Player::update(double dt) {

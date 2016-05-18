@@ -4,24 +4,12 @@
 #include "gameobject.h"
 #include "fns.h"
 
-const GLchar *vertex_shader[] = {
-    "void main(void) {\n",
-    "    gl_Position = ftransform();\n",
-    "    gl_FrontColor = gl_Color;\n",
-    "}"
-};
-
-const GLchar *color_shader[] = {
-    "void main() {\n",
-    "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n",
-    "}"
-};
-
-
 GameObject::GameObject(std::string fname,
-                       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl) {
+                       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl, 10) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
+    shader.loadFromFile("shader.frag", sf::Shader::Fragment);
+    shader.setParameter("texture", sf::Shader::CurrentTexture);
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
@@ -43,7 +31,10 @@ GameObject::GameObject(std::string fname,
 }
 
 void GameObject::render(sf::RenderWindow& window, int vx, int vy) {
-    window.draw(sprite);
+    float flicker = random() % 100 * 0.01 / 5 + 0.8;
+    shader.setParameter("flicker", flicker);
+    shader.setParameter("dxy", sf::Vector2f(Game::p->pos.x - pos.x, Game::p->pos.y - pos.y));
+    window.draw(sprite, &shader);
 }
 
 

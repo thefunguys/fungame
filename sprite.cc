@@ -26,12 +26,22 @@ void Sprite::update(double dt) {
         curframe_x = 0;
     }
     GameObject::update(dt);
-    if (direction == 0) {
-        curframe_y = 1;
-    } else if (direction == 4) {
-        curframe_y = 2;
-    } else {
-        curframe_y = 0;
+    switch (direction)
+    {
+        case 0:
+            curframe_y = 1;
+            break;
+        case 1:
+        case 2:
+        case 3:
+            curframe_y = 0;
+            break;
+        case 4:
+            curframe_y = 2;
+            break;
+        default:
+            curframe_y = 3;
+            break;
     }
 }
 
@@ -55,6 +65,7 @@ void Sprite::render(sf::RenderWindow& window, int vx, int vy) {
                      */
   //  texture.render((GLfloat) (pos.x + vx), (GLfloat) (pos.y + vy), &src_r);
   //  GameObject::render(window, vx, vy);
-  sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
-  GameObject::render(window, vx, vy);
+
+    sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
+    GameObject::render(window, vx, vy);
 }

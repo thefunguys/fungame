@@ -23,6 +23,7 @@ class GameObject {
     // pw and ph represent the width and height of objects in the collision system
 
     double mass;
+    sf::Shader shader;
 
     virtual void render(sf::RenderWindow&, int, int);
     virtual void update(double dt);

@@ -3,6 +3,7 @@
 
 #include <map>
 #include "world.h"
+#include "player.h"
 
 class Game {
     const int FPS = 45;
@@ -11,6 +12,7 @@ class Game {
 
   public:
     static World* current_world;
+    static Player* p;
     Game(int, int);
     ~Game();
     sf::RenderWindow window;
