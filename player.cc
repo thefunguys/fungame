@@ -1,5 +1,4 @@
 #include <iostream>
-#include <SDL2/SDL.h>
 #include <cmath>
 #include "world.h"
 #include "keymap.h"
@@ -8,23 +7,21 @@
 
 #define SQRT2 1.412
 
-Player::Player(std::string fname, SDL_Renderer* renderer, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, renderer, x, y, w, h, l) {
-    Bountry tmp(w, l, 5);
-    bountry = tmp;
+Player::Player(std::string fname, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, x, y, w, h, l) {
 }
 
 void Player::update(double dt) {
     vel = {0, 0};
-    if (Keymap::keymap[SDLK_d]) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         vel.x = speed;
     }
-    if (Keymap::keymap[SDLK_a]) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         vel.x = -speed;
     }
-    if (Keymap::keymap[SDLK_w]) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         vel.y = -speed;
     }
-    if (Keymap::keymap[SDLK_s]) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         vel.y = speed;
     }
     if (vel.x && vel.y) {
@@ -35,6 +32,6 @@ void Player::update(double dt) {
     Sprite::update(dt);
 }
 
-void Player::render(int vx, int vy) {
-    Sprite::render(vx, vy);
+void Player::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
+    Sprite::render(window, vx, vy, false);
 }

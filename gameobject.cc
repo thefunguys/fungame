@@ -1,44 +1,40 @@
 #include <iostream>
-#include <SDL2/SDL.h>
 #include <cmath>
 #include "game.h"
-#include "LTexture.h"
 #include "gameobject.h"
 #include "fns.h"
 
-GameObject::GameObject(std::string fname, SDL_Renderer* renderer,
-                       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl) {
-    if (!texture.loadTextureFromFile(fname)) {
-        std::cerr << "failed to load texture " << fname << std::endl;
-    }
+GameObject::GameObject(std::string fname,
+                       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl, 10) {
+    texture.loadFromFile(fname);
+    sprite.setTexture(texture);
+    shader.loadFromFile("shader.frag", sf::Shader::Fragment);
+    shader.setParameter("texture", sf::Shader::CurrentTexture);
+    sf::Vector2f wh((float) nw, (float) nh);
+    shader.setParameter("wh", wh);
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
+    sprite.setPosition(pos.x, pos.y);
 
     w = nw;
     h = nh;
     l = nl;
-
 
     direction = 2;
 
     mass = 1.0;
 }
 
-void GameObject::render(int vx, int vy) {
-    /*SDL_Rect src_r;
-    SDL_Rect dst_r;
-
-    src_r.x = 0;
-    src_r.y = 0;
-    src_r.w = w;
-    src_r.h = h;*/
-
-
-    //TODO: only render things that will be on screen
-    //SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL, direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-
-    texture.render((float) pos.x + (float) vx, (float) pos.y + (float) vy);
+void GameObject::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
+    if (!shadered) {
+        window.draw(sprite);
+        return;
+    }
+    float flicker = random() % 100 * 0.01 / 10 + 0.9;
+    shader.setParameter("flicker", flicker);
+    shader.setParameter("dxy", sf::Vector2f(Game::p->pos.x + 16 - pos.x, Game::p->pos.y + 16 - pos.y));
+    window.draw(sprite, &shader);
 }
 
 
@@ -68,6 +64,7 @@ void GameObject::update(double dt) {
         }
     }
     pos = pos + mpos;
+    sprite.move(mpos.x, mpos.y);
 
     // set the direction of the player - 0 through 8 otc
     if (close_to_zero(vel.x)) {

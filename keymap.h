@@ -1,7 +1,6 @@
 #ifndef KEYMAP_H
 #define KEYMAP_H
 #include <map>
-#include <SDL2/SDL.h>
 
 class Keymap {
   public:

@@ -3,23 +3,19 @@
 
 #include <map>
 #include "world.h"
+#include "player.h"
 
 class Game {
-    const int FPS = 60;
+    const int FPS = 45;
     void init_gl();
-    SDL_Window* window;
-    SDL_Surface* surface;
-    SDL_Renderer* renderer;
-    SDL_GLContext glContext;
     World* world;
 
   public:
     static World* current_world;
+    static Player* p;
     Game(int, int);
     ~Game();
-    SDL_Window* getWindow();
-    SDL_Surface* getSurface();
-    SDL_Renderer* getRenderer();
+    sf::RenderWindow window;
     void loop();
 };
 

@@ -1,4 +1,3 @@
-#include <SDL2/SDL.h>
 #include <iostream>
 #include "gameobject.h"
 #include "sprite.h"
@@ -6,7 +5,7 @@
 
 const double FRAME_SWITCH = 0.3;
 
-Sprite::Sprite(std::string fname, SDL_Renderer* r, int x, int y, int w, int h, int l) : GameObject::GameObject(fname, r, x, y, w, h, l) {
+Sprite::Sprite(std::string fname, int x, int y, int w, int h, int l) : GameObject::GameObject(fname, x, y, w, h, l) {
     ss_w = 1;
     ss_h = 1;
     frame_t = 0.0;
@@ -27,32 +26,26 @@ void Sprite::update(double dt) {
         curframe_x = 0;
     }
     GameObject::update(dt);
-    if (direction == 0) {
-        curframe_y = 1;
-    } else if (direction == 4) {
-        curframe_y = 2;
-    } else {
-        curframe_y = 0;
+    switch (direction)
+    {
+        case 0:
+            curframe_y = 1;
+            break;
+        case 1:
+        case 2:
+        case 3:
+            curframe_y = 0;
+            break;
+        case 4:
+            curframe_y = 2;
+            break;
+        default:
+            curframe_y = 3;
+            break;
     }
 }
 
-void Sprite::render(int vx, int vy) {
-    /*SDL_Rect src_r;
-    SDL_Rect dst_r;*/
-    LFRect src_r;
-
-    src_r.x = (GLfloat) curframe_x * w;
-    src_r.y = (GLfloat) curframe_y * h;
-    src_r.w = (GLfloat) w;
-    src_r.h = (GLfloat) h;
-/*
-    dst_r.x  = vx + (int) pos.x;
-    dst_r.y = vy + (int) pos.y;
-    dst_r.w = w;
-    dst_r.h = h;
-
-    SDL_RenderCopyEx(renderer, texture, &src_r, &dst_r, 0.0, NULL,
-                     direction > 4 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-                     */
-    texture.render((float) pos.x + (float) vx, (float) pos.y + (float) vy, &src_r);
+void Sprite::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
+    sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
+    GameObject::render(window, vx, vy, shadered);
 }
