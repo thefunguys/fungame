@@ -1,23 +1,23 @@
-#include "boundry.h"
+#include "boundary.h"
 
-Boundry::Boundry() : base(0), length(0) {}
+Boundary::Boundary() : base(0), length(0) {}
 
-Boundry::Boundry(double b, double l) : base(b), length(l) {
+Boundary::Boundary(double b, double l) : base(b), length(l) {
     double h = sqrt(l / (1 + tan_0 * tan_0));
     double x = h * tan_0;
 
     diameter = sqrt((b - x) * (b - x) + h * h);
     pVector a0(0, 0), b0(-x, h), c0(h, b - x), d0(b, 0);
 
-    boundry = {a0, b0, c0, d0};
+    boundary = {a0, b0, c0, d0};
 }
 
-Boundry::Boundry(double a, double b, int num) : base(a), length(b), diameter(b) {
+Boundary::Boundary(double a, double b, int num) : base(a), length(b), diameter(b) {
     double ratio = a / b;
     double cn_1 = pow(ratio, num) - 1;
     double cn_1sq = cn_1 * cn_1;
     pVector right(a, 0), up(0, b);
-    boundry = {right, up, right.neg(), up.neg()};
+    boundary = {right, up, right.neg(), up.neg()};
     double cj = 1.0;
     for(int i = 1; i < num; i++) {
         cj = cj * ratio;
@@ -25,27 +25,27 @@ Boundry::Boundry(double a, double b, int num) : base(a), length(b), diameter(b) 
         double cj_1sq = cj_1 * cj_1;
         pVector tmp(a * (cn_1sq - cj_1sq) / (cn_1sq + cj_1sq), 2 * b * (cn_1 * cj_1) / (cn_1sq + cj_1sq));
         pVector tmpflip = tmp.flipy();
-        boundry.push_back(tmp);
-        boundry.push_back(tmp.neg());
-        boundry.push_back(tmpflip);
-        boundry.push_back(tmpflip.neg());
+        boundary.push_back(tmp);
+        boundary.push_back(tmp.neg());
+        boundary.push_back(tmpflip);
+        boundary.push_back(tmpflip.neg());
     }
 }
 
-bool Boundry::collision(Boundry B, pVector diff, pVector search) {
+bool Boundary::collision(Boundary B, pVector diff, pVector search) {
     if(diff.length2 > this->diameter * this->diameter + B.diameter * B.diameter) {
         return false;
     }
     shape Bshape;
-    for( pVector &p : B.boundry) {
+    for( pVector &p : B.boundary) {
         Bshape.push_back(p + diff);
     }
     Simplex simp;
-    simp.add(support(this->boundry, Bshape, search));
+    simp.add(support(this->boundary, Bshape, search));
     search = search.neg();
 
     while(true) {
-        simp.add(support(this->boundry, Bshape, search));
+        simp.add(support(this->boundary, Bshape, search));
         if(simp.new_vec.dot(search) <= 0) {
             return false;
         } else {
@@ -58,7 +58,7 @@ bool Boundry::collision(Boundry B, pVector diff, pVector search) {
 }
 
 
-pVector Boundry::support1(shape a, pVector axis) {
+pVector Boundary::support1(shape a, pVector axis) {
     pVector support_vec = a[0];
     double largest = support_vec.dot(axis);
 
@@ -72,11 +72,11 @@ pVector Boundry::support1(shape a, pVector axis) {
     return support_vec;
 }
 
-pVector Boundry::support(shape a, shape b, pVector axis) {
+pVector Boundary::support(shape a, shape b, pVector axis) {
     return support1(a, axis) - support1(b, axis.neg());
 }
 
-bool Boundry::contain_origin(Simplex& s, pVector& d) {
+bool Boundary::contain_origin(Simplex& s, pVector& d) {
     pVector a = s.new_vec;
 
     if(s.size == 3) {

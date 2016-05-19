@@ -2,7 +2,7 @@
 #define GAMEOBJECT_H
 
 #include "sfml.h"
-#include "boundry.h"
+#include "boundary.h"
 
 
 class GameObject {
@@ -15,7 +15,7 @@ class GameObject {
     int direction;
     pVector pos;
     // where we start to count for collisions
-    Boundry boundry;
+    Boundary boundary;
 
     pVector vel;
     int w, h, l;
