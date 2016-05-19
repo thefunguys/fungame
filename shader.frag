@@ -1,6 +1,5 @@
 #version 130
 uniform sampler2D texture;
-uniform sampler2D smap;
 uniform vec2 windowsize;
 uniform float flicker;
 

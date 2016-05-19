@@ -74,16 +74,16 @@ typedef std::vector<pVector> shape;
 
 const double tan_0 = 1.0;
 
-class Bountry {
+class Boundry {
   public:
     double base, length;
     double diameter;
-    shape bountry;
+    shape boundry;
 
-    Bountry();
-    Bountry(double, double);
-    Bountry(double, double, int);
-    bool collision(Bountry, pVector, pVector);
+    Boundry();
+    Boundry(double, double);
+    Boundry(double, double, int);
+    bool collision(Boundry, pVector, pVector);
     pVector support1(shape, pVector);
     pVector support(shape, shape, pVector);
     bool contain_origin(Simplex&, pVector&);

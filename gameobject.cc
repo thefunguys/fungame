@@ -6,7 +6,7 @@
 #include "shadermanager.h"
 
 GameObject::GameObject(std::string fname,
-                       int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl, 10) {
+                       int nx, int ny, int nw, int nh, int nl) : boundry(nw, nl, 10) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
 
@@ -43,16 +43,16 @@ void GameObject::update(double dt) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
                 pVector diff = ogo->pos - this->pos - mpos;
-                Bountry moving;
-                moving.diameter = this->bountry.diameter;
-                for (pVector &p : this->bountry.bountry ) {
+                Boundry moving;
+                moving.diameter = this->boundry.diameter;
+                for (pVector &p : this->boundry.boundry ) {
                     if(p.dot(mpos) > 0 ) {
-                        moving.bountry.push_back(p + mpos);
+                        moving.boundry.push_back(p + mpos);
                     } else {
-                        moving.bountry.push_back(p);
+                        moving.boundry.push_back(p);
                     }
                 }
-                if (moving.collision(ogo->bountry, diff, vel)) {
+                if (moving.collision(ogo->boundry, diff, vel)) {
                     mpos = {0, 0};
                 }
             }
