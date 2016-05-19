@@ -3,7 +3,7 @@
 #include "sprite.h"
 #include "fns.h"
 
-const double FRAME_SWITCH = 0.3;
+const double FRAME_SWITCH = 0.1;
 
 Sprite::Sprite(std::string fname, int x, int y, int w, int h, int l) : GameObject::GameObject(fname, x, y, w, h, l) {
     ss_w = 1;

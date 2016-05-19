@@ -21,16 +21,16 @@ void World::render(sf::RenderWindow& window, int vx, int vy) {
     sf::Shader* shader = ShaderManager::goShader;
     shader->setParameter("texture", sf::Shader::CurrentTexture);
     float flicker = random() % 100 * 0.01 / 10 + 0.9;
-    sf::Texture* smap = shadowmap(320, 240);
+//    sf::Texture* smap = shadowmap(320, 240);
     shader->setParameter("flicker", flicker);
-    shader->setParameter("smap", *smap);
+//    shader->setParameter("smap", *smap);
     shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
     bg.render(window, vx, vy);
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     for (GameObject* gobj : gobjs) {
         gobj->render(window, vx, vy);
     }
-    delete smap;
+//    delete smap;
 }
 
 // TODO: make multithreaded somehow -- it's a real cpu hog
@@ -38,15 +38,23 @@ sf::Texture* World::shadowmap(float lsx, float lsy) {
     sf::Texture* map = new sf::Texture;
     map->create(640, 480);
     sf::Uint8* pxs = new sf::Uint8[640 * 480 * 4];
-    for (int i = 0; i < 640; i++) {
-        for (int j = 0; j < 480; j++) {
+    for (int i = 0; i <= 320; i++) {
+        for (int j = 0; j <= 240; j++) {
             float dist2 = (lsx - i) * (lsx - i) + (lsy - j) * (lsy - j);
-            int offset = 4 * (i + 640 * j);
+            int offsets [4] = {
+                4 * (i + 640 * j),
+                4 * (640 - i + 640 * (480 - j)),
+                4 * (i + 640 * (480 - j - 1)),
+                4 * (640 - i + 640 * j)
+            };
             int dampen = (int) 255.0 * (1000.0 / (dist2 + 1000.0));
-            pxs[offset] = (sf::Uint8) dampen;
-            pxs[offset + 1] = (sf::Uint8) dampen;
-            pxs[offset + 2] = (sf::Uint8) dampen;
-            pxs[offset + 3] = 0xff;
+            for (int k = 0; k < 4; ++k) {
+                int offset = offsets[k];
+                pxs[offset]     = (sf::Uint8) dampen;
+                pxs[offset + 1] = (sf::Uint8) dampen;
+                pxs[offset + 2] = (sf::Uint8) dampen;
+                pxs[offset + 3] = 0xff;
+            }
         }
     }
 
