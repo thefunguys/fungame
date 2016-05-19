@@ -6,7 +6,7 @@
 #include "player.h"
 
 class Game {
-    const int FPS = 45;
+    const int FPS = 60;
     void init_gl();
     World* world;
 

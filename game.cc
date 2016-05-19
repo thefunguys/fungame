@@ -42,7 +42,6 @@ void Game::loop() {
     p = blackguy;
     sf::View view(sf::FloatRect(0.0f, 0.0f, 320.0f, 240.f));
     window.setView(view);
-    Sprite bg("assets/background.png", 0, 0, 1000, 1000, 0);
     while (window.isOpen()) {
         sf::Event e;
         while (window.pollEvent(e)) {
@@ -57,7 +56,6 @@ void Game::loop() {
         view.setCenter(blackguy->pos.x + 16, blackguy->pos.y + 16);
         window.setView(view);
         window.clear();
-        bg.render(window, vx, vy);
         world->render(window, vx, vy);
         window.display();
         dts++;

@@ -33,5 +33,5 @@ void Player::update(double dt) {
 }
 
 void Player::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
-    Sprite::render(window, vx, vy, false);
+    Sprite::render(window, vx, vy, shadered);
 }

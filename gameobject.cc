@@ -3,15 +3,12 @@
 #include "game.h"
 #include "gameobject.h"
 #include "fns.h"
+#include "shadermanager.h"
 
 GameObject::GameObject(std::string fname,
                        int nx, int ny, int nw, int nh, int nl) : bountry(nw, nl, 10) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
-    shader.loadFromFile("shader.frag", sf::Shader::Fragment);
-    shader.setParameter("texture", sf::Shader::CurrentTexture);
-    sf::Vector2f wh((float) nw, (float) nh);
-    shader.setParameter("wh", wh);
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
@@ -31,10 +28,8 @@ void GameObject::render(sf::RenderWindow& window, int vx, int vy, bool shadered)
         window.draw(sprite);
         return;
     }
-    float flicker = random() % 100 * 0.01 / 10 + 0.9;
-    shader.setParameter("flicker", flicker);
-    shader.setParameter("dxy", sf::Vector2f(Game::p->pos.x + 16 - pos.x, Game::p->pos.y + 16 - pos.y));
-    window.draw(sprite, &shader);
+    sf::Shader* shader = ShaderManager::goShader;
+    window.draw(sprite, shader);
 }
 
 
