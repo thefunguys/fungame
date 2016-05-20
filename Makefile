@@ -4,14 +4,16 @@ CFLAGS = -std=c++11 -Wall
 SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc split.cc boundary.cc shadermanager.cc
 
 
-OBJECTS = $(SOURCES:.cc=.o)
 EXE = coolkidsrule.out
+SRCDIR = src
+OBJDIR = build
+OBJECTS = $(SOURCES:%.cc=$(OBJDIR)/%.o)
 
 $(EXE): $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 
-%.o: %.cc %.h
-	$(CC) -c $(CFLAGS) $(@:.o=.cc) -o $@ 
+$(OBJDIR)/%.o: $(SRCDIR)/%.cc
+	$(CC) -c $(CFLAGS) $< -o $@ 
 
 clean:
-	rm *.o *.out
+	rm build/*
