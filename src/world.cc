@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "split.h"
 #include "shadermanager.h"
+#include "rat.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->pos.y < go2->pos.y;
@@ -114,6 +115,11 @@ World::World(std::string lvlname) :
             s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);
+        } else if (toks[0] == "rat") {
+            Rat* r = new Rat(asset, x, y, w, h, 5);
+            r->ss_w = ss_w;
+            r->ss_h = ss_h;
+            add_gameobject(r);
         }
         std::getline(lvl, cur_line);
     }

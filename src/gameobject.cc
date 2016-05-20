@@ -60,8 +60,16 @@ void GameObject::update(double dt) {
     }
     pos = pos + mpos;
     sprite.move(mpos.x, mpos.y);
-
-    // set the direction of the player - 0 through 8 otc
+    if (close_to_zero(vel.x) && close_to_zero(vel.y))
+        return;
+    double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI;
+    direction = ((int) (2 - angle * 8.0 / 360.0)) % 8;
+    if (direction == 0)
+        direction = 4;
+    else if (direction == 4)
+        direction = 0;
+    // set the direction of the sprite - 0 through 8 otc
+    /*
     if (close_to_zero(vel.x)) {
         if (vel.y < -EPS) {
             direction = 0;
@@ -85,5 +93,5 @@ void GameObject::update(double dt) {
             direction = 5;
         }
     }
-
+*/
 }
