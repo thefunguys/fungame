@@ -26,22 +26,21 @@ void Sprite::update(double dt) {
         curframe_x = 0;
     }
     GameObject::update(dt);
-    switch (direction)
-    {
-        case 0:
-            curframe_y = 1;
-            break;
-        case 1:
-        case 2:
-        case 3:
-            curframe_y = 0;
-            break;
-        case 4:
-            curframe_y = 2;
-            break;
-        default:
-            curframe_y = 3;
-            break;
+    switch (direction) {
+    case 0:
+        curframe_y = 1;
+        break;
+    case 1:
+    case 2:
+    case 3:
+        curframe_y = 0;
+        break;
+    case 4:
+        curframe_y = 2;
+        break;
+    default:
+        curframe_y = 3;
+        break;
     }
 }
 

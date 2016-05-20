@@ -12,7 +12,7 @@ using namespace std;
 World* Game::current_world;
 Player* Game::p;
 
-Game::Game(int w, int h): 
+Game::Game(int w, int h):
     window(sf::VideoMode(640, 480), "game", sf::Style::Fullscreen & 0) {
     srand(time(NULL));
     world = new World("levels/test.lvl");
@@ -61,7 +61,7 @@ void Game::loop() {
         dts++;
         dttot += dt;
         clock.restart();
-        sf::sleep(sf::seconds(1.0/FPS - dt));
+        sf::sleep(sf::seconds(1.0 / FPS - dt));
     }
     std::cout << "avg dt: " << dttot / dts << std::endl;
     std::cout << "total updates: " <<  dts << std::endl;

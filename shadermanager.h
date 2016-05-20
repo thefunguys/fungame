@@ -1,7 +1,7 @@
 class ShaderManager {
-    public:
-        static sf::Shader* goShader;
-        
+  public:
+    static sf::Shader* goShader;
+
 };
 
 sf::Shader * initGoShader();
