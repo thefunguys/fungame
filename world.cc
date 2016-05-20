@@ -3,11 +3,13 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <math.h>
 #include "world.h"
 #include "gameobject.h"
 #include "player.h"
 #include "sprite.h"
 #include "split.h"
+#include "shadermanager.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->pos.y < go2->pos.y;
@@ -16,15 +18,22 @@ bool gobjComp(GameObject* go1, GameObject* go2) {
 void World::render(sf::RenderWindow& window, int vx, int vy) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
+    sf::Shader* shader = ShaderManager::goShader;
+    shader->setParameter("texture", sf::Shader::CurrentTexture);
+    float flicker = random() % 100 * 0.01 / 10 + 0.9;
+    sf::Texture* smap = shadowmap(320, 240);
+    shader->setParameter("flicker", flicker);
+    shader->setParameter("smap", *smap);
+    shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
+    bg.render(window, vx, vy);
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     for (GameObject* gobj : gobjs) {
         gobj->render(window, vx, vy);
     }
-    sf::Texture* smap = shadowmap(cur_player->pos.x + 16, cur_player->pos.y + 16);
-    sf::Sprite sp_smap(*smap);
     delete smap;
 }
 
+// TODO: make multithreaded somehow -- it's a real cpu hog
 sf::Texture* World::shadowmap(float lsx, float lsy) {
     sf::Texture* map = new sf::Texture;
     map->create(640, 480);
@@ -32,10 +41,12 @@ sf::Texture* World::shadowmap(float lsx, float lsy) {
     for (int i = 0; i < 640; i++) {
         for (int j = 0; j < 480; j++) {
             float dist2 = (lsx - i) * (lsx - i) + (lsy - j) * (lsy - j);
-            pxs[i] = 0xff / ((sf::Uint8) dist2 + 1);
-            pxs[i + 1] = 0xff / ((sf::Uint8) dist2 + 1);
-            pxs[i + 2] = 0xff / ((sf::Uint8) dist2 + 1);
-            pxs[i + 3] = 0xff;
+            int offset = 4 * (i + 640 * j);
+            int dampen = (int) 255.0 * (1000.0 / (dist2 + 1000.0));
+            pxs[offset] = (sf::Uint8) dampen;
+            pxs[offset + 1] = (sf::Uint8) dampen;
+            pxs[offset + 2] = (sf::Uint8) dampen;
+            pxs[offset + 3] = 0xff;
         }
     }
 
@@ -55,7 +66,8 @@ void World::update(double dt) {
     }
 }
 
-World::World(std::string lvlname) {
+World::World(std::string lvlname) : 
+    bg("assets/background.png", 0, 0, 1000, 1000, 0) {
     /* lvls are denoted by files
      * each line represents a GameObject
      * class specifier, texture name, w, h, ss_w, ss_h, x, y

@@ -1,7 +1,7 @@
 CC = g++
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 CFLAGS = -std=c++11 -Wall
-SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc split.cc bountry.cc
+SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc split.cc bountry.cc shadermanager.cc
 
 
 OBJECTS = $(SOURCES:.cc=.o)
