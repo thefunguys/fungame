@@ -70,7 +70,6 @@ void GameObject::update(double dt) {
     //  5   3
     //    4
     double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI;
-    std::cout << angle << std::endl;
     if (angle < 135.0 && angle >= 45.0) {
         direction = 4;
     } else if (angle < 45.0 && angle >= -45.0) {

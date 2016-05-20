@@ -7,10 +7,15 @@ Rat::Rat(std::string fname, int x, int y, int w, int h, int l) :
 }
 
 void Rat::update(double dt) {
-    double dx = Game::p->pos.x - pos.x;
-    double dy = Game::p->pos.y + 32 - pos.y;
-    vel.x = 20.0 * dx / (fabs(dx) + 1);
-    vel.y = 20.0 * dy / (fabs(dy) + 1);
+    double dx = Game::p->pos.x + 16 - pos.x;
+    double dy = Game::p->pos.y + 16 - pos.y;
+    if (fabs(dx) > 20.0 || fabs(dy) > 20.0) {
+        vel.x = 20.0 * dx / (fabs(dx) + 1);
+        vel.y = 20.0 * dy / (fabs(dy) + 1);
+    } else {
+        vel.x = 0;
+        vel.y = 0;
+    }
     Sprite::update(dt);
 }
 
