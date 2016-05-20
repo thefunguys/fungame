@@ -3,7 +3,8 @@
 
 sf::Shader* initGoShader() {
     sf::Shader* tmp = new sf::Shader;
-    tmp->loadFromFile("goshader.frag", sf::Shader::Fragment);
+
+    tmp->loadFromFile("shaders/goshader.frag", sf::Shader::Fragment);
     return tmp;
 }
 
