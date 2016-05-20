@@ -26,7 +26,7 @@ class Sprite : public GameObject {
     double frame_t;
 
     virtual void update(double);
-    virtual void render(sf::RenderWindow&, int, int, bool shadered = true);
+    virtual void render(sf::RenderWindow&, bool shadered = true);
 };
 
 #endif

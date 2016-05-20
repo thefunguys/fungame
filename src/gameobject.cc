@@ -23,7 +23,7 @@ GameObject::GameObject(std::string fname,
     mass = 1.0;
 }
 
-void GameObject::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
+void GameObject::render(sf::RenderWindow& window, bool shadered) {
     if (!shadered) {
         window.draw(sprite);
         return;

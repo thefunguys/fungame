@@ -44,7 +44,7 @@ void Sprite::update(double dt) {
     }
 }
 
-void Sprite::render(sf::RenderWindow& window, int vx, int vy, bool shadered) {
+void Sprite::render(sf::RenderWindow& window, bool shadered) {
     sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
-    GameObject::render(window, vx, vy, shadered);
+    GameObject::render(window, shadered);
 }

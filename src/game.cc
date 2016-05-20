@@ -13,7 +13,7 @@ World* Game::current_world;
 Player* Game::p;
 
 Game::Game(int w, int h):
-    window(sf::VideoMode(640, 480), "game", sf::Style::Fullscreen & 0) {
+    window(sf::VideoMode(w, h), "game", sf::Style::Fullscreen & 0) {
     srand(time(NULL));
     world = new World("levels/test.lvl");
     current_world = world;
@@ -37,7 +37,6 @@ void Game::loop() {
 
     window.setVerticalSyncEnabled(true);
     sf::Clock clock;
-    int vx = 0, vy = 0;
     Player* blackguy = world->cur_player;
     p = blackguy;
     sf::View view(sf::FloatRect(0.0f, 0.0f, 320.0f, 240.f));
@@ -56,7 +55,7 @@ void Game::loop() {
         view.setCenter(blackguy->pos.x + 16, blackguy->pos.y + 16);
         window.setView(view);
         window.clear();
-        world->render(window, vx, vy);
+        world->render(window);
         window.display();
         dts++;
         dttot += dt;

@@ -15,18 +15,19 @@ bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->pos.y < go2->pos.y;
 }
 
-void World::render(sf::RenderWindow& window, int vx, int vy) {
+void World::render(sf::RenderWindow& window) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     sf::Shader* shader = ShaderManager::goShader;
     shader->setParameter("texture", sf::Shader::CurrentTexture);
-    float flicker = random() % 100 * 0.01 / 10 + 0.9;
+    // MAY CAUSE SEIZURES
+    float flicker = random() % 100 * 0.002 + 0.8;
     shader->setParameter("flicker", flicker);
     shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
-    bg.render(window, vx, vy);
+    bg.render(window);
     for (GameObject* gobj : gobjs) {
-        gobj->render(window, vx, vy);
+        gobj->render(window);
     }
 }
 

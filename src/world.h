@@ -8,7 +8,7 @@
 class World {
   public:
     std::vector<GameObject*> gobjs;
-    void render(sf::RenderWindow&, int, int);
+    void render(sf::RenderWindow&);
     Sprite bg;
     sf::Texture* shadowmap(float, float);
     void update(double dt);
