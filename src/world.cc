@@ -8,9 +8,9 @@
 #include "gameobject.h"
 #include "player.h"
 #include "sprite.h"
-#include "split.h"
 #include "shadermanager.h"
 #include "rat.h"
+#include "fns.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
     return go1->pos.y < go2->pos.y;
