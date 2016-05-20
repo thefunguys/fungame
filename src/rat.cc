@@ -2,9 +2,9 @@
 #include "rat.h"
 #include "game.h"
 
-Rat::Rat(std::string fname, int x, int y, int w, int h, int l) : 
+Rat::Rat(std::string fname, int x, int y, int w, int h, int l) :
     Sprite::Sprite(fname, x, y, w, h, l) {
-    }
+}
 
 void Rat::update(double dt) {
     double dx = Game::p->pos.x - pos.x;

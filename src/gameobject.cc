@@ -60,8 +60,9 @@ void GameObject::update(double dt) {
     }
     pos = pos + mpos;
     sprite.move(mpos.x, mpos.y);
-    if (close_to_zero(vel.x) && close_to_zero(vel.y))
+    if (close_to_zero(vel.x) && close_to_zero(vel.y)) {
         return;
+    }
     // -180 to 180
     //    0
     //  7   1
@@ -70,44 +71,45 @@ void GameObject::update(double dt) {
     //    4
     double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI;
     std::cout << angle << std::endl;
-    if (angle < 135.0 && angle >= 45.0)
+    if (angle < 135.0 && angle >= 45.0) {
         direction = 4;
-    else if (angle < 45.0 && angle >= -45.0)
+    } else if (angle < 45.0 && angle >= -45.0) {
         direction = 2;
-    else if (angle < -45.0 && angle >= -135.0)
+    } else if (angle < -45.0 && angle >= -135.0) {
         direction = 0;
-    else if (angle < -135.0 || angle > 135.0)
+    } else if (angle < -135.0 || angle > 135.0) {
         direction = 6;
-/*
-    direction = ((int) (2 - angle * 8.0 / 360.0)) % 8;
-    if (direction == 0)
-        direction = 4;
-    else if (direction == 4)
-        direction = 0;
-    // set the direction of the sprite - 0 through 8 otc
-    
-    if (close_to_zero(vel.x)) {
-        if (vel.y < -EPS) {
-            direction = 0;
-        } else if (vel.y > EPS) {
-            direction = 4;
-        }
-    } else if (vel.x > EPS) {
-        if (vel.y < -EPS) {
-            direction = 1;
-        } else if (close_to_zero(vel.y)) {
-            direction = 2;
-        } else if (vel.y > EPS) {
-            direction = 3;
-        }
-    } else if (vel.x < -EPS) {
-        if (vel.y < -EPS) {
-            direction = 7;
-        } else if (close_to_zero(vel.y)) {
-            direction = 6;
-        } else if (vel.y > EPS) {
-            direction = 5;
-        }
     }
-*/
+    /*
+        direction = ((int) (2 - angle * 8.0 / 360.0)) % 8;
+        if (direction == 0)
+            direction = 4;
+        else if (direction == 4)
+            direction = 0;
+        // set the direction of the sprite - 0 through 8 otc
+
+        if (close_to_zero(vel.x)) {
+            if (vel.y < -EPS) {
+                direction = 0;
+            } else if (vel.y > EPS) {
+                direction = 4;
+            }
+        } else if (vel.x > EPS) {
+            if (vel.y < -EPS) {
+                direction = 1;
+            } else if (close_to_zero(vel.y)) {
+                direction = 2;
+            } else if (vel.y > EPS) {
+                direction = 3;
+            }
+        } else if (vel.x < -EPS) {
+            if (vel.y < -EPS) {
+                direction = 7;
+            } else if (close_to_zero(vel.y)) {
+                direction = 6;
+            } else if (vel.y > EPS) {
+                direction = 5;
+            }
+        }
+    */
 }
