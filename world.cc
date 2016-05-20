@@ -18,19 +18,16 @@ bool gobjComp(GameObject* go1, GameObject* go2) {
 void World::render(sf::RenderWindow& window, int vx, int vy) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
+    std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     sf::Shader* shader = ShaderManager::goShader;
     shader->setParameter("texture", sf::Shader::CurrentTexture);
     float flicker = random() % 100 * 0.01 / 10 + 0.9;
-//    sf::Texture* smap = shadowmap(320, 240);
     shader->setParameter("flicker", flicker);
-//    shader->setParameter("smap", *smap);
     shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
     bg.render(window, vx, vy);
-    std::sort(gobjs.begin(), gobjs.end(), gobjComp);
     for (GameObject* gobj : gobjs) {
         gobj->render(window, vx, vy);
     }
-//    delete smap;
 }
 
 // TODO: make multithreaded somehow -- it's a real cpu hog
@@ -75,11 +72,15 @@ void World::update(double dt) {
 }
 
 World::World(std::string lvlname) :
+    // maybe make the background texture from something cool like voronai
     bg("assets/background.png", 0, 0, 1000, 1000, 0) {
     /* lvls are denoted by files
      * each line represents a GameObject
      * class specifier, texture name, w, h, ss_w, ss_h, x, y
      * until the last line, which is "end"
+     *
+     * TODO: use json or yaml or something sane
+     * see https://github.com/nlohmann/json
      * */
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
