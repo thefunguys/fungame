@@ -1,4 +1,4 @@
-player blackman.png 32 32 4 2 50 50
-sprite box.png 32 32 1 1 100 50
-sprite box.png 32 32 1 1 50 100
+player blackman.png 32 32 4 2 150 150
+sprite box.png 32 32 1 1 100 150
+sprite box.png 32 32 1 1 150 100
 end
