@@ -16,4 +16,4 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cc
 	$(CC) -c $(CFLAGS) $< -o $@ 
 
 clean:
-	rm build/*
+	rm build/*.o
