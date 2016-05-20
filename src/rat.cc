@@ -8,7 +8,7 @@ Rat::Rat(std::string fname, int x, int y, int w, int h, int l) :
 
 void Rat::update(double dt) {
     double dx = Game::p->pos.x - pos.x;
-    double dy = Game::p->pos.y - pos.y;
+    double dy = Game::p->pos.y + 32 - pos.y;
     vel.x = 20.0 * dx / (fabs(dx) + 1);
     vel.y = 20.0 * dy / (fabs(dy) + 1);
     Sprite::update(dt);
