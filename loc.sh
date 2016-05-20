@@ -1,7 +1,7 @@
-cat src/*.cc src/*.h | wc -l
+cat src/* shaders/* | wc -l
 if [[ -n $1 ]] && [[ $1 = "-v" ]]
 then
-    for fn in src/*.cc src/*.h; do
+    for fn in src/* shaders/*; do
         wc -l $fn
     done
 fi
