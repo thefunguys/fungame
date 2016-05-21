@@ -1,3 +1,5 @@
+#/bin/sh
+
 cat src/* shaders/* | wc -l
 if [[ -n $1 ]] && [[ $1 = "-v" ]]
 then

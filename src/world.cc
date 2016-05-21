@@ -13,7 +13,7 @@
 #include "fns.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
-    return go1->pos.y < go2->pos.y;
+    return go1->pos.y + go1->h < go2->pos.y + go2->h;
 }
 
 void World::render(sf::RenderWindow& window) {

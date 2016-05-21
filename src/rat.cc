@@ -7,8 +7,8 @@ Rat::Rat(std::string fname, int x, int y, int w, int h, int l) :
 }
 
 void Rat::update(double dt) {
-    double dx = Game::p->pos.x + 16 - pos.x;
-    double dy = Game::p->pos.y + 16 - pos.y;
+    double dx = Game::p->pos.x + Game::p->w / 2 - (pos.x + w / 2);
+    double dy = Game::p->pos.y + Game::p->h / 2 - (pos.y + h / 2);
     if (fabs(dx) > 20.0 || fabs(dy) > 20.0) {
         vel.x = 20.0 * dx / (fabs(dx) + 1);
         vel.y = 20.0 * dy / (fabs(dy) + 1);
