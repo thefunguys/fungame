@@ -2,6 +2,7 @@
 #define SHADERMANAGER_H
 
 #include <vector>
+#include "sfml.h"
 
 class ShaderManager {
   public:

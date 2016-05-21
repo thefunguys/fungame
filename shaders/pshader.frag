@@ -2,6 +2,7 @@
 uniform sampler2D texture;
 uniform vec2 windowsize;
 uniform float flicker;
+in vec3 highlight;
 
 void main()
 {

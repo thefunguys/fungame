@@ -15,6 +15,9 @@ class GameObject {
      *   5 4 3 */
     int direction;
     pVector pos;
+    sf::Vector2i windowPos(sf::Window&);
+
+    bool focused;
     // where we start to count for collisions
     Boundary boundary;
 
@@ -31,5 +34,10 @@ class GameObject {
 
     GameObject(std::string, int, int, int, int, int);
 };
+
+sf::Vector2i wpos(sf::Window& window, float x, float y);
+
+sf::Vector2f gpos(sf::Window& window, int x, int y);
+
 
 #endif

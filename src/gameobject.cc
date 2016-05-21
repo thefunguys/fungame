@@ -1,5 +1,5 @@
-#include <iostream>
 #include <cmath>
+#include <stdio.h>
 #include "game.h"
 #include "gameobject.h"
 #include "fns.h"
@@ -14,6 +14,7 @@ GameObject::GameObject(std::string fname,
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
     sprite.setPosition(pos.x, pos.y);
+    focused = false;
 
     w = nw;
     h = nh;
@@ -32,6 +33,8 @@ void GameObject::render(sf::RenderWindow& window, bool shadered) {
     sf::Shader* ssh = shader;
     if (ssh == nullptr)
         ssh = ShaderManager::instance()->goShader;
+    auto highlight = focused ? sf::Vector3f(1.0, 0.0, 0.0) : sf::Vector3f(1.0, 1.0, 1.0);
+    ssh->setParameter("highlight", highlight);
     window.draw(sprite, ssh);
 }
 
@@ -82,36 +85,26 @@ void GameObject::update(double dt) {
     } else if (angle < -135.0 || angle > 135.0) {
         direction = 6;
     }
-    /*
-        direction = ((int) (2 - angle * 8.0 / 360.0)) % 8;
-        if (direction == 0)
-            direction = 4;
-        else if (direction == 4)
-            direction = 0;
-        // set the direction of the sprite - 0 through 8 otc
-
-        if (close_to_zero(vel.x)) {
-            if (vel.y < -EPS) {
-                direction = 0;
-            } else if (vel.y > EPS) {
-                direction = 4;
-            }
-        } else if (vel.x > EPS) {
-            if (vel.y < -EPS) {
-                direction = 1;
-            } else if (close_to_zero(vel.y)) {
-                direction = 2;
-            } else if (vel.y > EPS) {
-                direction = 3;
-            }
-        } else if (vel.x < -EPS) {
-            if (vel.y < -EPS) {
-                direction = 7;
-            } else if (close_to_zero(vel.y)) {
-                direction = 6;
-            } else if (vel.y > EPS) {
-                direction = 5;
-            }
-        }
-    */
 }
+
+sf::Vector2i GameObject::windowPos(sf::Window& window) {
+    return wpos(window, pos.x, pos.y);
+}
+
+sf::Vector2f gpos(sf::Window& window, int x, int y) {
+    auto ws = window.getSize();
+    auto abc = sf::Vector2i(x * 320 / ws.x, y * 240 / ws.y);
+    auto di = sf::Vector2i(144, 104) - abc;
+    auto p = Game::p;
+    return sf::Vector2f(p->pos.x - di.x, p->pos.y - di.y);
+}
+
+sf::Vector2i wpos(sf::Window& window, float x, float y) {
+    auto ws = window.getSize();
+    // the game shows a 320x240 viewport centered around the player
+    auto p = Game::p;
+    auto diff = sf::Vector2i(p->pos.x - x, p->pos.y - y);
+    auto abc = sf::Vector2i(160 - 16, 120 + 16) - diff;
+    return sf::Vector2i(abc.x * ws.x / 320, abc.y * ws.y / 240);
+}
+

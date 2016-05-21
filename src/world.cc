@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 #include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "world.h"
 #include "gameobject.h"
 #include "player.h"
@@ -22,13 +24,34 @@ void World::render(sf::RenderWindow& window) {
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
 
     // MAY CAUSE SEIZURES
-    float flicker = random() % 100 * 0.002 + 0.8;
+    float flicker = rand() % 100 * 0.002 + 0.8;
 
+    auto ws = window.getSize();
     for (auto shader : ShaderManager::instance()->shaders) {
         shader->setParameter("texture", sf::Shader::CurrentTexture);
         shader->setParameter("flicker", flicker);
-        shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
+        shader->setParameter("windowsize", ws.x, ws.y);
     }
+    GameObject* focused = nullptr;
+    for (auto gobj : gobjs) {
+        if (gobj == cur_player)
+            continue;
+        gobj->focused = false;
+        auto mpos = sf::Mouse::getPosition(window);
+        auto fr = gobj->sprite.getGlobalBounds();
+        auto gmpos = gpos(window, mpos.x, mpos.y);
+        if (fr.contains(gmpos))
+            focused = gobj;
+        /*
+        auto gwp = gobj->windowPos(window);
+        if ((mpos.x > gwp.x && mpos.x < gwp.x + gobj->w * ws.x / 320) &&
+           (mpos.y < gwp.y && mpos.y > gwp.y - gobj->h * ws.y / 240))
+            focused = gobj;*/
+    }
+    if (focused != nullptr) {
+        focused->focused = true;
+    }
+        
 
     bg.render(window);
     for (GameObject* gobj : gobjs) {
