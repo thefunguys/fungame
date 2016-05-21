@@ -9,6 +9,7 @@ class GameObject {
   public:
     sf::Texture texture;
     sf::Sprite sprite;
+    sf::Shader* shader;
     /*   7 0 1
      *  6     2
      *   5 4 3 */
@@ -23,7 +24,6 @@ class GameObject {
     // pw and ph represent the width and height of objects in the collision system
 
     double mass;
-    sf::Shader shader;
 
     virtual void render(sf::RenderWindow&, bool shadered = true);
     virtual void update(double dt);

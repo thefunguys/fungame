@@ -20,12 +20,16 @@ void World::render(sf::RenderWindow& window) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
-    sf::Shader* shader = ShaderManager::goShader;
-    shader->setParameter("texture", sf::Shader::CurrentTexture);
+
     // MAY CAUSE SEIZURES
     float flicker = random() % 100 * 0.002 + 0.8;
-    shader->setParameter("flicker", flicker);
-    shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
+
+    for (auto shader : ShaderManager::instance()->shaders) {
+        shader->setParameter("texture", sf::Shader::CurrentTexture);
+        shader->setParameter("flicker", flicker);
+        shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
+    }
+
     bg.render(window);
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
@@ -33,6 +37,7 @@ void World::render(sf::RenderWindow& window) {
 }
 
 // TODO: make multithreaded somehow -- it's a real cpu hog
+// deprecated, but an example of texture editing
 sf::Texture* World::shadowmap(float lsx, float lsy) {
     sf::Texture* map = new sf::Texture;
     map->create(640, 480);

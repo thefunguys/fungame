@@ -9,6 +9,7 @@ GameObject::GameObject(std::string fname,
                        int nx, int ny, int nw, int nh, int nl) : boundary(nw, nl, 10) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
+    shader = nullptr;
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
@@ -28,8 +29,10 @@ void GameObject::render(sf::RenderWindow& window, bool shadered) {
         window.draw(sprite);
         return;
     }
-    sf::Shader* shader = ShaderManager::goShader;
-    window.draw(sprite, shader);
+    sf::Shader* ssh = shader;
+    if (ssh == nullptr)
+        ssh = ShaderManager::instance()->goShader;
+    window.draw(sprite, ssh);
 }
 
 

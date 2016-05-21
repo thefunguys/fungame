@@ -4,10 +4,12 @@
 #include "keymap.h"
 #include "sprite.h"
 #include "player.h"
+#include "shadermanager.h"
 
 #define SQRT2 1.412
 
 Player::Player(std::string fname, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, x, y, w, h, l) {
+    shader = ShaderManager::instance()->pShader;
 }
 
 void Player::update(double dt) {
