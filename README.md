@@ -7,3 +7,6 @@ planned features:
 
 dependencies:
     SFML
+
+IN ACTION
+![alt tag](http://i.imgur.com/sJQvVzL.png)
