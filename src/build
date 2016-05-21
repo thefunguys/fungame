@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd ..
+make $1
+read -r -p "play game? [y] " input
+case $input in
+    y)
+        ./coolkidsrule.out
+        ;;
+    *)
+        echo "next time..."
+        ;;
+esac
