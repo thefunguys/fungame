@@ -1,7 +1,7 @@
 CC = g++
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 CFLAGS = -std=c++11 -Wall
-SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc boundary.cc shadermanager.cc rat.cc
+SOURCES = main.cc game.cc world.cc gameobject.cc player.cc sprite.cc keymap.cc boundary.cc shadermanager.cc rat.cc dialog.cc
 
 
 EXE = coolkidsrule.out

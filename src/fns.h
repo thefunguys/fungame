@@ -1,5 +1,6 @@
 #ifndef FNS_H
 #define FNS_H
+#define DEBUG 1
 
 #include <sstream>
 #include <string>
@@ -11,6 +12,11 @@
 inline bool close_to_zero(double n) {
     return n <= EPS && n >= -EPS;
 }
+#ifdef DEBUG 
+#define dbpf(...) printf(__VA_ARGS__)
+#else
+#define dbpf(...) 
+#endif
 
 inline std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);

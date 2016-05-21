@@ -6,17 +6,21 @@
 #include "keymap.h"
 #include "player.h"
 #include "sprite.h"
+#include "dialog.h"
 
 using namespace std;
 
 World* Game::current_world;
 Player* Game::p;
+sf::RenderWindow* Game::cur_window;
 
 Game::Game(int w, int h):
     window(sf::VideoMode(w, h), "game", sf::Style::Fullscreen & 0) {
+    cur_window = &window;
     srand(time(NULL));
     world = new World("levels/test.lvl");
     current_world = world;
+    Dialog::initText();
     cout << "game init finished" << endl;
     if (!sf::Shader::isAvailable()) {
         cout << "SHADERS AREN'T HERE" << endl;
@@ -30,8 +34,6 @@ Game::~Game() {
 void Game::loop() {
     // in this loop we handle input, process events, draw all things, update
     // the window, and wait until the next frame
-    sf::Font font;
-    font.loadFromFile("fonts/DejaVuSansMono.ttf");
     int dts = 0;
     double dttot = 0.0;
 
@@ -56,6 +58,7 @@ void Game::loop() {
         window.setView(view);
         window.clear();
         world->render(window);
+        Dialog::print();
         window.display();
         dts++;
         dttot += dt;

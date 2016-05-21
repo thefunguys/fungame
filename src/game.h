@@ -16,6 +16,7 @@ class Game {
     Game(int, int);
     ~Game();
     sf::RenderWindow window;
+    static sf::RenderWindow* cur_window;
     void loop();
 };
 

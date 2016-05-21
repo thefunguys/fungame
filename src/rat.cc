@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdio.h>
+#include "dialog.h"
 #include "rat.h"
 #include "game.h"
 
@@ -18,6 +19,9 @@ void Rat::update(double dt) {
         vel.y = 0;
     }
     Sprite::update(dt);
+    if (focused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        Dialog::setDialog("it's your trusty pet rat");
+    }
 }
 
 void Rat::render(sf::RenderWindow& window, bool shadered) {

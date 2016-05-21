@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "player.h"
 #include "shadermanager.h"
+#include "dialog.h"
 
 #define SQRT2 1.412
 
