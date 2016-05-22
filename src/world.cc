@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "game.h"
 #include "world.h"
 #include "gameobject.h"
 #include "player.h"
@@ -42,11 +43,6 @@ void World::render(sf::RenderWindow& window) {
         auto gmpos = gpos(window, mpos.x, mpos.y);
         if (fr.contains(gmpos))
             focused = gobj;
-        /*
-        auto gwp = gobj->windowPos(window);
-        if ((mpos.x > gwp.x && mpos.x < gwp.x + gobj->w * ws.x / 320) &&
-           (mpos.y < gwp.y && mpos.y > gwp.y - gobj->h * ws.y / 240))
-            focused = gobj;*/
     }
     if (focused != nullptr) {
         focused->focused = true;
@@ -118,7 +114,7 @@ World::World(std::string lvlname) :
     std::getline(lvl, cur_line);
     while (cur_line != "end") {
         std::vector<std::string> toks = split(cur_line, ' ');
-        std::string asset = "assets/" + toks[1];
+        std::string asset = "assets/" + toks[1] + ".png";
         int w;
         int h;
         int ss_h;
@@ -134,17 +130,20 @@ World::World(std::string lvlname) :
         if (toks[0] == "player") {
             std::cout << "adding player" << std::endl;
             Player* p = new Player(asset, x, y, w, h, 1);
+            p->name = "player";
             p->ss_w = ss_w;
             p->ss_h = ss_h;
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
             Sprite* s = new Sprite(asset, x, y, w, h, 10);
+            s->name = toks[1];
             s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);
         } else if (toks[0] == "rat") {
             Rat* r = new Rat(asset, x, y, w, h, 5);
+            r->name = "rat";
             r->ss_w = ss_w;
             r->ss_h = ss_h;
             add_gameobject(r);

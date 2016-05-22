@@ -10,7 +10,7 @@ Rat::Rat(std::string fname, int x, int y, int w, int h, int l) :
 
 void Rat::update(double dt) {
     double dx = Game::p->pos.x + Game::p->w / 2 - (pos.x + w / 2);
-    double dy = Game::p->pos.y + Game::p->h / 2 - (pos.y + h / 2);
+    double dy = Game::p->pos.y + Game::p->h - (pos.y + h / 2);
     if (fabs(dx) > 20.0 || fabs(dy) > 20.0) {
         vel.x = 20.0 * dx / (fabs(dx) + 1);
         vel.y = 20.0 * dy / (fabs(dy) + 1);
@@ -19,11 +19,12 @@ void Rat::update(double dt) {
         vel.y = 0;
     }
     Sprite::update(dt);
-    if (focused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        Dialog::setDialog("it's your trusty pet rat");
-    }
 }
 
 void Rat::render(sf::RenderWindow& window, bool shadered) {
     Sprite::render(window, shadered);
+}
+
+void Rat::onClick() {
+    Dialog::setDialog("it's your trusty pet rat");
 }

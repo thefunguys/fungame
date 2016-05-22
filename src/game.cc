@@ -41,7 +41,7 @@ void Game::loop() {
     sf::Clock clock;
     Player* blackguy = world->cur_player;
     p = blackguy;
-    sf::View view(sf::FloatRect(0.0f, 0.0f, 320.0f, 240.f));
+    sf::View view(sf::FloatRect(0.0f, 0.0f, GAME_WIDTH * 1.0f, GAME_HEIGHT * 1.0f));
     window.setView(view);
     while (window.isOpen()) {
         sf::Event e;

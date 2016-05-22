@@ -17,6 +17,7 @@ class GameObject {
     pVector pos;
     sf::Vector2i windowPos(sf::Window&);
 
+    std::string name;
     bool focused;
     // where we start to count for collisions
     Boundary boundary;

@@ -93,18 +93,18 @@ sf::Vector2i GameObject::windowPos(sf::Window& window) {
 
 sf::Vector2f gpos(sf::Window& window, int x, int y) {
     auto ws = window.getSize();
-    auto abc = sf::Vector2i(x * 320 / ws.x, y * 240 / ws.y);
-    auto di = sf::Vector2i(144, 104) - abc;
+    auto abc = sf::Vector2i(x * GAME_WIDTH / ws.x, y * GAME_HEIGHT / ws.y);
+    auto di = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 - 16) - abc;
     auto p = Game::p;
     return sf::Vector2f(p->pos.x - di.x, p->pos.y - di.y);
 }
 
 sf::Vector2i wpos(sf::Window& window, float x, float y) {
     auto ws = window.getSize();
-    // the game shows a 320x240 viewport centered around the player
+    // the game shows a GAME_WIDTHxGAME_HEIGHT viewport centered around the player
     auto p = Game::p;
     auto diff = sf::Vector2i(p->pos.x - x, p->pos.y - y);
-    auto abc = sf::Vector2i(160 - 16, 120 + 16) - diff;
-    return sf::Vector2i(abc.x * ws.x / 320, abc.y * ws.y / 240);
+    auto abc = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 + 16) - diff;
+    return sf::Vector2i(abc.x * ws.x / GAME_WIDTH, abc.y * ws.y / GAME_HEIGHT);
 }
 

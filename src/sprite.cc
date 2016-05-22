@@ -2,6 +2,7 @@
 #include "gameobject.h"
 #include "sprite.h"
 #include "fns.h"
+#include "dialog.h"
 
 const double FRAME_SWITCH = 0.1;
 
@@ -42,9 +43,16 @@ void Sprite::update(double dt) {
         curframe_y = 3;
         break;
     }
+    if (focused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        onClick();
+    }
 }
 
 void Sprite::render(sf::RenderWindow& window, bool shadered) {
     sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
     GameObject::render(window, shadered);
+}
+
+void Sprite::onClick() {
+    Dialog::setDialog("its a " + name);
 }

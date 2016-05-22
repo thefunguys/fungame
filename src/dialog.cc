@@ -24,6 +24,8 @@ void Dialog::setDialog(std::string diag) {
     }
     dialog.push_back(*tmp);
     delete tmp;
+    if (thread != nullptr)
+        thread->terminate();
     thread = new sf::Thread(&timeoutClear);
     thread->launch();
 }
@@ -33,7 +35,7 @@ void Dialog::print() {
         return;
     text.setString(dialog[0]);
     text.setCharacterSize(14);
-    text.setPosition(Game::p->pos.x - 144, Game::p->pos.y + 100);
+    text.setPosition(Game::p->pos.x - GAME_WIDTH/2 + 16, Game::p->pos.y + GAME_HEIGHT / 2 + 16 - 50);
     Game::cur_window->draw(text);
 }
 
@@ -46,9 +48,9 @@ void Dialog::initText() {
 }
    
 void Dialog::timeoutClear() {
-    sf::Thread* thref = thread;
+    //sf::Thread* thref = thread;
     sf::sleep(sf::milliseconds(5000));
     dialog.erase(dialog.begin(), dialog.end());
     // cry evry tim
-    delete thref;
+    //delete thref;
 }

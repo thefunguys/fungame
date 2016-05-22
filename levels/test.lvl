@@ -1,5 +1,5 @@
-player blackman.png 32 32 4 2 150 150
-sprite box.png 32 32 1 1 100 150
-sprite box.png 32 32 1 1 150 100
-rat rat.png 32 16 2 2 200 150 
+player blackman 32 32 4 2 150 150
+sprite box 32 32 1 1 100 150
+sprite box 32 32 1 1 150 100
+rat rat 32 16 2 2 200 150 
 end
