@@ -54,5 +54,5 @@ void Sprite::render(sf::RenderWindow& window, bool shadered) {
 }
 
 void Sprite::onClick() {
-    Dialog::setDialog("its a " + name);
+    Dialog::setDialog("it's a " + name);
 }

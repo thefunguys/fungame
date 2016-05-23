@@ -31,6 +31,10 @@ void Player::update(double dt) {
         vel.x = vel.x / SQRT2;
         vel.y = vel.y / SQRT2;
     }
+    if (sf::Joystick::isConnected(0) && sf::Joystick::hasAxis(0, sf::Joystick::Z)) {
+        vel = { sf::Joystick::getAxisPosition(0, sf::Joystick::X),
+                sf::Joystick::getAxisPosition(0, sf::Joystick::Y)};
+    }
 
     Sprite::update(dt);
 }
