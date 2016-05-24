@@ -16,6 +16,9 @@
 #include "fns.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
+    if (close_to_zero(go1->pos.y + go1->h - go2->pos.y + go2->h)) {
+        return go1->pos.x < go2->pos.x;
+    }
     return go1->pos.y + go1->h < go2->pos.y + go2->h;
 }
 
