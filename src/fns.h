@@ -1,6 +1,6 @@
 #ifndef FNS_H
 #define FNS_H
-#define DEBUG 1
+#define DEBUG_APP
 
 #include <sstream>
 #include <string>
@@ -12,7 +12,7 @@
 inline bool close_to_zero(double n) {
     return n <= EPS && n >= -EPS;
 }
-#ifdef DEBUG 
+#ifdef DEBUG_APP
 #define dbpf(...) printf(__VA_ARGS__)
 #else
 #define dbpf(...) 

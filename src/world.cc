@@ -134,7 +134,6 @@ World::World(std::string lvlname) :
 
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
-    std::cout << "starting" << std::endl;
     std::getline(lvl, cur_line);
     while (cur_line != "end") {
         std::vector<std::string> toks = split(cur_line, ' ');
@@ -150,7 +149,6 @@ World::World(std::string lvlname) :
         int x;
         int y;
 	int boun_w, boun_h;
-	std::cout << "test" << std::endl;
         std::stringstream(toks[2]) >> w;
         std::stringstream(toks[3]) >> h;
         std::stringstream(toks[4]) >> ss_w;
@@ -159,9 +157,8 @@ World::World(std::string lvlname) :
         std::stringstream(toks[7]) >> y;
 	std::stringstream(toks[8]) >> boun_w;
 	std::stringstream(toks[9]) >> boun_h;
-	std::cout << "made it" << std::endl;
         if (toks[0] == "player") {
-            std::cout << "adding player" << std::endl;
+            dbpf("adding player\n");
             Player* p = new Player(asset, x, y, w, h, 10, 10);
             p->name = "player";
             p->ss_w = ss_w;

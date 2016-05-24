@@ -7,6 +7,7 @@
 #include "player.h"
 #include "sprite.h"
 #include "dialog.h"
+#include "fns.h"
 
 using namespace std;
 
@@ -18,16 +19,15 @@ Game::Game(int w, int h):
     window(sf::VideoMode(w, h), "game", sf::Style::Fullscreen & 0) {
     cur_window = &window;
     srand(time(NULL));
-    std::cout << "before world" << std::endl;
+    dbpf("creating world...\n");
     world = new World("levels/test.lvl");
-    std::cout << "after world" << std::endl;
     current_world = world;
     Dialog::initText();
-    cout << "game init finished" << endl;
     if (!sf::Shader::isAvailable()) {
         cout << "SHADERS AREN'T HERE" << endl;
         exit(1);
     }
+    dbpf("game init finished.\n");
 }
 
 Game::~Game() {
@@ -50,7 +50,7 @@ void Game::loop() {
         while (window.pollEvent(e)) {
             if (e.type == sf::Event::Closed) {
                 window.close();
-                cout << "Received exit signal" << endl;
+                dbpf("Received exit signal\n");
             }
         }
 
@@ -67,6 +67,6 @@ void Game::loop() {
         clock.restart();
         sf::sleep(sf::seconds(1.0 / FPS - dt));
     }
-    std::cout << "avg dt: " << dttot / dts << std::endl;
-    std::cout << "total updates: " <<  dts << std::endl;
+    dbpf("avg dt: %.6f\n", dttot / dts);
+    dbpf("total updates: %d\n", dts);
 }
