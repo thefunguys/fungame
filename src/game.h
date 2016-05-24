@@ -5,6 +5,9 @@
 #include "world.h"
 #include "player.h"
 
+#define GAME_WIDTH 640
+#define GAME_HEIGHT 480
+
 class Game {
     const int FPS = 60;
     void init_gl();
@@ -16,6 +19,7 @@ class Game {
     Game(int, int);
     ~Game();
     sf::RenderWindow window;
+    static sf::RenderWindow* cur_window;
     void loop();
 };
 

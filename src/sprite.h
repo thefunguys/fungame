@@ -19,7 +19,6 @@ class Sprite : public GameObject {
     int hp;
     int stats;
     double speed;
-    std::string name;
 
 
     // change current sheet every frame_t seconds
@@ -27,6 +26,7 @@ class Sprite : public GameObject {
 
     virtual void update(double);
     virtual void render(sf::RenderWindow&, bool shadered = true);
+    virtual void onClick();
 };
 
 #endif

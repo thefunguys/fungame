@@ -3,6 +3,7 @@ uniform sampler2D texture;
 uniform vec2 windowsize;
 uniform float flicker;
 uniform vec2 direction;
+uniform vec3 highlight;
 
 void main()
 {
@@ -30,7 +31,7 @@ void main()
     }
     vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
     vec4 light = vec4(dampen, dampen, dampen, 1.0);
-    gl_FragColor = gl_Color * pixel * light * vec4(flicker, flicker, flicker, 1.0);
+    gl_FragColor = gl_Color * pixel * light * vec4(highlight, 1.0);
 
 }
 

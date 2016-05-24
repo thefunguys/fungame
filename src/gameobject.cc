@@ -1,18 +1,20 @@
-#include <iostream>
 #include <cmath>
+#include <stdio.h>
 #include "game.h"
 #include "gameobject.h"
 #include "fns.h"
 #include "shadermanager.h"
-o
+
 GameObject::GameObject(std::string fname,
                        int nx, int ny, int nw, int nh, int ncw, int nch) : boundary(nw,ncw, nch) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
+    shader = nullptr;
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
     sprite.setPosition(pos.x, pos.y);
+    focused = false;
 
     w = nw;
     h = nh;
@@ -29,8 +31,12 @@ void GameObject::render(sf::RenderWindow& window, bool shadered) {
         window.draw(sprite);
         return;
     }
-    sf::Shader* shader = ShaderManager::goShader;
-    window.draw(sprite, shader);
+    sf::Shader* ssh = shader;
+    if (ssh == nullptr)
+        ssh = ShaderManager::instance()->goShader;
+    auto highlight = focused ? sf::Vector3f(1.0, 0.0, 0.0) : sf::Vector3f(1.0, 1.0, 1.0);
+    ssh->setParameter("highlight", highlight);
+    window.draw(sprite, ssh);
 }
 
 
@@ -61,35 +67,31 @@ void GameObject::update(double dt) {
     }
     pos = pos + mpos;
     sprite.move(mpos.x, mpos.y);
-    if (close_to_zero(vel.x) && close_to_zero(vel.y))
+    if (close_to_zero(vel.x) && close_to_zero(vel.y)) {
         return;
+    }
     double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI -27.5;
     direction = (12 - ((int) (10 - angle /45.)) % 8 ) % 8;
-
-    // set the direction of the sprite - 0 through 8 otc
-    /*
-    if (close_to_zero(vel.x)) {
-        if (vel.y < -EPS) {
-            direction = 0;
-        } else if (vel.y > EPS) {
-            direction = 4;
-        }
-    } else if (vel.x > EPS) {
-        if (vel.y < -EPS) {
-            direction = 1;
-        } else if (close_to_zero(vel.y)) {
-            direction = 2;
-        } else if (vel.y > EPS) {
-            direction = 3;
-        }
-    } else if (vel.x < -EPS) {
-        if (vel.y < -EPS) {
-            direction = 7;
-        } else if (close_to_zero(vel.y)) {
-            direction = 6;
-        } else if (vel.y > EPS) {
-            direction = 5;
-        }
-    }
-*/
 }
+
+sf::Vector2i GameObject::windowPos(sf::Window& window) {
+    return wpos(window, pos.x, pos.y);
+}
+
+sf::Vector2f gpos(sf::Window& window, int x, int y) {
+    auto ws = window.getSize();
+    auto abc = sf::Vector2i(x * GAME_WIDTH / ws.x, y * GAME_HEIGHT / ws.y);
+    auto di = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 - 16) - abc;
+    auto p = Game::p;
+    return sf::Vector2f(p->pos.x - di.x, p->pos.y - di.y);
+}
+
+sf::Vector2i wpos(sf::Window& window, float x, float y) {
+    auto ws = window.getSize();
+    // the game shows a GAME_WIDTHxGAME_HEIGHT viewport centered around the player
+    auto p = Game::p;
+    auto diff = sf::Vector2i(p->pos.x - x, p->pos.y - y);
+    auto abc = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 + 16) - diff;
+    return sf::Vector2i(abc.x * ws.x / GAME_WIDTH, abc.y * ws.y / GAME_HEIGHT);
+}
+

@@ -1,5 +1,5 @@
 //type filename pixelw h, spritesheetw h, positionx y, boundaryw h
-player blackman.png 32 32 4 2 150 150 10 10 
-sprite box.png 32 32 1 1 100 150 32 15
-sprite box.png 32 32 1 1 150 100 32 15
+player blackman 32 32 4 2 150 150 10 10 
+sprite box 32 32 1 1 100 150 32 15
+sprite box 32 32 1 1 150 100 32 15
 end

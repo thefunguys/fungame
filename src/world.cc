@@ -4,28 +4,28 @@
 #include <sstream>
 #include <string>
 #include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "game.h"
 #include "world.h"
 #include "gameobject.h"
 #include "player.h"
 #include "sprite.h"
-#include "split.h"
 #include "shadermanager.h"
 #include "rat.h"
+#include "fns.h"
 
 bool gobjComp(GameObject* go1, GameObject* go2) {
-    return go1->pos.y < go2->pos.y;
+    return go1->pos.y + go1->h < go2->pos.y + go2->h;
 }
 
 void World::render(sf::RenderWindow& window) {
     //objects look like they are in front of others
     //may have to change if we add too many objects
     std::sort(gobjs.begin(), gobjs.end(), gobjComp);
-    sf::Shader* shader = ShaderManager::goShader;
-    shader->setParameter("texture", sf::Shader::CurrentTexture);
+
     // MAY CAUSE SEIZURES
-    float flicker = random() % 100 * 0.002 + 0.8;
-    shader->setParameter("flicker", flicker);
-    shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
+    float flicker = rand() % 100 * 0.002 + 0.8;
     float dirx, diry;
 
     if(cur_player->direction == 0 || cur_player->direction == 1 || cur_player->direction == 7) {
@@ -42,8 +42,35 @@ void World::render(sf::RenderWindow& window) {
     } else if(cur_player->direction == 0 || cur_player->direction == 4) {
       dirx = 0;
     }
-    shader->setParameter("direction", dirx, diry);
+
 	
+
+
+
+    auto ws = window.getSize();
+    for (auto shader : ShaderManager::instance()->shaders) {
+        shader->setParameter("texture", sf::Shader::CurrentTexture);
+        shader->setParameter("flicker", flicker);
+        shader->setParameter("windowsize", ws.x, ws.y);
+	shader->setParameter("direction", dirx, diry);	
+    }
+    GameObject* focused = nullptr;
+    for (auto gobj : gobjs) {
+        if (gobj == cur_player)
+            continue;
+        gobj->focused = false;
+        auto mpos = sf::Mouse::getPosition(window);
+        auto fr = gobj->sprite.getGlobalBounds();
+        auto gmpos = gpos(window, mpos.x, mpos.y);
+        if (fr.contains(gmpos))
+            focused = gobj;
+    }
+    if (focused != nullptr) {
+        focused->focused = true;
+    }
+        
+
+
     bg.render(window);
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
@@ -51,6 +78,7 @@ void World::render(sf::RenderWindow& window) {
 }
 
 // TODO: make multithreaded somehow -- it's a real cpu hog
+// deprecated, but an example of texture editing
 sf::Texture* World::shadowmap(float lsx, float lsy) {
     sf::Texture* map = new sf::Texture;
     map->create(640, 480);
@@ -114,7 +142,7 @@ World::World(std::string lvlname) :
 	  std::getline(lvl, cur_line);
 	  continue;
 	}
-	std::string asset = "assets/" + toks[1];
+        std::string asset = "assets/" + toks[1] + ".png";
         int w;
         int h;
         int ss_h;
@@ -135,18 +163,20 @@ World::World(std::string lvlname) :
         if (toks[0] == "player") {
             std::cout << "adding player" << std::endl;
             Player* p = new Player(asset, x, y, w, h, 10, 10);
+            p->name = "player";
             p->ss_w = ss_w;
             p->ss_h = ss_h;
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
 	  Sprite* s = new Sprite(asset, x, y, w, h, 32, 15);
-	  std::cout << "adding sprite" << std::endl;
-	    s->ss_w = ss_w;
+            s->name = toks[1];
+            s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);
         } else if (toks[0] == "rat") {
 	  Rat* r = new Rat(asset, x, y, w, h, 5, 5);
+            r->name = "rat";
             r->ss_w = ss_w;
             r->ss_h = ss_h;
             add_gameobject(r);
