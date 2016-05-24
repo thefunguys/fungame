@@ -54,5 +54,5 @@ void Sprite::render(sf::RenderWindow& window, bool shadered) {
 }
 
 void Sprite::onClick() {
-    Dialog::setDialog("it's a " + name + " and a whole lot of other characters because a whole lot of other characters because a whole lot of other characters because a whole lot of other characters because a whole lot of other characters because a whole lot of other characters because ");
+    Dialog::setDialog("it's a " + name);
 }
