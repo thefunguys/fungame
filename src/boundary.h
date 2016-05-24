@@ -81,8 +81,8 @@ class Boundary {
     shape boundary;
 
     Boundary();
-    Boundary(double, double);
-    Boundary(double, double, int);
+    Boundary(double, double, double);
+    //    Boundary(double, double, int);
     bool collision(Boundary, pVector, pVector);
     pVector support1(shape, pVector);
     pVector support(shape, shape, pVector);

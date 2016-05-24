@@ -5,7 +5,7 @@
 
 const double FRAME_SWITCH = 0.1;
 
-Sprite::Sprite(std::string fname, int x, int y, int w, int h, int l) : GameObject::GameObject(fname, x, y, w, h, l) {
+Sprite::Sprite(std::string fname, int x, int y, int w, int h, int cw, int ch) : GameObject::GameObject(fname, x, y, w, h, cw, ch) {
     ss_w = 1;
     ss_h = 1;
     frame_t = 0.0;

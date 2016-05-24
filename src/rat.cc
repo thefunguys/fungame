@@ -2,8 +2,8 @@
 #include "rat.h"
 #include "game.h"
 
-Rat::Rat(std::string fname, int x, int y, int w, int h, int l) : 
-    Sprite::Sprite(fname, x, y, w, h, l) {
+Rat::Rat(std::string fname, int x, int y, int w, int h, int cw, int ch) : 
+  Sprite::Sprite(fname, x, y, w, h, cw, ch) {
     }
 
 void Rat::update(double dt) {

@@ -5,7 +5,7 @@
 
 class Sprite : public GameObject {
   public:
-    Sprite(std::string, int, int, int, int, int);
+  Sprite(std::string, int, int, int, int, int, int);
 
     // spritesheet width and height
     int ss_w;

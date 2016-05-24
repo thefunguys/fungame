@@ -21,7 +21,7 @@ class GameObject {
     int w, h, l;
 
     // pw and ph represent the width and height of objects in the collision system
-
+    double pw, ph;
     double mass;
     sf::Shader shader;
 
@@ -29,7 +29,7 @@ class GameObject {
     virtual void update(double dt);
     //bool collide(double, double, GameObject*);
 
-    GameObject(std::string, int, int, int, int, int);
+    GameObject(std::string, int, int, int, int, int, int);
 };
 
 #endif

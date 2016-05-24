@@ -7,7 +7,7 @@
 
 #define SQRT2 1.412
 
-Player::Player(std::string fname, int x, int y, int w, int h, int l) : Sprite::Sprite(fname, x, y, w, h, l) {
+Player::Player(std::string fname, int x, int y, int w, int h, int cw, int ch) : Sprite::Sprite(fname, x, y, w, h, cw, ch) {
 }
 
 void Player::update(double dt) {

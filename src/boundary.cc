@@ -2,35 +2,37 @@
 
 Boundary::Boundary() : base(0), length(0) {}
 
-Boundary::Boundary(double b, double l) : base(b), length(l) {
-    double h = sqrt(l / (1 + tan_0 * tan_0));
-    double x = h * tan_0;
+Boundary::Boundary(double full_b, double b, double l) : base(b), length(l) {
+    // double h = sqrt(l / (1 + tan_0 * tan_0));
+    // double x = h * tan_0;
 
-    diameter = sqrt((b - x) * (b - x) + h * h);
-    pVector a0(0, 0), b0(-x, h), c0(h, b - x), d0(b, 0);
-
+    // diameter = sqrt((b - x) * (b - x) + h * h);
+    // pVector a0(0, 0), b0(-x, h), c0(h, b - x), d0(b, 0);
+  double off_b = (full_b - b)*.5;
+    pVector a0(off_b,0), b0(off_b,l), c0(off_b+b,l), d0(off_b+b,0);
+    diameter = sqrt(l*l + b*b);
     boundary = {a0, b0, c0, d0};
 }
 
-Boundary::Boundary(double a, double b, int num) : base(a), length(b), diameter(b) {
-    double ratio = a / b;
-    double cn_1 = pow(ratio, num) - 1;
-    double cn_1sq = cn_1 * cn_1;
-    pVector right(a, 0), up(0, b);
-    boundary = {right, up, right.neg(), up.neg()};
-    double cj = 1.0;
-    for(int i = 1; i < num; i++) {
-        cj = cj * ratio;
-        double cj_1 = cj - 1;
-        double cj_1sq = cj_1 * cj_1;
-        pVector tmp(a * (cn_1sq - cj_1sq) / (cn_1sq + cj_1sq), 2 * b * (cn_1 * cj_1) / (cn_1sq + cj_1sq));
-        pVector tmpflip = tmp.flipy();
-        boundary.push_back(tmp);
-        boundary.push_back(tmp.neg());
-        boundary.push_back(tmpflip);
-        boundary.push_back(tmpflip.neg());
-    }
-}
+// Boundary::Boundary(double a, double b, int num) : base(a), length(b), diameter(b) {
+//     double ratio = a / b;
+//     double cn_1 = pow(ratio, num) - 1;
+//     double cn_1sq = cn_1 * cn_1;
+//     pVector right(a, 0), up(0, b);
+//     boundary = {right, up, right.neg(), up.neg()};
+//     double cj = 1.0;
+//     for(int i = 1; i < num; i++) {
+//         cj = cj * ratio;
+//         double cj_1 = cj - 1;
+//         double cj_1sq = cj_1 * cj_1;
+//         pVector tmp(a * (cn_1sq - cj_1sq) / (cn_1sq + cj_1sq), 2 * b * (cn_1 * cj_1) / (cn_1sq + cj_1sq));
+//         pVector tmpflip = tmp.flipy();
+//         boundary.push_back(tmp);
+//         boundary.push_back(tmp.neg());
+//         boundary.push_back(tmpflip);
+//         boundary.push_back(tmpflip.neg());
+//     }
+// }
 
 bool Boundary::collision(Boundary B, pVector diff, pVector search) {
     if(diff.length2 > this->diameter * this->diameter + B.diameter * B.diameter) {

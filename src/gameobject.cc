@@ -4,9 +4,9 @@
 #include "gameobject.h"
 #include "fns.h"
 #include "shadermanager.h"
-
+o
 GameObject::GameObject(std::string fname,
-                       int nx, int ny, int nw, int nh, int nl) : boundary(nw, nl, 10) {
+                       int nx, int ny, int nw, int nh, int ncw, int nch) : boundary(nw,ncw, nch) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
 
@@ -16,8 +16,9 @@ GameObject::GameObject(std::string fname,
 
     w = nw;
     h = nh;
-    l = nl;
-
+    pw = ncw;
+    ph = nch;
+    
     direction = 2;
 
     mass = 1.0;
@@ -62,12 +63,9 @@ void GameObject::update(double dt) {
     sprite.move(mpos.x, mpos.y);
     if (close_to_zero(vel.x) && close_to_zero(vel.y))
         return;
-    double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI;
-    direction = ((int) (2 - angle * 8.0 / 360.0)) % 8;
-    if (direction == 0)
-        direction = 4;
-    else if (direction == 4)
-        direction = 0;
+    double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI -27.5;
+    direction = (12 - ((int) (10 - angle /45.)) % 8 ) % 8;
+
     // set the direction of the sprite - 0 through 8 otc
     /*
     if (close_to_zero(vel.x)) {

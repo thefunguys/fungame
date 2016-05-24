@@ -15,7 +15,6 @@ class World {
     void add_gameobject(GameObject*);
     Player* cur_player;
     World(std::string);
-
     std::vector<GameObject*> walls;
 };
 

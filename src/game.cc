@@ -15,7 +15,9 @@ Player* Game::p;
 Game::Game(int w, int h):
     window(sf::VideoMode(w, h), "game", sf::Style::Fullscreen & 0) {
     srand(time(NULL));
+    std::cout << "before world" << std::endl;
     world = new World("levels/test.lvl");
+    std::cout << "after world" << std::endl;
     current_world = world;
     cout << "game init finished" << endl;
     if (!sf::Shader::isAvailable()) {

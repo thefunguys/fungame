@@ -5,7 +5,7 @@
 
 class Rat : public Sprite {
     public:
-        Rat(std::string, int, int, int, int, int);
+  Rat(std::string, int, int, int, int, int, int);
         virtual void update(double);
         virtual void render(sf::RenderWindow&, bool shadered = true);
 };

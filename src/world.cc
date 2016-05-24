@@ -26,6 +26,24 @@ void World::render(sf::RenderWindow& window) {
     float flicker = random() % 100 * 0.002 + 0.8;
     shader->setParameter("flicker", flicker);
     shader->setParameter("windowsize", window.getSize().x, window.getSize().y);
+    float dirx, diry;
+
+    if(cur_player->direction == 0 || cur_player->direction == 1 || cur_player->direction == 7) {
+      diry = 1;
+    } else if(cur_player->direction == 3 || cur_player->direction == 4 || cur_player->direction == 5) {
+	diry = -1;
+    } else if(cur_player->direction ==2 || cur_player->direction == 6) {
+      diry = 0;
+    }
+    if(cur_player->direction == 1 || cur_player->direction == 2 || cur_player->direction == 3) {
+      dirx = 1;
+    } else if(cur_player->direction == 5 || cur_player->direction == 6 || cur_player->direction == 7) {
+      dirx = -1;
+    } else if(cur_player->direction == 0 || cur_player->direction == 4) {
+      dirx = 0;
+    }
+    shader->setParameter("direction", dirx, diry);
+	
     bg.render(window);
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
@@ -75,7 +93,8 @@ void World::update(double dt) {
 
 World::World(std::string lvlname) :
     // maybe make the background texture from something cool like voronai
-    bg("assets/background.png", 0, 0, 1000, 1000, 0) {
+
+  bg("assets/background.png", 0, 0, 1000, 1000, 1000,1000) {
     /* lvls are denoted by files
      * each line represents a GameObject
      * class specifier, texture name, w, h, ss_w, ss_h, x, y
@@ -84,39 +103,50 @@ World::World(std::string lvlname) :
      * TODO: use json or yaml or something sane
      * see https://github.com/nlohmann/json
      * */
+
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
-
+    std::cout << "starting" << std::endl;
     std::getline(lvl, cur_line);
     while (cur_line != "end") {
         std::vector<std::string> toks = split(cur_line, ' ');
-        std::string asset = "assets/" + toks[1];
+	if( toks[0][0] == '/' && toks[0][1] == '/' ) {
+	  std::getline(lvl, cur_line);
+	  continue;
+	}
+	std::string asset = "assets/" + toks[1];
         int w;
         int h;
         int ss_h;
         int ss_w;
         int x;
         int y;
+	int boun_w, boun_h;
+	std::cout << "test" << std::endl;
         std::stringstream(toks[2]) >> w;
         std::stringstream(toks[3]) >> h;
         std::stringstream(toks[4]) >> ss_w;
         std::stringstream(toks[5]) >> ss_h;
         std::stringstream(toks[6]) >> x;
         std::stringstream(toks[7]) >> y;
+	std::stringstream(toks[8]) >> boun_w;
+	std::stringstream(toks[9]) >> boun_h;
+	std::cout << "made it" << std::endl;
         if (toks[0] == "player") {
             std::cout << "adding player" << std::endl;
-            Player* p = new Player(asset, x, y, w, h, 1);
+            Player* p = new Player(asset, x, y, w, h, 10, 10);
             p->ss_w = ss_w;
             p->ss_h = ss_h;
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
-            Sprite* s = new Sprite(asset, x, y, w, h, 10);
-            s->ss_w = ss_w;
+	  Sprite* s = new Sprite(asset, x, y, w, h, 32, 15);
+	  std::cout << "adding sprite" << std::endl;
+	    s->ss_w = ss_w;
             s->ss_h = ss_h;
             add_gameobject(s);
         } else if (toks[0] == "rat") {
-            Rat* r = new Rat(asset, x, y, w, h, 5);
+	  Rat* r = new Rat(asset, x, y, w, h, 5, 5);
             r->ss_w = ss_w;
             r->ss_h = ss_h;
             add_gameobject(r);
