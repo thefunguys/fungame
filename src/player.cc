@@ -8,6 +8,7 @@
 #include "dialog.h"
 
 #define SQRT2 1.412
+#define keydown(key) sf::Keyboard::isKeyPressed(sf::Keyboard::key)
 
 
 Player::Player(std::string fname, int x, int y, int w, int h, int cw, int ch) : Sprite::Sprite(fname, x, y, w, h, cw, ch) {
@@ -17,16 +18,16 @@ Player::Player(std::string fname, int x, int y, int w, int h, int cw, int ch) : 
 
 void Player::update(double dt) {
     vel = {0, 0};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    if (keydown(D) || keydown(E) || keydown(C)) {
         vel.x = speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    if (keydown(A) || keydown(Q) || keydown(Z)) {
         vel.x = -speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    if (keydown(W) || keydown(E) || keydown(Q)) {
         vel.y = -speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    if (keydown(Z) || keydown(X) || keydown(C) || keydown(S)) {
         vel.y = speed;
     }
     

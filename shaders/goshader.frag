@@ -12,7 +12,7 @@ void main()
     int offset = 0;
     float lightd_off = 10000.0;
     float lightb_off = 100000.0;
-    float dark_off = 500.0;
+    float dark_off = 100.0;
     vec2 wp = gl_FragCoord.xy * vec2(640.0, 480.0) / windowsize;
     vec2 wc = vec2(640.0, 480.0) / vec2(2.0, 2.0);
     // janky -- assumes player/light source is always at ccenter of window
