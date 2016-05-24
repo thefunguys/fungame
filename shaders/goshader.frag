@@ -11,7 +11,7 @@ void main()
     int offset = 0;
     float lightd_off = 2000.0;
     float lightb_off = 20000.0;
-    float dark_off = 100.0;
+    float dark_off = 300.0;
     // gl_FragCoord depends on the window size, so we normalize it
     vec2 wp = gl_FragCoord.xy * vec2(640.0, 480.0) / windowsize;
     // lightsource
@@ -27,15 +27,12 @@ void main()
     /*if( xdoty*xdoty >= lr_bright && xdoty > 0) {
     	dampen = lightb_off / (dist2 + lightb_off);
     } else*/ if(xdoty*xdoty >= lr_dim && xdoty > 0) {
-    	dampen = lightd_off / (dist2 + lightd_off);
+    	dampen = flicker * lightd_off / (dist2 + lightd_off);
     } else {
-        dampen = dark_off / (dist2 + dark_off);
+        dampen = flicker * dark_off / (dist2 + dark_off);
     }
     vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
     vec4 light = vec4(dampen, dampen, dampen, 1.0);
     gl_FragColor = gl_Color * pixel * light * vec4(highlight, 1.0);
 
 }
-
-
-

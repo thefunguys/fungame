@@ -39,7 +39,19 @@ void GameObject::render(sf::RenderWindow& window, bool shadered) {
     window.draw(sprite, ssh);
 }
 
-
+bool checkCollide(GameObject* go, GameObject* ogo, pVector mpos, pVector vel) {
+    pVector diff = ogo->pos - go->pos - mpos;
+    Boundary moving;
+    moving.diameter = go->boundary.diameter;
+    for (pVector &p : go->boundary.boundary ) {
+        if(p.dot(mpos) > 0 ) {
+            moving.boundary.push_back(p + mpos);
+        } else {
+            moving.boundary.push_back(p);
+        }
+    }
+    return moving.collision(ogo->boundary, diff, vel);
+}
 
 
 void GameObject::update(double dt) {
@@ -49,18 +61,11 @@ void GameObject::update(double dt) {
     if (fabs(mpos.x) > 0.005 || fabs(mpos.y) > 0.005) {
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
-                pVector diff = ogo->pos - this->pos - mpos;
-                Boundary moving;
-                moving.diameter = this->boundary.diameter;
-                for (pVector &p : this->boundary.boundary ) {
-                    if(p.dot(mpos) > 0 ) {
-                        moving.boundary.push_back(p + mpos);
-                    } else {
-                        moving.boundary.push_back(p);
-                    }
+                if (checkCollide(this, ogo, {mpos.x, 0}, {vel.x, 0})) {
+                    mpos.x = 0;
                 }
-                if (moving.collision(ogo->boundary, diff, vel)) {
-                    mpos = {0, 0};
+                if (checkCollide(this, ogo, {0, mpos.y}, {0, vel.y})) {
+                    mpos.y = 0;
                 }
             }
         }

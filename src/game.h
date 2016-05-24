@@ -5,8 +5,8 @@
 #include "world.h"
 #include "player.h"
 
-#define GAME_WIDTH 640
-#define GAME_HEIGHT 480
+#define GAME_WIDTH 320
+#define GAME_HEIGHT 240
 
 class Game {
     const int FPS = 60;

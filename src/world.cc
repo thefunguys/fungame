@@ -30,14 +30,14 @@ void World::render(sf::RenderWindow& window) {
 
     if(cur_player->direction == 0 || cur_player->direction == 1 || cur_player->direction == 7) {
       diry = 1;
-    } else if(cur_player->direction == 3 || cur_player->direction == 4 || cur_player->direction == 5) {
+    } else if(cur_player->direction >= 3 && cur_player->direction <= 5) {
 	diry = -1;
     } else if(cur_player->direction ==2 || cur_player->direction == 6) {
       diry = 0;
     }
-    if(cur_player->direction == 1 || cur_player->direction == 2 || cur_player->direction == 3) {
+    if(cur_player->direction >= 1 && cur_player->direction <= 3) {
       dirx = 1;
-    } else if(cur_player->direction == 5 || cur_player->direction == 6 || cur_player->direction == 7) {
+    } else if(cur_player->direction >= 5 && cur_player->direction <= 7) {
       dirx = -1;
     } else if(cur_player->direction == 0 || cur_player->direction == 4) {
       dirx = 0;
@@ -52,7 +52,7 @@ void World::render(sf::RenderWindow& window) {
         shader->setParameter("texture", sf::Shader::CurrentTexture);
         shader->setParameter("flicker", flicker);
         shader->setParameter("windowsize", ws.x, ws.y);
-	shader->setParameter("direction", dirx, diry);	
+        shader->setParameter("direction", dirx, diry);	
     }
     GameObject* focused = nullptr;
     for (auto gobj : gobjs) {
@@ -166,7 +166,7 @@ World::World(std::string lvlname) :
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
-	  Sprite* s = new Sprite(asset, x, y, w, h, 32, 15);
+	  Sprite* s = new Sprite(asset, x, y, w, h, w, 15);
             s->name = toks[1];
             s->ss_w = ss_w;
             s->ss_h = ss_h;
