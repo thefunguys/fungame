@@ -29,6 +29,7 @@ void Player::update(double dt) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         vel.y = speed;
     }
+    
     if (vel.x && vel.y) {
         vel.x = vel.x / SQRT2;
         vel.y = vel.y / SQRT2;
