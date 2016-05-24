@@ -29,8 +29,9 @@ void Sprite::update(double dt) {
     GameObject::update(dt);
     switch (direction) {
     case 0:
-        if (ss_h > 2)
+        if (ss_h > 2) {
             curframe_y = 1;
+        }
         break;
     case 1:
     case 2:
@@ -38,12 +39,14 @@ void Sprite::update(double dt) {
         curframe_y = 0;
         break;
     case 4:
-        if (ss_h > 3)
+        if (ss_h > 3) {
             curframe_y = 2;
+        }
         break;
     default:
-        if (ss_h > 1)
+        if (ss_h > 1) {
             curframe_y = 3;
+        }
         break;
     }
     if (focused && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {

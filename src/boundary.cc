@@ -8,9 +8,9 @@ Boundary::Boundary(double full_b, double b, double l) : base(b), length(l) {
 
     // diameter = sqrt((b - x) * (b - x) + h * h);
     // pVector a0(0, 0), b0(-x, h), c0(h, b - x), d0(b, 0);
-  double off_b = (full_b - b)*.5;
-    pVector a0(off_b,0), b0(off_b,l), c0(off_b+b,l), d0(off_b+b,0);
-    diameter = sqrt(l*l + b*b);
+    double off_b = (full_b - b) * .5;
+    pVector a0(off_b, 0), b0(off_b, l), c0(off_b + b, l), d0(off_b + b, 0);
+    diameter = sqrt(l * l + b * b);
     boundary = {a0, b0, c0, d0};
 }
 

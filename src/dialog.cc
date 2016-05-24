@@ -26,19 +26,21 @@ void Dialog::setDialog(std::string diag) {
     }
     dialog.push_back(*tmp);
     delete tmp;
-    if (thread != nullptr)
+    if (thread != nullptr) {
         thread->terminate();
+    }
     delete thread;
     thread = new sf::Thread(&timeoutClear);
     thread->launch();
 }
 
 void Dialog::print() {
-    if (dialog.size() == 0)
+    if (dialog.size() == 0) {
         return;
+    }
     text.setString(dialog[cur_dialog]);
     text.setCharacterSize(14);
-    text.setPosition(Game::p->pos.x - GAME_WIDTH/2 + 16 + 14, Game::p->pos.y + GAME_HEIGHT / 2 + 16 - 50);
+    text.setPosition(Game::p->pos.x - GAME_WIDTH / 2 + 16 + 14, Game::p->pos.y + GAME_HEIGHT / 2 + 16 - 50);
     Game::cur_window->draw(text);
 }
 
@@ -50,12 +52,13 @@ void Dialog::printNext() {
 
 void Dialog::initText() {
     sf::Font* font = new sf::Font;
-    if (!font->loadFromFile("fonts/DejaVuSansMono.ttf"))
+    if (!font->loadFromFile("fonts/DejaVuSansMono.ttf")) {
         printf("failed to load font\n");
+    }
     text.setFont(*font);
     text.setColor(sf::Color(0x90, 0xa0, 0xb0, 0xff));
 }
-   
+
 void Dialog::timeoutClear() {
     //sf::Thread* thref = thread;
     sf::sleep(sf::milliseconds(5000));

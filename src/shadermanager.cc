@@ -21,7 +21,8 @@ ShaderManager::ShaderManager() {
 }
 
 ShaderManager* ShaderManager::instance() {
-    if (ShaderManager::inst == nullptr)
+    if (ShaderManager::inst == nullptr) {
         ShaderManager::inst = new ShaderManager;
+    }
     return ShaderManager::inst;
 }

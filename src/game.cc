@@ -8,6 +8,7 @@
 #include "sprite.h"
 #include "dialog.h"
 #include "fns.h"
+#include "music.h"
 
 using namespace std;
 
@@ -42,6 +43,7 @@ void Game::loop() {
     window.setVerticalSyncEnabled(true);
     sf::Clock clock;
     Player* blackguy = world->cur_player;
+    play("assets/song.ogg");
     p = blackguy;
     sf::View view(sf::FloatRect(0.0f, 0.0f, GAME_WIDTH, GAME_HEIGHT));
     window.setView(view);

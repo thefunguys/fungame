@@ -6,7 +6,7 @@
 #include "shadermanager.h"
 
 GameObject::GameObject(std::string fname,
-                       int nx, int ny, int nw, int nh, int ncw, int nch) : boundary(nw,ncw, nch) {
+                       int nx, int ny, int nw, int nh, int ncw, int nch) : boundary(nw, ncw, nch) {
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
     shader = nullptr;
@@ -20,7 +20,7 @@ GameObject::GameObject(std::string fname,
     h = nh;
     pw = ncw;
     ph = nch;
-    
+
     direction = 2;
 
     mass = 1.0;
@@ -32,8 +32,9 @@ void GameObject::render(sf::RenderWindow& window, bool shadered) {
         return;
     }
     sf::Shader* ssh = shader;
-    if (ssh == nullptr)
+    if (ssh == nullptr) {
         ssh = ShaderManager::instance()->goShader;
+    }
     auto highlight = focused ? sf::Vector3f(1.0, 0.0, 0.0) : sf::Vector3f(1.0, 1.0, 1.0);
     ssh->setParameter("highlight", highlight);
     window.draw(sprite, ssh);
@@ -75,8 +76,8 @@ void GameObject::update(double dt) {
     if (close_to_zero(vel.x) && close_to_zero(vel.y)) {
         return;
     }
-    double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI -27.5;
-    direction = (12 - ((int) (10 - angle /45.)) % 8 ) % 8;
+    double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI - 27.5;
+    direction = (12 - ((int) (10 - angle / 45.)) % 8 ) % 8;
 }
 
 sf::Vector2i GameObject::windowPos(sf::Window& window) {

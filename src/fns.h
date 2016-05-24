@@ -15,7 +15,7 @@ inline bool close_to_zero(double n) {
 #ifdef DEBUG_APP
 #define dbpf(...) printf(__VA_ARGS__)
 #else
-#define dbpf(...) 
+#define dbpf(...)
 #endif
 
 inline std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
