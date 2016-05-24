@@ -1,4 +1,4 @@
-player blackman 32 32 4 2 150 150
+player whiteman 32 32 4 2 150 150
 sprite box 32 32 1 1 100 150
 sprite box 32 32 1 1 150 100
 rat rat 32 16 2 2 200 150 

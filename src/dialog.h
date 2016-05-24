@@ -12,6 +12,8 @@ class Dialog {
     static void initText();
     static std::vector<std::string> dialog;
     static void timeoutClear();
+    static void printNext();
+    static size_t cur_dialog;
 };
 
 

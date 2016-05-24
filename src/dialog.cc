@@ -8,17 +8,19 @@
 
 sf::Text Dialog::text;
 std::vector<std::string> Dialog::dialog;
+size_t Dialog::cur_dialog = 0;
 sf::Thread* Dialog::thread = nullptr;
 
 void Dialog::setDialog(std::string diag) {
     dialog.erase(dialog.begin(), dialog.end());
     std::string* tmp = new std::string;
     for (size_t i = 0; i < diag.length(); ++i) {
-        if (i >= 80) {
+        if (i >= 156) {
             dialog.push_back(*tmp);
             delete tmp;
             tmp = new std::string;
-        } else if (i > 0 && i % 40 == 0) {
+        } else if (i > 0 && i % 78 == 0) {
+            tmp->push_back('\n');
         }
         tmp->push_back(diag[i]);
     }
@@ -26,6 +28,7 @@ void Dialog::setDialog(std::string diag) {
     delete tmp;
     if (thread != nullptr)
         thread->terminate();
+    delete thread;
     thread = new sf::Thread(&timeoutClear);
     thread->launch();
 }
@@ -33,10 +36,16 @@ void Dialog::setDialog(std::string diag) {
 void Dialog::print() {
     if (dialog.size() == 0)
         return;
-    text.setString(dialog[0]);
+    text.setString(dialog[cur_dialog]);
     text.setCharacterSize(14);
-    text.setPosition(Game::p->pos.x - GAME_WIDTH/2 + 16, Game::p->pos.y + GAME_HEIGHT / 2 + 16 - 50);
+    text.setPosition(Game::p->pos.x - GAME_WIDTH/2 + 16 + 14, Game::p->pos.y + GAME_HEIGHT / 2 + 16 - 50);
     Game::cur_window->draw(text);
+}
+
+void Dialog::printNext() {
+    if (dialog.size() > cur_dialog + 1) {
+        cur_dialog++;
+    }
 }
 
 void Dialog::initText() {
