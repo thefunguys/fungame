@@ -19,6 +19,7 @@ class GameObject {
 
     std::string name;
     bool focused;
+    bool shadowcasts;
     // where we start to count for collisions
     Boundary boundary;
 

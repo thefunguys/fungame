@@ -7,6 +7,7 @@
 
 GameObject::GameObject(std::string fname,
                        int nx, int ny, int nw, int nh, int ncw, int nch) : boundary(nw, ncw, nch) {
+    shadowcasts = true;
     texture.loadFromFile(fname);
     sprite.setTexture(texture);
     shader = nullptr;

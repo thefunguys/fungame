@@ -9,9 +9,9 @@ void main()
 {
 
     int offset = 0;
-    float lightd_off = 2000.0;
-    float lightb_off = 20000.0;
-    float dark_off = 300.0;
+    float lightd_off = 10000.0;
+    float lightb_off = 2000.0;
+    float dark_off = 300000.0;
     // gl_FragCoord depends on the window size, so we normalize it
     vec2 wp = gl_FragCoord.xy * vec2(640.0, 480.0) / windowsize;
     // lightsource
