@@ -18,6 +18,7 @@
 #include <glm/geometric.hpp>
 
 glm::vec2 gls;
+sf::RenderTexture rt;
 
 glm::vec2 sfToGlm(sf::Vector2f &v) {
     return glm::vec2(v.x, v.y);
@@ -48,14 +49,13 @@ sf::Vector2f glmToSf(glm::vec2 &v) {
     return sf::Vector2f(v.x, v.y);
 }
 
-const sf::Texture World::lightmap(sf::Vector2f ls, GameObject* exclude) {
-    sf::RenderTexture rt;
-    rt.create(GAME_WIDTH, GAME_HEIGHT);
+const sf::Texture& World::lightmap(sf::Vector2f ls, GameObject* exclude) {
     rt.clear(sf::Color::White);
     auto windowVec = glm::vec2(GAME_WIDTH, GAME_HEIGHT);
     auto glmls = sfToGlm(ls);
     gls = glmls;
     
+    // so we draw shadows over objects behind ones in front
     std::sort(gobjs.begin(), gobjs.end(), gobjVComp);
     
     for (auto go : gobjs) {
@@ -67,23 +67,18 @@ const sf::Texture World::lightmap(sf::Vector2f ls, GameObject* exclude) {
             sf::Vector2f(go->pos.x + go->w, go->pos.y + go->h),
             sf::Vector2f(go->pos.x, go->pos.y + go->h)
         };
-        /*sf::Vector2f minV = sf::Vector2f(100000, 100000);
-        for (int i = 0; i < vertices.size(); ++i) {
-            auto ds = vertices[i] - ls;
-            if (vertComp(ds, minV))
-                minV = vertices[i];
-        }
-        std::vector<sf::Vector2f> nvs;
-        for (auto &v : vertices) {
-            if (v != minV) {
-                nvs.push_back(v);
-            }
-        }*/
 
+        /**
+         * for every pair of adjacent vertices in the gameobject, we find
+         * the 4-sided polygon that it occludes from the light source, and
+         * draw that to the shadowmap
+         */
         for (size_t i = 0; i < vertices.size(); ++i) {
             auto v1 = sfToGlm(vertices[i]);
+            // count the wrap around
             auto v2 = sfToGlm(vertices[i == vertices.size() - 1 ? 0 : i + 1]);
 
+            // project the vertices onto the window edge
             auto proj1 = glm::normalize(v1 - glmls) * windowVec;
             auto proj2 = glm::normalize(v2 - glmls) * windowVec;
 
@@ -97,6 +92,7 @@ const sf::Texture World::lightmap(sf::Vector2f ls, GameObject* exclude) {
             rt.draw(lightshape);
             
         }
+        // objects shouldn't shade themselves
         auto orig = sf::ConvexShape(4);
         auto fr = go->sprite.getGlobalBounds();
         orig.setPoint(0, sf::Vector2f(fr.left, fr.top));
@@ -109,14 +105,6 @@ const sf::Texture World::lightmap(sf::Vector2f ls, GameObject* exclude) {
     rt.display();
     return rt.getTexture();
 }
-
-
-            
-        
-
-
-
-
 
 void World::render(sf::RenderWindow& window) {
     //objects look like they are in front of others
@@ -142,10 +130,6 @@ void World::render(sf::RenderWindow& window) {
         dirx = 0;
     }
 
-
-
-
-
     auto ws = window.getSize();
     for (auto shader : ShaderManager::instance()->shaders) {
         shader->setParameter("texture", sf::Shader::CurrentTexture);
@@ -170,8 +154,6 @@ void World::render(sf::RenderWindow& window) {
         focused->focused = true;
     }
 
-
-
     bg.render(window);
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
@@ -180,38 +162,6 @@ void World::render(sf::RenderWindow& window) {
     sf::Sprite sp(lm);
     auto rs = sf::RenderStates(sf::BlendMultiply);
     window.draw(sp, rs);
-}
-
-// TODO: make multithreaded somehow -- it's a real cpu hog
-// deprecated, but an example of texture editing
-sf::Texture* World::shadowmap(float lsx, float lsy) {
-    sf::Texture* map = new sf::Texture;
-    map->create(640, 480);
-    sf::Uint8* pxs = new sf::Uint8[640 * 480 * 4];
-    for (int i = 0; i <= 320; i++) {
-        for (int j = 0; j <= 240; j++) {
-            float dist2 = (lsx - i) * (lsx - i) + (lsy - j) * (lsy - j);
-            int offsets [4] = {
-                4 * (i + 640 * j),
-                4 * (640 - i + 640 * (480 - j)),
-                4 * (i + 640 * (480 - j - 1)),
-                4 * (640 - i + 640 * j)
-            };
-            int dampen = (int) 255.0 * (1000.0 / (dist2 + 1000.0));
-            for (int k = 0; k < 4; ++k) {
-                int offset = offsets[k];
-                pxs[offset]     = (sf::Uint8) dampen;
-                pxs[offset + 1] = (sf::Uint8) dampen;
-                pxs[offset + 2] = (sf::Uint8) dampen;
-                pxs[offset + 3] = 0xff;
-            }
-        }
-    }
-
-    map->update(pxs);
-    delete pxs;
-
-    return map;
 }
 
 void World::add_gameobject(GameObject* gameobject) {
@@ -237,6 +187,7 @@ World::World(std::string lvlname) :
      * see https://github.com/nlohmann/json
      * */
 
+    rt.create(GAME_WIDTH, GAME_HEIGHT);
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
     std::getline(lvl, cur_line);
