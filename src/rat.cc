@@ -6,7 +6,7 @@
 
 Rat::Rat(std::string fname, int x, int y, int w, int h, int cw, int ch) :
     Sprite::Sprite(fname, x, y, w, h, cw, ch) {
-        shadowcasts = false;
+    shadowcasts = false;
 }
 
 void Rat::update(double dt) {

@@ -49,28 +49,28 @@ sf::Vector2f glmToSf(glm::vec2 &v) {
     return sf::Vector2f(v.x, v.y);
 }
 
-//TODO: make this based off absolute positions so it can be just as big as the view
-const sf::Texture& World::lightmap(sf::Vector2f ls, GameObject* exclude, sf::RenderTarget& window) {
+//TODO: make this based off absolute positions
+//      so it can be just as big as the view
+const sf::Texture& World::lightmap(sf::Vector2f ls,
+                                   GameObject* exclude, sf::RenderTarget& window) {
     rt.clear(sf::Color::White);
     auto windowVec = glm::vec2(1000, 1000);
     auto lswpos = wpos(window, ls);
     auto glmls = sfToGlm(lswpos);
     gls = glmls;
-    
+
     // so we draw shadows over objects behind ones in front
     std::sort(gobjs.begin(), gobjs.end(), gobjVComp);
-    
+
     for (auto go : gobjs) {
-        if (go == exclude || !go->shadowcasts)
+        if (go == exclude || !go->shadowcasts) {
             continue;
-        std::vector<sf::Vector2f> vertices;/* = {
-            sf::Vector2f(go->boundary.shape.x, go->pos.y),
-            sf::Vector2f(go->pos.x + go->w, go->pos.y),
-            sf::Vector2f(go->pos.x + go->w, go->pos.y + go->h),
-            sf::Vector2f(go->pos.x, go->pos.y + go->h)
-        };*/
+        }
+        std::vector<sf::Vector2f> vertices;
         for (auto &bVec : go->boundary.boundary) {
-            vertices.push_back(wpos(window, sf::Vector2f(go->pos.x + bVec.x, go->pos.y + go->h - bVec.y)));
+            vertices.push_back(wpos(window,
+                                    sf::Vector2f(go->pos.x + bVec.x,
+                                                 go->pos.y + go->h - bVec.y)));
         }
 
         /**
@@ -95,18 +95,9 @@ const sf::Texture& World::lightmap(sf::Vector2f ls, GameObject* exclude, sf::Ren
             lightshape.setPoint(3, glmToSf(v2));
 
             rt.draw(lightshape);
-            
+
         }
         // objects shouldn't shade themselves
-        /* 
-        auto orig = sf::ConvexShape(4);
-        auto fr = go->sprite.getGlobalBounds();
-        orig.setPoint(0, wpos(window, sf::Vector2f(fr.left, fr.top)));
-        orig.setPoint(1, wpos(window, sf::Vector2f(fr.left + fr.width, fr.top)));
-        orig.setPoint(2, wpos(window, sf::Vector2f(fr.left + fr.width, fr.top + fr.height)));
-        orig.setPoint(3, wpos(window, sf::Vector2f(fr.left, fr.top + fr.height)));
-        rt.draw(orig);
-        */
         auto gosp = go->sprite;
         gosp.setPosition(wpos(window, gosp.getPosition()));
         rt.draw(gosp, ShaderManager::instance()->whiteShader);
@@ -167,7 +158,8 @@ void World::render(sf::RenderWindow& window) {
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
     }
-    auto lm = lightmap(sf::Vector2f(cur_player->pos.x + 16, cur_player->pos.y + 16), cur_player, window);
+    auto lm = lightmap(sf::Vector2f(cur_player->pos.x + 16,
+                                    cur_player->pos.y + 16), cur_player, window);
     sf::Sprite sp(lm);
     auto rs = sf::RenderStates(sf::BlendMultiply);
     auto view = sf::View(sf::FloatRect(0, 0, GAME_WIDTH, GAME_HEIGHT));
