@@ -9,7 +9,7 @@ void main()
 {
 
     int offset = 0;
-    float lightd_off = 10000.0;
+    float lightd_off = 5000.0;
     float lightb_off = 2000.0;
     float dark_off = 300.0;
     // gl_FragCoord depends on the window size, so we normalize it

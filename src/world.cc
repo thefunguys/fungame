@@ -233,7 +233,7 @@ World::World(std::string lvlname) :
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
-            Sprite* s = new Sprite(asset, x, y, w, h, w, 15);
+            Sprite* s = new Sprite(asset, x, y, w, h, 24, 6);
             s->name = toks[1];
             s->ss_w = ss_w;
             s->ss_h = ss_h;
