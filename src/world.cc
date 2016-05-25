@@ -49,9 +49,10 @@ sf::Vector2f glmToSf(glm::vec2 &v) {
     return sf::Vector2f(v.x, v.y);
 }
 
+//TODO: make this based off absolute positions so it can be just as big as the view
 const sf::Texture& World::lightmap(sf::Vector2f ls, GameObject* exclude) {
     rt.clear(sf::Color::White);
-    auto windowVec = glm::vec2(GAME_WIDTH, GAME_HEIGHT);
+    auto windowVec = glm::vec2(1000, 1000);
     auto glmls = sfToGlm(ls);
     gls = glmls;
     
