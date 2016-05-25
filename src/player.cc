@@ -44,6 +44,6 @@ void Player::update(double dt) {
     Sprite::update(dt);
 }
 
-void Player::render(sf::RenderWindow& window, bool shadered) {
+void Player::render(sf::RenderTarget& window, bool shadered) {
     Sprite::render(window, shadered);
 }

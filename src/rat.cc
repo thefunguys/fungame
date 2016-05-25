@@ -22,7 +22,7 @@ void Rat::update(double dt) {
     Sprite::update(dt);
 }
 
-void Rat::render(sf::RenderWindow& window, bool shadered) {
+void Rat::render(sf::RenderTarget& window, bool shadered) {
     Sprite::render(window, shadered);
 }
 

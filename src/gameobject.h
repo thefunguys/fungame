@@ -15,7 +15,7 @@ class GameObject {
      *   5 4 3 */
     int direction;
     pVector pos;
-    sf::Vector2i windowPos(sf::Window&);
+    sf::Vector2i windowPos(sf::RenderTarget&);
 
     std::string name;
     bool focused;
@@ -30,16 +30,17 @@ class GameObject {
     double pw, ph;
     double mass;
 
-    virtual void render(sf::RenderWindow&, bool shadered = true);
+    virtual void render(sf::RenderTarget&, bool shadered = true);
     virtual void update(double dt);
     //bool collide(double, double, GameObject*);
 
     GameObject(std::string, int, int, int, int, int, int);
 };
 
-sf::Vector2i wpos(sf::Window& window, float x, float y);
+sf::Vector2i wpos(sf::RenderTarget& window, float x, float y);
+sf::Vector2f wpos(sf::RenderTarget& window, sf::Vector2f v);
 
-sf::Vector2f gpos(sf::Window& window, int x, int y);
+sf::Vector2f gpos(sf::RenderTarget& window, int x, int y);
 
 
 #endif

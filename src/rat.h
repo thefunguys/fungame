@@ -8,7 +8,7 @@ class Rat : public Sprite {
     Rat(std::string, int, int, int, int, int, int);
 
     virtual void update(double);
-    virtual void render(sf::RenderWindow&, bool shadered = true);
+    virtual void render(sf::RenderTarget&, bool shadered = true);
     virtual void onClick();
 
 };

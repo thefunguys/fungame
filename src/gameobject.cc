@@ -27,7 +27,7 @@ GameObject::GameObject(std::string fname,
     mass = 1.0;
 }
 
-void GameObject::render(sf::RenderWindow& window, bool shadered) {
+void GameObject::render(sf::RenderTarget& window, bool shadered) {
     if (!shadered) {
         window.draw(sprite);
         return;
@@ -81,11 +81,11 @@ void GameObject::update(double dt) {
     direction = (12 - ((int) (10 - angle / 45.)) % 8 ) % 8;
 }
 
-sf::Vector2i GameObject::windowPos(sf::Window& window) {
+sf::Vector2i GameObject::windowPos(sf::RenderTarget& window) {
     return wpos(window, pos.x, pos.y);
 }
 
-sf::Vector2f gpos(sf::Window& window, int x, int y) {
+sf::Vector2f gpos(sf::RenderTarget& window, int x, int y) {
     auto ws = window.getSize();
     auto abc = sf::Vector2i(x * GAME_WIDTH / ws.x, y * GAME_HEIGHT / ws.y);
     auto di = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 - 16) - abc;
@@ -93,12 +93,16 @@ sf::Vector2f gpos(sf::Window& window, int x, int y) {
     return sf::Vector2f(p->pos.x - di.x, p->pos.y - di.y);
 }
 
-sf::Vector2i wpos(sf::Window& window, float x, float y) {
-    auto ws = window.getSize();
+sf::Vector2i wpos(sf::RenderTarget& window, float x, float y) {
+    auto ws = sf::Vector2i(GAME_WIDTH, GAME_HEIGHT);
     // the game shows a GAME_WIDTHxGAME_HEIGHT viewport centered around the player
     auto p = Game::p;
     auto diff = sf::Vector2i(p->pos.x - x, p->pos.y - y);
-    auto abc = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 + 16) - diff;
+    auto abc = sf::Vector2i(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 - 16) - diff;
     return sf::Vector2i(abc.x * ws.x / GAME_WIDTH, abc.y * ws.y / GAME_HEIGHT);
 }
 
+sf::Vector2f wpos(sf::RenderTarget& window, sf::Vector2f v) {
+    auto vi = wpos(window, v.x, v.y);
+    return sf::Vector2f(vi.x, vi.y);
+}

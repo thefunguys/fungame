@@ -62,6 +62,7 @@ void Game::loop() {
         window.setView(view);
         window.clear();
         world->render(window);
+        window.setView(view);
         Dialog::print();
         window.display();
         dts++;
