@@ -62,12 +62,15 @@ const sf::Texture& World::lightmap(sf::Vector2f ls, GameObject* exclude) {
     for (auto go : gobjs) {
         if (go == exclude || !go->shadowcasts)
             continue;
-        std::vector<sf::Vector2f> vertices = {
-            sf::Vector2f(go->pos.x, go->pos.y),
+        std::vector<sf::Vector2f> vertices;/* = {
+            sf::Vector2f(go->boundary.shape.x, go->pos.y),
             sf::Vector2f(go->pos.x + go->w, go->pos.y),
             sf::Vector2f(go->pos.x + go->w, go->pos.y + go->h),
             sf::Vector2f(go->pos.x, go->pos.y + go->h)
-        };
+        };*/
+        for (auto &bVec : go->boundary.boundary) {
+            vertices.push_back(sf::Vector2f(go->pos.x + bVec.x, go->pos.y + go->h - bVec.y));
+        }
 
         /**
          * for every pair of adjacent vertices in the gameobject, we find
