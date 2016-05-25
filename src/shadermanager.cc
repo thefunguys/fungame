@@ -18,6 +18,7 @@ sf::Shader* ShaderManager::initShader(std::string shader) {
 ShaderManager::ShaderManager() {
     goShader = initShader("shaders/goshader.frag");
     pShader = initShader("shaders/pshader.frag");
+    whiteShader = initShader("shaders/whiteshader.frag");
 }
 
 ShaderManager* ShaderManager::instance() {

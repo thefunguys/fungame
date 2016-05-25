@@ -14,12 +14,96 @@
 #include "shadermanager.h"
 #include "rat.h"
 #include "fns.h"
+#include <glm/vec2.hpp>
+#include <glm/geometric.hpp>
 
+glm::vec2 gls;
+sf::RenderTexture rt;
+
+glm::vec2 sfToGlm(sf::Vector2f &v) {
+    return glm::vec2(v.x, v.y);
+}
 bool gobjComp(GameObject* go1, GameObject* go2) {
     if (close_to_zero(go1->pos.y + go1->h - go2->pos.y + go2->h)) {
         return go1->pos.x < go2->pos.x;
     }
     return go1->pos.y + go1->h < go2->pos.y + go2->h;
+}
+
+bool vertComp(sf::Vector2f &v1, sf::Vector2f &v2) {
+    return glm::length(sfToGlm(v1) - gls) > glm::length(sfToGlm(v2) - gls);
+}
+
+bool gobjVComp(GameObject* go1, GameObject* go2) {
+    auto v1 = sf::Vector2f(go1->pos.x, go1->pos.y);
+    auto v2 = sf::Vector2f(go2->pos.x, go2->pos.y);
+    return vertComp(v1, v2);
+}
+
+float dotProd(sf::Vector2f &v1, sf::Vector2f &v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+
+sf::Vector2f glmToSf(glm::vec2 &v) {
+    return sf::Vector2f(v.x, v.y);
+}
+
+//TODO: make this based off absolute positions
+//      so it can be just as big as the view
+const sf::Texture& World::lightmap(sf::Vector2f ls,
+                                   GameObject* exclude, sf::RenderTarget& window) {
+    rt.clear(sf::Color::White);
+    auto windowVec = glm::vec2(1000, 1000);
+    auto lswpos = wpos(window, ls);
+    auto glmls = sfToGlm(lswpos);
+    gls = glmls;
+
+    // so we draw shadows over objects behind ones in front
+    std::sort(gobjs.begin(), gobjs.end(), gobjVComp);
+
+    for (auto go : gobjs) {
+        if (go == exclude || !go->shadowcasts) {
+            continue;
+        }
+        std::vector<sf::Vector2f> vertices;
+        for (auto &bVec : go->boundary.boundary) {
+            vertices.push_back(wpos(window,
+                                    sf::Vector2f(go->pos.x + bVec.x,
+                                                 go->pos.y + go->h - bVec.y)));
+        }
+
+        /**
+         * for every pair of adjacent vertices in the gameobject, we find
+         * the 4-sided polygon that it occludes from the light source, and
+         * draw that to the shadowmap
+         */
+        for (size_t i = 0; i < vertices.size(); ++i) {
+            auto v1 = sfToGlm(vertices[i]);
+            // count the wrap around
+            auto v2 = sfToGlm(vertices[i == vertices.size() - 1 ? 0 : i + 1]);
+
+            // project the vertices onto the window edge
+            auto proj1 = glm::normalize(v1 - glmls) * windowVec;
+            auto proj2 = glm::normalize(v2 - glmls) * windowVec;
+
+            auto lightshape = sf::ConvexShape(4);
+            lightshape.setFillColor(sf::Color::Black);
+            lightshape.setPoint(0, glmToSf(v1));
+            lightshape.setPoint(1, glmToSf(proj1));
+            lightshape.setPoint(2, glmToSf(proj2));
+            lightshape.setPoint(3, glmToSf(v2));
+
+            rt.draw(lightshape);
+
+        }
+        // objects shouldn't shade themselves
+        auto gosp = go->sprite;
+        gosp.setPosition(wpos(window, gosp.getPosition()));
+        rt.draw(gosp, ShaderManager::instance()->whiteShader);
+    }
+    rt.display();
+    return rt.getTexture();
 }
 
 void World::render(sf::RenderWindow& window) {
@@ -46,10 +130,6 @@ void World::render(sf::RenderWindow& window) {
         dirx = 0;
     }
 
-
-
-
-
     auto ws = window.getSize();
     for (auto shader : ShaderManager::instance()->shaders) {
         shader->setParameter("texture", sf::Shader::CurrentTexture);
@@ -74,44 +154,17 @@ void World::render(sf::RenderWindow& window) {
         focused->focused = true;
     }
 
-
-
     bg.render(window);
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
     }
-}
-
-// TODO: make multithreaded somehow -- it's a real cpu hog
-// deprecated, but an example of texture editing
-sf::Texture* World::shadowmap(float lsx, float lsy) {
-    sf::Texture* map = new sf::Texture;
-    map->create(640, 480);
-    sf::Uint8* pxs = new sf::Uint8[640 * 480 * 4];
-    for (int i = 0; i <= 320; i++) {
-        for (int j = 0; j <= 240; j++) {
-            float dist2 = (lsx - i) * (lsx - i) + (lsy - j) * (lsy - j);
-            int offsets [4] = {
-                4 * (i + 640 * j),
-                4 * (640 - i + 640 * (480 - j)),
-                4 * (i + 640 * (480 - j - 1)),
-                4 * (640 - i + 640 * j)
-            };
-            int dampen = (int) 255.0 * (1000.0 / (dist2 + 1000.0));
-            for (int k = 0; k < 4; ++k) {
-                int offset = offsets[k];
-                pxs[offset]     = (sf::Uint8) dampen;
-                pxs[offset + 1] = (sf::Uint8) dampen;
-                pxs[offset + 2] = (sf::Uint8) dampen;
-                pxs[offset + 3] = 0xff;
-            }
-        }
-    }
-
-    map->update(pxs);
-    delete pxs;
-
-    return map;
+    auto lm = lightmap(sf::Vector2f(cur_player->pos.x + 16,
+                                    cur_player->pos.y + 16), cur_player, window);
+    sf::Sprite sp(lm);
+    auto rs = sf::RenderStates(sf::BlendMultiply);
+    auto view = sf::View(sf::FloatRect(0, 0, GAME_WIDTH, GAME_HEIGHT));
+    window.setView(view);
+    window.draw(sp, rs);
 }
 
 void World::add_gameobject(GameObject* gameobject) {
@@ -137,6 +190,7 @@ World::World(std::string lvlname) :
      * see https://github.com/nlohmann/json
      * */
 
+    rt.create(GAME_WIDTH, GAME_HEIGHT);
     std::ifstream lvl(lvlname);
     std::string cur_line = "";
     std::getline(lvl, cur_line);
@@ -171,7 +225,7 @@ World::World(std::string lvlname) :
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
-            Sprite* s = new Sprite(asset, x, y, w, h, w, 15);
+            Sprite* s = new Sprite(asset, x, y, w, h, 24, 6);
             s->name = toks[1];
             s->ss_w = ss_w;
             s->ss_h = ss_h;

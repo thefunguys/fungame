@@ -9,4 +9,6 @@ dependencies:
     SFML
 
 IN ACTION
-![alt tag](http://i.imgur.com/sJQvVzL.png)
+
+
+![alt tag](http://i.imgur.com/BPs0uUj.png)
