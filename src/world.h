@@ -11,7 +11,7 @@ class World {
     void render(sf::RenderWindow&);
     Sprite bg;
     sf::Texture* shadowmap(float, float);
-    const sf::Texture& lightmap(sf::Vector2f ls, GameObject* exclude, sf::RenderTarget& window);
+    const sf::Texture& lightmap(sf::Vector2f ls, int lsHeight, GameObject* exclude, sf::RenderTarget& window);
     void update(double dt);
     void add_gameobject(GameObject*);
     Player* cur_player;

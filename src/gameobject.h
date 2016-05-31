@@ -15,6 +15,7 @@ class GameObject {
      *   5 4 3 */
     int direction;
     pVector pos;
+    int height;
     sf::Vector2i windowPos(sf::RenderTarget&);
 
     std::string name;

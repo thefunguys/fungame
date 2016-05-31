@@ -14,6 +14,7 @@ GameObject::GameObject(std::string fname,
 
     pVector tmp( (double) nx, (double) ny);
     pos = tmp;
+    height = nh;
     sprite.setPosition(pos.x, pos.y);
     focused = false;
 

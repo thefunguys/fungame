@@ -14,9 +14,11 @@ inline bool close_to_zero(double n) {
 }
 #ifdef DEBUG_APP
 #define dbpf(...) printf(__VA_ARGS__)
+#define dlog(obj) std::cout << #obj << ": " << obj << std::endl
 #else
 #define dbpf(...)
 #endif
+
 
 inline std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);

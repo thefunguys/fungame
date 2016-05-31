@@ -51,10 +51,9 @@ sf::Vector2f glmToSf(glm::vec2 &v) {
 
 //TODO: make this based off absolute positions
 //      so it can be just as big as the view
-const sf::Texture& World::lightmap(sf::Vector2f ls,
+const sf::Texture& World::lightmap(sf::Vector2f ls, int lsHeight,
                                    GameObject* exclude, sf::RenderTarget& window) {
     rt.clear(sf::Color::White);
-    auto windowVec = glm::vec2(1000, 1000);
     auto lswpos = wpos(window, ls);
     auto glmls = sfToGlm(lswpos);
     gls = glmls;
@@ -66,11 +65,17 @@ const sf::Texture& World::lightmap(sf::Vector2f ls,
         if (go == exclude || !go->shadowcasts) {
             continue;
         }
+        auto windowVec = glm::vec2(1000, 1000);
+        if (go->height < lsHeight) {
+            auto objdist = glm::length(sfToGlm(ls) - glm::vec2(go->pos.x, go->pos.y));
+            auto shlen = objdist * go->height / (lsHeight - go->height);
+            windowVec = glm::vec2(shlen, shlen);
+        }
         std::vector<sf::Vector2f> vertices;
         for (auto &bVec : go->boundary.boundary) {
             vertices.push_back(wpos(window,
-                                    sf::Vector2f(go->pos.x + bVec.x,
-                                                 go->pos.y + go->h - bVec.y)));
+                            sf::Vector2f(go->pos.x + bVec.x,
+                                         go->pos.y + go->h - bVec.y)));
         }
 
         /**
@@ -84,8 +89,9 @@ const sf::Texture& World::lightmap(sf::Vector2f ls,
             auto v2 = sfToGlm(vertices[i == vertices.size() - 1 ? 0 : i + 1]);
 
             // project the vertices onto the window edge
-            auto proj1 = glm::normalize(v1 - glmls) * windowVec;
-            auto proj2 = glm::normalize(v2 - glmls) * windowVec;
+            auto proj1 = v1 + glm::normalize(v1 - glmls) * windowVec;
+
+            auto proj2 = v2 + glm::normalize(v2 - glmls) * windowVec;
 
             auto lightshape = sf::ConvexShape(4);
             lightshape.setFillColor(sf::Color::Black);
@@ -166,7 +172,7 @@ void World::render(sf::RenderWindow& window) {
         gobj->render(window);
     }
     auto lm = lightmap(sf::Vector2f(cur_player->pos.x + 16,
-                                    cur_player->pos.y + 32), cur_player, window);
+                                    cur_player->pos.y + 32), 32, cur_player, window);
     sf::Sprite sp(lm);
     auto rs = sf::RenderStates(sf::BlendMultiply);
     auto view = sf::View(sf::FloatRect(0, 0, GAME_WIDTH, GAME_HEIGHT));
