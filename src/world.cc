@@ -159,7 +159,7 @@ void World::render(sf::RenderWindow& window) {
         gobj->render(window);
     }
     auto lm = lightmap(sf::Vector2f(cur_player->pos.x + 16,
-                                    cur_player->pos.y + 16), cur_player, window);
+                                    cur_player->pos.y + 32), cur_player, window);
     sf::Sprite sp(lm);
     auto rs = sf::RenderStates(sf::BlendMultiply);
     auto view = sf::View(sf::FloatRect(0, 0, GAME_WIDTH, GAME_HEIGHT));
@@ -225,7 +225,7 @@ World::World(std::string lvlname) :
             add_gameobject(p);
             cur_player = p;
         } else if (toks[0] == "sprite") {
-            Sprite* s = new Sprite(asset, x, y, w, h, 24, 6);
+            Sprite* s = new Sprite(asset, x, y, w, h, 3 * w / 4, h / 5);
             s->name = toks[1];
             s->ss_w = ss_w;
             s->ss_h = ss_h;
