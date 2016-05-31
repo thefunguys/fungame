@@ -129,6 +129,13 @@ void World::render(sf::RenderWindow& window) {
     } else if(cur_player->direction == 0 || cur_player->direction == 4) {
         dirx = 0;
     }
+    
+    auto pvel = glm::vec2(cur_player->vel.x, cur_player->vel.y);
+    auto pvel_norm = glm::normalize(pvel);
+    if (!(close_to_zero(pvel.x) && close_to_zero(pvel.y))) {
+        dirx = pvel_norm.x;
+        diry = -pvel_norm.y;
+    }
 
     auto ws = window.getSize();
     for (auto shader : ShaderManager::instance()->shaders) {

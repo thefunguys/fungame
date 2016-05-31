@@ -1,11 +1,14 @@
 #include <iostream>
 #include <cmath>
+#include <glm/vec2.hpp>
+#include <glm/geometric.hpp>
 #include "world.h"
 #include "keymap.h"
 #include "sprite.h"
 #include "player.h"
 #include "shadermanager.h"
 #include "dialog.h"
+#include "game.h"
 
 #define SQRT2 1.412
 #define keydown(key) sf::Keyboard::isKeyPressed(sf::Keyboard::key)
@@ -39,6 +42,15 @@ void Player::update(double dt) {
         vel = { sf::Joystick::getAxisPosition(0, sf::Joystick::X),
                 sf::Joystick::getAxisPosition(0, sf::Joystick::Y)
               };
+    }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+        auto wind = Game::cur_window;
+        auto mpos = sf::Mouse::getPosition(*wind);
+        auto gmpos = gpos(*wind, mpos.x, mpos.y);
+        auto diffv = glm::vec2(gmpos.x - pos.x, gmpos.y - pos.y);
+        auto diffvn = glm::normalize(diffv);
+        vel.x = diffvn.x * speed;
+        vel.y = diffvn.y * speed;
     }
 
     Sprite::update(dt);
