@@ -24,6 +24,7 @@ class GameObject {
     Boundary boundary;
 
     pVector vel;
+    pVector lastDir;
     int w, h, l;
 
     // pw and ph represent the width and height of objects in the collision system

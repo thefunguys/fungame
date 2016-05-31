@@ -61,6 +61,7 @@ void GameObject::update(double dt) {
 
     // obly check collisions for moviing objects
     if (fabs(mpos.x) > 0.005 || fabs(mpos.y) > 0.005) {
+        lastDir = vel;
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
                 if (checkCollide(this, ogo, {mpos.x, 0}, {vel.x, 0})) {
