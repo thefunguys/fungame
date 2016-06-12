@@ -14,7 +14,7 @@ inline bool close_to_zero(double n) {
 }
 #ifdef DEBUG_APP
 #define dbpf(...) printf(__VA_ARGS__)
-#define dlog(obj) std::cout << #obj << ": " << obj << std::endl
+#define dlog(obj) std::cout << __FILE__  ":"  << __LINE__ << " "  #obj  ": " << obj << std::endl
 #else
 #define dbpf(...)
 #endif

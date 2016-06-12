@@ -58,8 +58,9 @@ const sf::Texture& World::lightmap(sf::Vector2f ls, int lsHeight,
     auto glmls = sfToGlm(lswpos);
     gls = glmls;
 
-    // so we draw shadows over objects behind ones in front
+    // drawing starts at the furthest objects
     std::sort(gobjs.begin(), gobjs.end(), gobjVComp);
+    std::reverse(gobjs.begin(), gobjs.end());
 
     for (auto go : gobjs) {
         if (go == exclude || !go->shadowcasts) {
@@ -94,7 +95,7 @@ const sf::Texture& World::lightmap(sf::Vector2f ls, int lsHeight,
             auto proj2 = v2 + glm::normalize(v2 - glmls) * windowVec;
 
             auto lightshape = sf::ConvexShape(4);
-            lightshape.setFillColor(sf::Color::Black);
+            lightshape.setFillColor(sf::Color(12, 12, 19, 200));
             lightshape.setPoint(0, glmToSf(v1));
             lightshape.setPoint(1, glmToSf(proj1));
             lightshape.setPoint(2, glmToSf(proj2));
@@ -103,12 +104,19 @@ const sf::Texture& World::lightmap(sf::Vector2f ls, int lsHeight,
             rt.draw(lightshape);
 
         }
-        // objects shouldn't shade themselves
-        auto gosp = go->sprite;
-        gosp.setPosition(wpos(window, gosp.getPosition()));
-        rt.draw(gosp, ShaderManager::instance()->whiteShader);
+        // objects shouldn't shade themselves or shorter objects
+        for (auto gon : gobjs) {
+            if (gon->height >= go->height) {
+                auto gosp = gon->sprite;
+                gosp.setPosition(wpos(window, gosp.getPosition()));
+                rt.draw(gosp, ShaderManager::instance()->whiteShader);
+            }
+        }
     }
     rt.display();
+    // we must reverse again or else objects will not be drawn from left to 
+    // right -- FIX THIS
+    std::reverse(gobjs.begin(), gobjs.end());
     return rt.getTexture();
 }
 
@@ -119,7 +127,7 @@ void World::render(sf::RenderWindow& window) {
 
     // MAY CAUSE SEIZURES
     float flicker = rand() % 100 * 0.002 + 0.8;
-    float dirx, diry;
+    float dirx = 0.0, diry = 0.0;
 
     if(cur_player->direction == 0 || cur_player->direction == 1 || cur_player->direction == 7) {
         diry = 1;
