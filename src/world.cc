@@ -179,13 +179,16 @@ void World::render(sf::RenderWindow& window) {
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
     }
-    auto lm = lightmap(sf::Vector2f(cur_player->pos.x + 16,
-                                    cur_player->pos.y + 32), 32, cur_player, window);
-    sf::Sprite sp(lm);
-    auto rs = sf::RenderStates(sf::BlendMultiply);
-    auto view = sf::View(sf::FloatRect(0, 0, GAME_WIDTH, GAME_HEIGHT));
-    window.setView(view);
-    window.draw(sp, rs);
+    std::vector<sf::Vector2f> lightsources;
+    lightsources.push_back(sf::Vector2f(300, 300));
+    for (auto ls : lightsources) {
+        auto lm = lightmap(ls, 500, nullptr, window);
+        sf::Sprite sp(lm);
+        auto rs = sf::RenderStates(sf::BlendMultiply);
+        auto view = sf::View(sf::FloatRect(0, 0, GAME_WIDTH, GAME_HEIGHT));
+        window.setView(view);
+        window.draw(sp, rs);
+    }
 }
 
 void World::add_gameobject(GameObject* gameobject) {

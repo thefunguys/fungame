@@ -9,6 +9,7 @@ class ShaderManager {
     sf::Shader* goShader;
     sf::Shader* pShader;
     sf::Shader* whiteShader;
+    sf::Shader* blurryShader;
 
     std::vector<sf::Shader*> shaders;
     static ShaderManager* instance();

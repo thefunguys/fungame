@@ -47,7 +47,7 @@ void Player::update(double dt) {
         auto wind = Game::cur_window;
         auto mpos = sf::Mouse::getPosition(*wind);
         auto gmpos = gpos(*wind, mpos.x, mpos.y);
-        auto diffv = glm::vec2(gmpos.x - pos.x, gmpos.y - pos.y);
+        auto diffv = glm::vec2(gmpos.x - (pos.x + 16), gmpos.y - (pos.y + 16));
         auto diffvn = glm::normalize(diffv);
         vel.x = diffvn.x * speed;
         vel.y = diffvn.y * speed;

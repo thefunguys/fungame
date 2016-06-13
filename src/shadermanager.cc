@@ -19,6 +19,7 @@ ShaderManager::ShaderManager() {
     goShader = initShader("shaders/goshader.frag");
     pShader = initShader("shaders/pshader.frag");
     whiteShader = initShader("shaders/whiteshader.frag");
+    blurryShader = initShader("shaders/blurry.frag");
 }
 
 ShaderManager* ShaderManager::instance() {
