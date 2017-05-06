@@ -32,10 +32,15 @@ class GameObject {
 
     // pw and ph represent the width and height of objects in the collision system
     double pw, ph;
+
+    // physics things
     double mass;
+    double friction;
+    double restitution;
 
     virtual void render(sf::RenderTarget&, bool shadered = true);
     virtual void update(double dt);
+    virtual void onCollide(GameObject* other);
     //bool collide(double, double, GameObject*);
 
     GameObject(std::string, int, int, int, int, int, int);

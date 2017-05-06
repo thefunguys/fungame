@@ -3,6 +3,7 @@
 #include "game.h"
 #include "gameobject.h"
 #include "fns.h"
+#include "glm.h"
 #include "shadermanager.h"
 
 GameObject::GameObject(std::string fname,
@@ -28,6 +29,8 @@ GameObject::GameObject(std::string fname,
     direction = 2;
 
     mass = 1.0;
+    restitution = 0.5;
+    friction = 0.5;
 }
 
 void GameObject::render(sf::RenderTarget& window, bool shadered) {
@@ -67,11 +70,9 @@ void GameObject::update(double dt) {
         lastDir = vel;
         for (GameObject* ogo : Game::current_world->gobjs) {
             if (ogo != this) {
-                if (checkCollide(this, ogo, {mpos.x, 0}, {vel.x, 0})) {
-                    mpos.x = 0;
-                }
-                if (checkCollide(this, ogo, {0, mpos.y}, {0, vel.y})) {
-                    mpos.y = 0;
+                if (checkCollide(this, ogo, {mpos.x, 0}, {vel.x, 0})
+                || checkCollide(this, ogo, {0, mpos.y}, {0, vel.y})) {
+                    onCollide(ogo);
                 }
             }
         }
@@ -86,6 +87,19 @@ void GameObject::update(double dt) {
     }
     double angle = std::atan2(vel.y, vel.x) * 180.0 / M_PI - 27.5;
     direction = (12 - ((int) (10 - angle / 45.)) % 8 ) % 8;
+}
+
+void GameObject::onCollide(GameObject* other) {
+    std::cout << name << " collide with " << other->name << std::endl;
+    auto dvec = other->pos - pos;
+    auto gvec = glm::vec2(dvec.x, dvec.y);
+    auto dvecnorm = glm::normalize(gvec);
+    pos.x -= dvecnorm.x;
+    pos.y -= dvecnorm.y;
+    other->pos.x += dvecnorm.x;
+    other->pos.y += dvecnorm.y;
+
+    return;
 }
 
 sf::Vector2i GameObject::windowPos(sf::RenderTarget& window) {
