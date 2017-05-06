@@ -34,7 +34,7 @@ Boundary::Boundary(double full_b, double b, double l) : base(b), length(l) {
 //     }
 // }
 
-bool Boundary::collision(Boundary B, pVector diff, pVector search) {
+bool Boundary::collision(Boundary& B, pVector diff, pVector search) {
     if(diff.length2 > this->diameter * this->diameter + B.diameter * B.diameter) {
         return false;
     }

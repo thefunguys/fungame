@@ -9,6 +9,7 @@ const double FRAME_SWITCH = 0.1;
 Sprite::Sprite(std::string fname, int x, int y, int w, int h, int cw, int ch) : GameObject::GameObject(fname, x, y, w, h, cw, ch) {
     ss_w = 1;
     ss_h = 1;
+    rotation = 0;
     frame_t = 0.0;
     curframe_x = 0;
     curframe_y = 0;
@@ -56,6 +57,9 @@ void Sprite::update(double dt) {
 
 void Sprite::render(sf::RenderTarget& window, bool shadered) {
     sprite.setTextureRect(sf::IntRect(curframe_x * w, curframe_y * h, w, h));
+    sprite.setRotation(rotation);
+    //pos.x = pos.x - sin(pos.x * (float) rotation / RADDEG); 
+    //pos.y = pos.y - cos(pos.y * (float) rotation / RADDEG);
     GameObject::render(window, shadered);
 }
 

@@ -23,6 +23,8 @@ GameObject::GameObject(std::string fname,
     pw = ncw;
     ph = nch;
 
+    rotation = 0.0;
+
     direction = 2;
 
     mass = 1.0;
@@ -75,7 +77,10 @@ void GameObject::update(double dt) {
         }
     }
     pos = pos + mpos;
-    sprite.move(mpos.x, mpos.y);
+    double rposx = pos.x + 0.5 * w * cos((rotation - 45) / RADDEG);
+    double rposy = pos.y + 0.5 * h * cos((rotation - 45) / RADDEG);
+    sprite.setPosition(pos.x, pos.y);
+    sprite.setOrigin(w / 2.f, h / 2.f);
     if (close_to_zero(vel.x) && close_to_zero(vel.y)) {
         return;
     }

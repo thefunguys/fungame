@@ -16,7 +16,6 @@
 
 Player::Player(std::string fname, int x, int y, int w, int h, int cw, int ch) : Sprite::Sprite(fname, x, y, w, h, cw, ch) {
 
-    shader = ShaderManager::instance()->pShader;
 }
 
 void Player::update(double dt) {
@@ -43,6 +42,19 @@ void Player::update(double dt) {
                 sf::Joystick::getAxisPosition(0, sf::Joystick::Y)
               };
     }
+
+
+    auto wind = Game::cur_window;
+    auto mpos = sf::Mouse::getPosition(*wind);
+    auto gmpos = gpos(*wind, mpos.x, mpos.y);
+    auto origin = sprite.getOrigin();
+    auto diffv = glm::vec2(gmpos.x - pos.x, gmpos.y - pos.y);
+    auto diffvn = glm::normalize(diffv);
+    rotation = atan(diffvn.y / diffvn.x) * 180 / M_PI + 90;
+    if (diffvn.x < 0.0) {
+        rotation = rotation - 180;
+    }
+
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
         auto wind = Game::cur_window;
         auto mpos = sf::Mouse::getPosition(*wind);
@@ -51,6 +63,7 @@ void Player::update(double dt) {
         auto diffvn = glm::normalize(diffv);
         vel.x = diffvn.x * speed;
         vel.y = diffvn.y * speed;
+        rotation = atan(diffvn.y / diffvn.x) * 180 / M_PI;
     }
 
     Sprite::update(dt);

@@ -179,6 +179,7 @@ void World::render(sf::RenderWindow& window) {
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
     }
+    /*
     std::vector<sf::Vector2f> lightsources;
     lightsources.push_back(sf::Vector2f(300, 300));
     for (auto ls : lightsources) {
@@ -189,6 +190,7 @@ void World::render(sf::RenderWindow& window) {
         window.setView(view);
         window.draw(sp, rs);
     }
+    */
 }
 
 void World::add_gameobject(GameObject* gameobject) {

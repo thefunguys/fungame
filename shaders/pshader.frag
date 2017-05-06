@@ -16,5 +16,5 @@ void main()
     float dampen = 500.0 / (dist2 + 500.0);
     vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
     vec4 light = vec4(dampen, dampen, dampen, 1.0);
-    gl_FragColor = gl_Color * pixel * light * vec4(flicker, flicker, flicker, 1.0);
+    gl_FragColor = gl_Color * pixel * light;
 }

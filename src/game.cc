@@ -17,7 +17,7 @@ Player* Game::p;
 sf::RenderWindow* Game::cur_window;
 
 Game::Game(int w, int h):
-    window(sf::VideoMode(w, h), "game", sf::Style::Fullscreen & 0) {
+    window(sf::VideoMode(w, h), "game", sf::Style::None) {
     cur_window = &window;
     srand(time(NULL));
     dbpf("creating world...\n");

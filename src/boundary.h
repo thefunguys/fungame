@@ -12,7 +12,7 @@ struct pVector {
     pVector(double a, double b) : x(a), y(b) {
         length2 = a * a + b * b;
     }
-    double dot(pVector other) {
+    double dot(pVector& other) {
         return this->x * other.x + this->y * other.y;
     }
     pVector neg() {
@@ -35,7 +35,7 @@ struct pVector {
         return tmp;
     }
 
-    pVector perp_using(pVector used) {
+    pVector perp_using(pVector& used) {
         pVector final(-this->y, this->x);
         bool neg_orient = (used.x * this->y - used.y * this->x) < 0;
         if(neg_orient) {
@@ -83,7 +83,7 @@ class Boundary {
     Boundary();
     Boundary(double, double, double);
     //    Boundary(double, double, int);
-    bool collision(Boundary, pVector, pVector);
+    bool collision(Boundary&, pVector, pVector);
     pVector support1(shape, pVector);
     pVector support(shape, shape, pVector);
     bool contain_origin(Simplex&, pVector&);

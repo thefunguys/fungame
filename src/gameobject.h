@@ -18,6 +18,8 @@ class GameObject {
     int height;
     sf::Vector2i windowPos(sf::RenderTarget&);
 
+    double rotation;
+
     std::string name;
     bool focused;
     bool shadowcasts;

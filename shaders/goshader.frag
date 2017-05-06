@@ -38,8 +38,12 @@ void main()
     // a la http://www.pouet.net/topic.php?which=5167
     float gray = dot(pixel.rgb, vec3(0.299, 0.587, 0.114));
     vec4 pix;
-    colored ? pix = pixel : pix = vec4(gray, gray, gray, pixel.a);
+    if (colored) 
+    pix = pixel; 
+    else
+    pix = vec4(pixel.x * gray / 2, pixel.y * gray / 2, pixel.z * gray / 2, pixel.a);
     vec4 light = vec4(dampen, dampen, dampen, 1.0);
-    gl_FragColor = gl_Color * pix * light * vec4(highlight, 1.0);
+    //gl_FragColor = gl_Color * pix * light * vec4(highlight, 1.0);
+	gl_FragColor = gl_Color * pixel * vec4(highlight, 1.0);
 
 }
