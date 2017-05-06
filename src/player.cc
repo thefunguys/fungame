@@ -8,6 +8,7 @@
 #include "player.h"
 #include "shadermanager.h"
 #include "dialog.h"
+#include "fns.h"
 #include "game.h"
 
 #define SQRT2 1.412
@@ -50,7 +51,7 @@ void Player::update(double dt) {
     auto origin = sprite.getOrigin();
     auto diffv = glm::vec2(gmpos.x - pos.x, gmpos.y - pos.y);
     auto diffvn = glm::normalize(diffv);
-    rotation = atan(diffvn.y / diffvn.x) * 180 / M_PI + 90;
+    rotation = atan(diffvn.y / diffvn.x) * RADDEG + 90;
     if (diffvn.x < 0.0) {
         rotation = rotation - 180;
     }

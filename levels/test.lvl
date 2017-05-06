@@ -5,5 +5,5 @@ sprite box 32 32 1 1 176 100 32 15
 player player_shield_walk 32 32 9 1 150 150 10 10 
 sprite bagobones 16 32 4 2 250 250 10 10 
 sprite rock 16 16 1 1 200 200 10 10
-rat rat 32 16 2 4 200 150 10 10
+kid kid_walking 32 32 9 1 200 150 10 10
 end

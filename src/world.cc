@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "shadermanager.h"
 #include "rat.h"
+#include "kid.h"
 #include "fns.h"
 #include <glm/vec2.hpp>
 #include <glm/geometric.hpp>
@@ -262,6 +263,12 @@ World::World(std::string lvlname) :
             r->ss_w = ss_w;
             r->ss_h = ss_h;
             add_gameobject(r);
+        } else if (toks[0] == "kid") {
+            Kid* k = new Kid(asset, x, y, w, h, 5, 5);
+            k->name = "kid";
+            k->ss_w = ss_w;
+            k->ss_h = ss_h;
+            add_gameobject(k);
         }
         std::getline(lvl, cur_line);
     }
