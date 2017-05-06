@@ -1,0 +1,32 @@
+* The game
+** The Kid
+*** Goes towards backside
+*** path finding
+*** way to alert player kid in trouble
+*** go to cover
+*** make less of a nuisance
+**** health?
+**** upgrades??
+**** crawl spaces???
+**** magic boy????
+** The player
+*** commands
+**** pickup kid
+*** inventory??
+*** effects
+**** knock-back
+**** stun
+
+** environ
+*** breakable item
+*** shooters
+
+** enemies
+*** different projectiles
+**** bullet
+**** gloop
+**** laser
+**** melee??
+**** bananas, duh
+**** variable path projectiles
+**
