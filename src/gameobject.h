@@ -4,7 +4,6 @@
 #include "sfml.h"
 #include "boundary.h"
 
-
 class GameObject {
   public:
     sf::Texture texture;
@@ -37,6 +36,8 @@ class GameObject {
     double mass;
     double friction;
     double restitution;
+
+    bool isBackground;
 
     virtual void render(sf::RenderTarget&, bool shadered = true);
     virtual void update(double dt);

@@ -23,6 +23,7 @@ GameObject::GameObject(std::string fname,
     h = nh;
     pw = ncw;
     ph = nch;
+    isBackground = false;
 
     rotation = 0.0;
 
@@ -73,13 +74,14 @@ void GameObject::update(double dt) {
                 if (checkCollide(this, ogo, {mpos.x, 0}, {vel.x, 0})
                 || checkCollide(this, ogo, {0, mpos.y}, {0, vel.y})) {
                     onCollide(ogo);
+                    ogo->onCollide(this);
                 }
             }
         }
     }
-    pos = pos + mpos;
-    double rposx = pos.x + 0.5 * w * cos((rotation - 45) / RADDEG);
-    double rposy = pos.y + 0.5 * h * cos((rotation - 45) / RADDEG);
+    if (Game::current_world->can_move_to(this, {pos.x + mpos.x, pos.y + mpos.y})) {
+        pos = pos + mpos;
+    }
     sprite.setPosition(pos.x, pos.y);
     sprite.setOrigin(w / 2.f, h / 2.f);
     if (close_to_zero(vel.x) && close_to_zero(vel.y)) {
@@ -91,6 +93,9 @@ void GameObject::update(double dt) {
 
 void GameObject::onCollide(GameObject* other) {
     std::cout << name << " collide with " << other->name << std::endl;
+    if (isBackground || other->isBackground) {
+        return;
+    }
     auto dvec = other->pos - pos;
     auto gvec = glm::vec2(dvec.x, dvec.y);
     auto dvecnorm = glm::normalize(gvec);

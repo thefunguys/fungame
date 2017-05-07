@@ -4,10 +4,14 @@
 #include <vector>
 #include "gameobject.h"
 #include "player.h"
+#include "glm.h"
+#include <tmxlite/Map.hpp>
+#include "SFMLOrthogonalLayer.hpp"
 
 class World {
   public:
     std::vector<GameObject*> gobjs;
+    std::vector<GameObject*> bg_gobjs;
     void render(sf::RenderWindow&);
     Sprite bg;
     sf::Texture* shadowmap(float, float);
@@ -17,6 +21,9 @@ class World {
     Player* cur_player;
     World(std::string);
     std::vector<GameObject*> walls;
+    tmx::Map map;
+    std::vector<MapLayer*> layers;
+    bool can_move_to(GameObject* go, sf::Vector2f pos);
 };
 
 

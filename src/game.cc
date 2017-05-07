@@ -57,6 +57,7 @@ void Game::loop() {
         }
 
         double dt = clock.getElapsedTime().asSeconds();
+        clock.restart();
         world->update(dt);
         view.setCenter(blackguy->pos.x + 16, blackguy->pos.y + 16);
         window.setView(view);
@@ -67,7 +68,6 @@ void Game::loop() {
         window.display();
         dts++;
         dttot += dt;
-        clock.restart();
         sf::sleep(sf::seconds(1.0 / FPS - dt));
     }
     dbpf("avg dt: %.6f\n", dttot / dts);

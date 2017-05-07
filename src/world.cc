@@ -11,12 +11,15 @@
 #include "gameobject.h"
 #include "player.h"
 #include "sprite.h"
+#include "bullet.h"
 #include "shadermanager.h"
 #include "rat.h"
 #include "kid.h"
+#include "bigredbutton.h"
 #include "fns.h"
 #include <glm/vec2.hpp>
 #include <glm/geometric.hpp>
+#include <tmxlite/TileLayer.hpp>
 
 glm::vec2 gls;
 sf::RenderTexture rt;
@@ -25,6 +28,9 @@ glm::vec2 sfToGlm(sf::Vector2f &v) {
     return glm::vec2(v.x, v.y);
 }
 bool gobjComp(GameObject* go1, GameObject* go2) {
+    if (go1->isBackground && !go2->isBackground) {
+        return true;
+    }
     if (close_to_zero(go1->pos.y + go1->h - go2->pos.y + go2->h)) {
         return go1->pos.x < go2->pos.x;
     }
@@ -177,6 +183,10 @@ void World::render(sf::RenderWindow& window) {
     }
 
     bg.render(window);
+    for (auto layer : layers) {
+        if (layer->parent->getName() == "Tile Layer 1")
+        window.draw(*layer);
+    }
     for (GameObject* gobj : gobjs) {
         gobj->render(window);
     }
@@ -216,6 +226,17 @@ World::World(std::string lvlname) :
      * TODO: use json or yaml or something sane
      * see https://github.com/nlohmann/json
      * */
+    map.load("assets/maps/room1test.tmx");
+    int idx = 0;
+    for (const auto& lyr : map.getLayers()) {
+        layers.push_back(new MapLayer(map, idx++));
+        for (int i = 0; i < 24; i++) {
+            for (int j = 0; j < 32; j++) {
+                std::cout << layers[idx - 1]->parent->getTiles()[i * 32 + j].ID << ",";
+            }
+            std::cout << std::endl;
+        }
+    }
 
     rt.create(GAME_WIDTH, GAME_HEIGHT);
     std::ifstream lvl(lvlname);
@@ -269,7 +290,34 @@ World::World(std::string lvlname) :
             k->ss_w = ss_w;
             k->ss_h = ss_h;
             add_gameobject(k);
+        } else if (toks[0] == "bigredbutton") {
+            BigRedButton* brb = new BigRedButton(asset, x, y, w, h, 64, 64);
+            brb->name = "bigRedButton";
+            brb->ss_w = ss_w;
+            brb->ss_h = ss_h;
+            add_gameobject(brb);
+        } else if (toks[0] == "shadowimp_bullet") {
+            Bullet* b = new Bullet(asset, x, y, w, h, 5, 5);
+            b->name = "bullet";
+            b->ss_w = ss_w;
+            b->ss_h = ss_h;
+            add_gameobject(b);
         }
         std::getline(lvl, cur_line);
     }
+}
+
+bool World::can_move_to(GameObject* go, sf::Vector2f pos) {
+    for (const auto& layer : layers) {
+        if (layer->parent->getName() == "Tile Layer 1") {
+            const auto tile_layer = layer->parent;
+            size_t layer_size = tile_layer->getTiles().size();
+            size_t tileidx = (size_t) ((size_t)pos.x / 32 + 32 * ((size_t)pos.y / 32));
+            const auto& tile = tile_layer->getTiles()[tileidx];
+            if (tile.ID != 0) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
